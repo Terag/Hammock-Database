@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Error 404 page file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Error
+ * @namespace Error
+ * @filesource
+ */
+
+session_start();
+//Create and set var '$UserConnected' to true or false
+include($_SERVER['DOCUMENT_ROOT'].'/account/checkConnection.php');
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+    &lt;?php include($_SERVER['DOCUMENT_ROOT'].&quot;/ui/head_default.php&quot;); ?&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;!------------------------------- Navigation/Sidebar -------------------------------&gt;
+&lt;?php include($_SERVER['DOCUMENT_ROOT'].&quot;/ui/sidebar.php&quot;); ?&gt;
+
+&lt;?php
+/*Add top menu if user is connected*/
+if($UserConnected) {
+    include($_SERVER['DOCUMENT_ROOT'].&quot;/ui/topmenu.php&quot;);
+ } ?&gt;
+
+&lt;!------------------------------- Content -------------------------------&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center center&quot;&gt;
+            &lt;h1 id=&quot;title&quot;&gt;404 Page Not Found : Are you lost ?&lt;/h1&gt;
+            &lt;h2&gt;&lt;a href=&quot;/index.php&quot;&gt;Back Home&lt;/a&gt;&lt;/h2&gt;
+            &lt;img src=&quot;/img/travolta.gif&quot;/&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!------------------------------- Footer -------------------------------&gt;
+&lt;?php include($_SERVER['DOCUMENT_ROOT'].&quot;/ui/footer.php&quot;) ?&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

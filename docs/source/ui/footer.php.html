@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Footer for html pages of website.
+ *
+ * display footer content with contact and license
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package UI
+ * @filesource
+ */
+?&gt;
+&lt;!------------------- Scripts ---------------------&gt;
+&lt;script src=&quot;/js/functions.js&quot;&gt;&lt;/script&gt;       &lt;!-- WebSite JavaScript --&gt;
+
+&lt;footer id=&quot;about&quot; style=&quot;background-color: white;&quot;&gt;
+    &lt;div class=&quot;container&quot; style=&quot;padding-top: 3%;&quot;&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center&quot;&gt;
+                &lt;h4&gt;&lt;strong&gt;Hammock Helicopter&lt;/strong&gt;
+                &lt;/h4&gt;
+                &lt;p&gt;SkyPark RAC Sdn Bhd &lt;br/&gt; Jalan Riyal U3/36, Jalan Lapangan Terbang &lt;br/&gt; Subang &lt;br&gt;U 8 &lt;br/&gt; 40150 Subang, Selangor, Malaysia&lt;/p&gt;
+                &lt;ul class=&quot;list-unstyled&quot;&gt;
+                    &lt;li&gt;&lt;i class=&quot;fa fa-phone fa-fw&quot;&gt;&lt;/i&gt; (60) 12 286 91 86 &lt;/li&gt;
+                    &lt;li&gt;&lt;i class=&quot;fa fa-envelope-o fa-fw&quot;&gt;&lt;/i&gt;mark@hammockheli.com
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;br&gt;
+                &lt;ul class=&quot;list-inline&quot;&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;https://www.facebook.com/hammockheli/?ref=ts&amp;fref=ts&quot;&gt;&lt;i class=&quot;fa fa-facebook fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa-twitter fa-fw fa-3x&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;hr class=&quot;small&quot;&gt;
+                &lt;span class=&quot;text-muted&quot;&gt;
+                    &lt;a href=&quot;http://hammockheli.com&quot;&gt;Hammock Helicopter&lt;/a&gt; Database
+                    by
+                    &lt;a href=&quot;http://rouquette.me&quot;&gt;Victor ROUQUETTE&lt;/a&gt;
+                    &lt;br/&gt;
+                    is licensed under
+                    &lt;a rel=&quot;license&quot; href=&quot;/licence.html&quot;&gt;GNU GPLv3&lt;/a&gt;.
+                &lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/footer&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

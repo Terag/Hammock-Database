@@ -1,0 +1,178 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * documentationSubTask content for DOCUMENTATION part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Documentation\Content
+ * @namespace Documentation
+ * @filesource
+ */
+
+if($UserConnected AND isset($_GET['page']) AND isset($_GET['id'])) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+
+    /*Get Data about Aircraft*/
+    $query = 'SELECT * FROM T_GENERIC_SUB_TASK
+              INNER JOIN T_MANUAL ON GST_ID_M=M_ID
+              INNER JOIN T_GENERIC_AIRCRAFT ON M_ID_GA=GA_ID 
+              WHERE GST_ID=:id_gst';
+    $req = $bdd-&gt;prepare($query);
+    $req-&gt;execute(array('id_gst' =&gt; $id_gst));
+    $data_sub_task = $req-&gt;fetch();
+    $req-&gt;closeCursor();
+
+    /* Get Data Sub Task */
+    $query = 'SELECT * FROM T_LINK_GP_GST
+              LEFT JOIN T_GENERIC_SUB_TASK ON LGG_ID_GST=GST_ID
+              LEFT JOIN T_GENERIC_PART ON LGG_ID_GP=GP_ID
+              WHERE LGG_ID_GST=:id_gst';
+    $req = $bdd-&gt;prepare($query);
+    $req-&gt;execute(array('id_gst' =&gt; $id_gst));
+    $data_sub_task_parts = $req-&gt;fetchAll();
+    $req-&gt;closeCursor();
+
+    if($data_sub_task) { ?&gt;
+
+        &lt;!-- Form Content --&gt;
+        &lt;?php if($lvl_access &gt; 2) { $add_link_gp_gst_form-&gt;display_Form(); }?&gt;
+
+        &lt;!-- Main Content --&gt;
+        &lt;div class=&quot;container content&quot;&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 5%&quot;&gt;
+                &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot;&gt;
+                    &lt;div class=&quot;col-lg-6&quot;&gt;
+                        &lt;h2&gt;&lt;strong&gt;Sub Task :&lt;/strong&gt; &lt;?php echo $data_sub_task['GST_NUMBER'];?&gt;&lt;/h2&gt;
+                        &lt;h3&gt;&lt;strong&gt;Manual :&lt;/strong&gt; &lt;?php echo $data_sub_task['M_NAME'];?&gt; - &lt;?php echo $data_sub_task['M_REFERENCE'];?&gt;&lt;/h3&gt;
+                        &lt;h3&gt;&lt;strong&gt;Aircraft :&lt;/strong&gt; &lt;?php echo $data_sub_task['GA_NAME'];?&gt;&lt;/h3&gt;
+                        &lt;h3&gt;&lt;strong&gt;Constructor :&lt;/strong&gt; &lt;?php echo $data_sub_task['GA_CONSTRUCTOR'];?&gt;&lt;/h3&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;col-lg-6&quot;&gt;
+                        &lt;div class=&quot;row&quot;&gt;
+                            &lt;div class=&quot;col-lg-6&quot; style=&quot;text-align: right;&quot;&gt;
+                                &lt;h4&gt;&lt;strong&gt;Type :&lt;/strong&gt; &lt;?php echo $data_sub_task['GA_TYPE'];?&gt;&lt;/h4&gt;
+                                &lt;?php if($data_sub_task['M_ID_MANUAL'] != NULL) { ?&gt;
+                                    &lt;h4&gt;
+                                        &lt;strong&gt;&lt;a href=&quot;&lt;?php echo get_file_path($data_sub_task['M_ID_MANUAL'],$bdd);?&gt;&quot; target=&quot;_blank&quot;&gt;download&lt;/a&gt;&lt;/strong&gt;
+                                        &lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;
+                                    &lt;/h4&gt;
+                                &lt;?php } ?&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;col-lg-6&quot;&gt;
+                                &lt;div style=&quot;max-width: 150px;&quot;&gt;
+                                    &lt;?php if($data_sub_task['GA_TYPE'] == &quot;engine&quot;) { ?&gt;
+                                        &lt;img src=&quot;../../img/motorIcon.png&quot; style=&quot;max-width: 100%;max-height: 100%;&quot; /&gt;
+                                    &lt;?php } else { ?&gt;
+                                        &lt;img src=&quot;../../img/helicoIcon.png&quot; style=&quot;max-width: 100%;max-height: 100%;&quot; /&gt;
+                                    &lt;?php } ?&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;row&quot;&gt;
+                            &lt;div class=&quot;col-lg-12&quot;&gt;
+                                &lt;h4&gt;&lt;strong&gt;Description :&lt;/strong&gt; &lt;?php echo $data_sub_task['GST_DESCRIPTION'];?&gt;&lt;/h4&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+                &lt;div class=&quot;col-lg-10 col-lg-offset-1&quot; style=&quot;margin-top: 3%;&quot;&gt;
+                    &lt;h2 style=&quot;text-align: center&quot;&gt;Systematic Parts&lt;/h2&gt;
+                    &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(5, 'table')&quot; placeholder=&quot;Search for names..&quot; title=&quot;Type in a name&quot; /&gt;
+                    &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                        &lt;div class=&quot;tr header&quot;&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:5%;&quot;&gt;ID&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:18%;&quot;&gt;Number&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:18%;&quot;&gt;Location&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Description&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:17%;&quot;&gt;IPC&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:12%;&quot;&gt;Qty&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;?php foreach($data_sub_task_parts as $sub_task_part) { ?&gt;
+                            &lt;form id=&quot;delete_row-&lt;?php echo $sub_task_part['LGG_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                                &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $sub_task_part['LGG_ID'];?&gt;&quot; /&gt;
+                            &lt;/form&gt;
+                            &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $sub_task_part['LGG_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $sub_task_part['LGG_ID'];?&gt;', 'row-&lt;?php echo $sub_task_part['LGG_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; method=&quot;post&quot;&gt;
+                                &lt;?php include('row/documentationSubTask.php'); ?&gt;
+                            &lt;/form&gt;
+                        &lt;?php } $req-&gt;closeCursor();?&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;?php if($lvl_access) { ?&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+                &lt;div class=&quot;col-lg-2 col-lg-offset-4&quot;&gt;
+                    &lt;a href=&quot;./?page=documentationManual&amp;id=&lt;?php echo $data_sub_task['M_ID'];?&gt;&quot;&gt;&lt;button class=&quot;button&quot;&gt;Back&lt;/button&gt; &lt;/a&gt;
+                &lt;/div&gt;
+                &lt;?php if($lvl_access &gt; 2) { ?&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='block'&quot; type=&quot;submit&quot;&gt;Add Part&lt;/button&gt;
+                &lt;/div&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+            &lt;?php } ?&gt;
+        &lt;/div&gt;
+    &lt;?php } else {
+        $req-&gt;closeCursor();
+        header('Location: ./');
+        exit();
+    }
+} else {
+    header('Location: ./');
+    exit();
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

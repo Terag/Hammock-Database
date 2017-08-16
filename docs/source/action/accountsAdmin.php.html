@@ -1,0 +1,146 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * accountsAdmin action for HOME part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Home\Action
+ * @namespace Home
+ * @filesource
+ */
+
+/*Get $projectList var from database*/
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+
+if(isset($_POST['f_password']) AND $_POST['f_password'] != '') {
+    $_POST['f_password'] = sha1($_POST['f_password']);
+} else {
+    $_POST['f_password'] = NULL;
+}
+
+/* New Account */
+$fields = array(
+    'f_login' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'f_password' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'f_status' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'f_code' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+);
+$sql_request = 'CALL new_user(:f_login, :f_password, :f_status, :f_code);';
+try {
+    $modify_user_row_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_user_row_form-&gt;validateForm()) {
+        $modify_user_row_form-&gt;sendForm();
+
+        $last_insert = $bdd-&gt;query('SELECT MAX(U_ID) AS ID FROM T_USER;')-&gt;fetch()['ID'];
+        $req = $bdd-&gt;prepare('SELECT * FROM T_USER WHERE U_ID=:id;');
+        $req-&gt;execute(array('id' =&gt; $last_insert));
+        $account = $req-&gt;fetch();?&gt;
+            &lt;form id=&quot;delete_row-&lt;?php echo $account['U_ID'];?&gt;&quot; name=&quot;delete_row-&lt;?php echo $account['U_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $account['U_ID'];?&gt;&quot; /&gt;
+            &lt;/form&gt;
+            &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $account['U_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $account['U_ID'];?&gt;', 'row-&lt;?php echo $account['U_ID'];?&gt;', '&lt;td&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/td&gt;');return false;&quot; method=&quot;post&quot;&gt;
+                &lt;?php include($_SERVER['DOCUMENT_ROOT'].'/row/accountsAdmin.php');?&gt;
+            &lt;/form&gt;
+        &lt;?php exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+if(isset($_POST['fe_u_password']) AND $_POST['fe_u_password'] != '') {
+    $_POST['fe_u_password'] = sha1($_POST['fe_u_password']);
+} else {
+    $_POST['fe_u_password'] = NULL;
+}
+
+/* Edit Account */
+$fields = array(
+    'fe_u_id' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'fe_u_password' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_u_status' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'fe_u_code' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+);
+$sql_request = 'CALL update_user(:fe_u_id, :fe_u_password, :fe_u_status, :fe_u_code);';
+try {
+    $modify_user_row_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_user_row_form-&gt;validateForm()) {
+        $modify_user_row_form-&gt;sendForm();
+
+        $req = $bdd-&gt;prepare('SELECT * FROM T_USER WHERE U_ID=:id');
+        $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_u_id']));
+        $account = $req-&gt;fetch();
+        include($_SERVER['DOCUMENT_ROOT'].'/row/accountsAdmin.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+if(isset($_POST['f_delete'])) {
+
+    if(isset($_POST['f_delete'])) {
+        $delete = (int) $_POST['f_delete'];
+
+        if($delete != 0) {
+            $send = $bdd-&gt;prepare('DELETE FROM T_USER WHERE U_ID = :id');
+            $result = $send-&gt;execute(array('id' =&gt; $delete));
+            $send-&gt;closeCursor();
+            exit();
+        }
+    }
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,214 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * workOrder row for PROJECT part
+ *
+ * row displaying
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Row
+ * @namespace Project
+ * @filesource
+ */
+
+/* Prepare data for str_link_reference function */
+$data['references']['array'] = $sub_task['ST_REFERENCE'].';;'.$sub_task['ST_S_REFERENCES'];
+$data['removed']['array'] = $sub_task['ST_S_REMOVE'];
+$data['installed']['array'] = $sub_task['ST_S_INSTALL'];
+$structure['M']['VALUE'] = $sub_task['M_REFERENCE'];
+?&gt;
+
+&lt;!-- Hidden Input --&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; name=&quot;fe_st_id&quot;/&gt;
+&lt;!-- User Input --&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $sub_task['ST_ID'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot; title=&quot;&lt;?php echo $sub_task['GST_DESCRIPTION'];?&gt;&quot;&gt;
+    &lt;a href=&quot;/documentation/?page=documentationSubTask&amp;id=&lt;?php echo $sub_task['GST_ID'];?&gt;&quot; class=&quot;link&quot;&gt;
+        &lt;?php echo $sub_task['GST_NUMBER'];?&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div &lt;?php if($lvl_access&gt;2) { echo 'class=&quot;element&quot;'; }?&gt;&gt;
+        &lt;a href=&quot;/documentation/?page=documentationManual&amp;id=&lt;?php echo $sub_task['M_ID'];?&gt;&quot; class=&quot;link&quot;&gt;
+            &lt;i&gt;&lt;?php echo $sub_task['M_REFERENCE'];?&gt;&lt;/i&gt;
+        &lt;/a&gt;
+        &lt;?php echo ', '.$sub_task['ST_REFERENCE'];
+        if(isset($sub_task['ST_S_REFERENCES'])) {
+            echo '&lt;br/&gt;'.str_replace(';;','&lt;br/&gt;',$sub_task['ST_S_REFERENCES']);
+        }
+        ?&gt;
+    &lt;/div&gt;
+    &lt;?php if($lvl_access&gt;2) { ?&gt;
+        &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['ST_REFERENCE'];?&gt;&quot; name=&quot;fe_st_reference&quot;/&gt;
+            &lt;br/&gt;Secondary References&lt;br/&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['ST_S_REFERENCES'];?&gt;&quot; name=&quot;fe_st_s_references&quot;/&gt;
+        &lt;/div&gt;
+    &lt;?php } else { ?&gt;
+        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $sub_task['ST_REFERENCE'];?&gt;&quot; name=&quot;fe_st_reference&quot; required/&gt;
+        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $sub_task['ST_S_REFERENCES'];?&gt;&quot; name=&quot;fe_st_s_references&quot;/&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php
+        echo str_link_references($sub_task['ST_WORK_REQUIRED'], $structure, $data);
+        if(isset($sub_task['ST_S_REMOVE']) AND $sub_task['ST_S_REMOVE'] != '') {
+            echo '&lt;span style=&quot;font-size: small&quot;&gt;&lt;hr style=&quot;margin: 1px;&quot;/&gt;&lt;b&gt;Removed Parts&lt;/b&gt;&lt;br/&gt;'.str_replace(';;','&lt;br/&gt;',$sub_task['ST_S_REMOVE']).'&lt;/span&gt;';
+        }
+        ?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['ST_WORK_REQUIRED'];?&gt;&quot; name=&quot;fe_st_required&quot;/&gt;
+        &lt;br/&gt; Removed Parts &lt;br/&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['ST_S_REMOVE'];?&gt;&quot; name=&quot;fe_st_s_remove&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php
+        echo str_link_references($sub_task['ST_RECTIFICATION_DETAILS'], $structure, $data);
+        if(isset($sub_task['ST_S_INSTALL']) AND $sub_task['ST_S_INSTALL'] != '') {
+            echo '&lt;span style=&quot;font-size: small&quot;&gt;&lt;hr style=&quot;margin: 1px;&quot;/&gt;&lt;b&gt;Installed Parts&lt;/b&gt;&lt;br/&gt;'.str_replace(';;','&lt;br/&gt;',$sub_task['ST_S_INSTALL']).'&lt;/span&gt;';
+        }
+        ?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['ST_RECTIFICATION_DETAILS'];?&gt;&quot; name=&quot;fe_st_rectification&quot;/&gt;
+        &lt;br/&gt;Installed Parts&lt;br/&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['ST_S_INSTALL'];?&gt;&quot; name=&quot;fe_st_s_install&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php /*Get user information if ID_Performer is not NULL*/
+        if($sub_task['ST_ID_U_PERFORMER']  != NULL) {
+            if ($data_name = get_user_info($bdd, $sub_task['ST_ID_U_PERFORMER'])) {
+                ?&gt;
+                &lt;p style=&quot;margin: 1px;&quot;&gt;&lt;?php echo $data_name['U_NAME'];?&gt;&lt;/p&gt;
+                &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                &lt;p style=&quot;font-size: 14px; margin: 1px;&quot;&gt;&lt;?php echo $sub_task['ST_PERFORM_DATE'];?&gt;&lt;/p&gt;
+            &lt;?php }
+        } ?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;?php /*Get users information to select performer */
+        $users = get_user_list($bdd); ?&gt;
+        &lt;input class=&quot;form_input date_select&quot; type=&quot;text&quot; placeholder=&quot;yyyy-mm-dd&quot; value=&quot;&lt;?php echo $sub_task['ST_PERFORM_DATE'];?&gt;&quot; name=&quot;fe_st_performed&quot;/&gt;
+        &lt;?php if($lvl_access&gt;2) { ?&gt;
+            &lt;select class=&quot;form_input&quot; name=&quot;fe_st_performer&quot;&gt;
+                &lt;?php if(isset($data_name)) { ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $data_name['U_ID'];?&gt;&quot;&gt;&lt;?php echo $data_name['U_NAME'];?&gt;&lt;/option&gt;
+                &lt;?php }
+                foreach ($users as $user) { ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $user['U_ID'];?&gt;&quot;&gt;&lt;?php echo $user['U_NAME'];?&gt;&lt;/option&gt;
+                &lt;?php } ?&gt;
+            &lt;/select&gt;
+        &lt;?php } else { ?&gt;
+            &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $_SESSION['user_id'];?&gt;&quot; name=&quot;fe_st_performer&quot; required/&gt;
+        &lt;?php } ?&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+        &lt;?php if($sub_task['ST_ID'] == $current_work_st) { ?&gt;
+            &lt;button class=&quot;btn danger&quot; style=&quot;font-size: 12px;&quot; onclick=&quot;xmlhttpPost(document.location.href, 'toggle-work_row-&lt;?php echo $sub_task['ST_ID'];?&gt;', 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;Stop Job&lt;/button&gt;
+        &lt;?php } else { ?&gt;
+            &lt;button class=&quot;btn add&quot; style=&quot;font-size: 12px;&quot; onclick=&quot;xmlhttpPost(document.location.href, 'toggle-work_row-&lt;?php echo $sub_task['ST_ID'];?&gt;', 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;Begin Job&lt;/button&gt;
+        &lt;?php } ?&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;?php unset($data_name) ?&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div &lt;?php if($lvl_access){echo 'class=&quot;element&quot;';}?&gt;&gt;
+        &lt;?php /*Get user information if ID_Performer is not NULL*/
+        if(isset($sub_task['ST_ID_U_RELEASER'])) {
+            if ($data_name = get_user_info($bdd, $sub_task['ST_ID_U_RELEASER'])) {
+                ?&gt;
+                &lt;p style=&quot;margin: 1px;&quot;&gt;&lt;?php echo $data_name['U_NAME'];?&gt;&lt;/p&gt;
+                &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                &lt;p style=&quot;font-size: 14px; margin: 1px;&quot;&gt;&lt;?php echo $data_name['U_CODE'];?&gt;&lt;/p&gt;
+                &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                &lt;p style=&quot;font-size: 14px; margin: 1px;&quot;&gt;&lt;?php echo $sub_task['ST_RELEASE_DATE'];?&gt;&lt;/p&gt;
+            &lt;?php }
+        } ?&gt;
+    &lt;/div&gt;
+    &lt;?php if($lvl_access&gt;2) { ?&gt;
+        &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;date&quot; placeholder=&quot;yyyy-mm-dd&quot; value=&quot;&lt;?php echo $sub_task['ST_RELEASE_DATE'];?&gt;&quot; name=&quot;fe_st_released&quot;/&gt;
+            &lt;select class=&quot;form_input&quot; name=&quot;fe_st_releaser&quot;&gt;
+                &lt;?php if(isset($data_name)) { ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $data_name['U_ID'];?&gt;&quot;&gt;&lt;?php echo $data_name['U_NAME'].' - '.$data_name['U_CODE'];?&gt;&lt;/option&gt;
+                &lt;?php }
+                foreach ($users as $user) {
+                    if (isset($user['U_CODE']) AND $user['U_CODE'] != '') { ?&gt;
+                        &lt;option value=&quot;&lt;?php echo $user['U_ID'];?&gt;&quot;&gt;&lt;?php echo $user['U_NAME'].' - '.$user['U_CODE'];?&gt;&lt;/option&gt;
+                    &lt;?php }
+                } ?&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $sub_task['ST_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php if($lvl_access&gt;2) { ?&gt;
+            &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $sub_task['ST_ID'];?&gt;', 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;?php } ?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $sub_task['ST_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

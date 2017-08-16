@@ -1,0 +1,356 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * ERV content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+/*Get $project_info var from database*/
+
+/*Get Data about Work Order*/
+$data_wo = get_wo_info($bdd, $id_wo);
+
+if($data_wo) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+
+    /*  Get other data from database */
+    /*  Get Project information */
+    $data_project = get_project_info_from_helico($bdd, $data_wo['WO_ID_H']);
+
+    ?&gt;
+
+    &lt;!-- Form Content --&gt;
+    &lt;?php $new_add_part_erv_form-&gt;display_Form();?&gt;
+
+
+    &lt;div class=&quot;container content&quot;&gt;
+        &lt;?php if($lvl_access &gt; 2) {
+
+            $data_vendors = $bdd-&gt;query('SELECT V_ID, V_NAME FROM T_VENDOR ORDER BY V_NAME;')-&gt;fetchAll(); ?&gt;
+
+
+            &lt;!------------------------------- PO/RFQ Creator Content -------------------------------&gt;
+            &lt;span id=&quot;creator&quot; style=&quot;display: none;&quot;&gt;
+                &lt;script src=&quot;/js/file_creator/Creator.js&quot;&gt;&lt;/script&gt;
+                &lt;script&gt;
+                    // Creating prototype to use in creator
+                    var creator = new Creator('ListCreator_area', '/stock/?page=order');
+                &lt;/script&gt;
+                &lt;form id=&quot;form_creator&quot; onsubmit=&quot;xmlhttpPost(document.location.origin + '/stock/?page=order&amp;excel=1', 'form_creator', 'download', '&lt;button class=\'button\' type=\'button\' disabled&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/button&gt;');$('input[name=\'f_g_add_receive\']').prop('checked', false);return false;&quot; method=&quot;post&quot;&gt;
+                    &lt;div class=&quot;row&quot;&gt;
+                        &lt;div class=&quot;col-lg-10 col-lg-offset-1 center text-center window_grey window_font nopadding&quot;&gt;
+                            &lt;h2 id=&quot;title&quot;&gt;RFQ/PO creator&lt;/h2&gt;
+                            &lt;div class=&quot;col-md-6 window_white&quot;&gt;
+                                &lt;div class=&quot;row window_grey&quot;&gt;
+                                    &lt;h3&gt;Global Information&lt;/h3&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                                            &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; name=&quot;f_g_doctype&quot;&gt;
+                                                &lt;option value=&quot;0&quot;&gt;Purchase Order&lt;/option&gt;
+                                                &lt;option value=&quot;1&quot;&gt;Request For Quotation&lt;/option&gt;
+                                            &lt;/select&gt;
+                                        &lt;/span&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_g_name&quot;&gt;
+                                            Name
+                                        &lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-6&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_g_name&quot; required/&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot; id=&quot;add_receive&quot;&gt;
+                                    &lt;div class=&quot;col-lg-12&quot; style=&quot;text-align: left;&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;checkbox&quot; value=&quot;1&quot; style=&quot;width: 20px;&quot; name=&quot;f_g_add_receive&quot;/&gt; Add Parts in Receive (PO Online)
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-6&quot;&gt;
+                                        &lt;?php echo $data_project['P_NAME'];?&gt;
+                                        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data_project['P_NAME'];?&gt;&quot; name=&quot;f_g_project&quot;&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_rep&quot;&gt;Rep&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;Mark D McGregor&quot; name=&quot;f_g_rep&quot;&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_date&quot;&gt;Date&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;date&quot; name=&quot;f_g_date&quot;&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_phone&quot;&gt;Phone&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;tel&quot; value=&quot;+60122869186&quot; name=&quot;f_g_phone&quot;&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_location&quot;&gt;Location&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;Skypark RAC, Block C&quot; name=&quot;f_g_location&quot;&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;col-md-6 window_white&quot;&gt;
+                                &lt;div class=&quot;row window_grey&quot;&gt;
+                                    &lt;h3&gt;Vendor Information&lt;/h3&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-6&quot;&gt;
+                                        &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                                            &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot;
+                                                    onclick=&quot;select_edit_inputs('vendor_select', document.location.origin + '/stock/?page=order&amp;VENDOR=', {
+                                                'address' : 'f_v_address',
+                                                'city' : 'f_v_city',
+                                                'country' : 'f_v_country',
+                                                'phone' : 'f_v_phone',
+                                                'mail' : 'f_v_mail',
+                                                'contact' : 'f_v_contact',
+                                                'name' : 'f_v_name'
+                                            });&quot; id=&quot;vendor_select&quot; name=&quot;f_v_vendor&quot;&gt;
+                                                &lt;option value=&quot;0&quot;&gt;Vendor&lt;/option&gt;
+                                                &lt;option value=&quot;-1&quot;&gt;New&lt;/option&gt;
+                                                &lt;?php foreach($data_vendors as $vendor) { ?&gt;
+                                                    &lt;option value=&quot;&lt;?php echo $vendor['V_ID'];?&gt;&quot;&gt;&lt;?php echo $vendor['V_NAME']?&gt;&lt;/option&gt;
+                                                &lt;?php } ?&gt;
+                                            &lt;/select&gt;
+                                        &lt;/span&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_v_name&quot;&gt;Name&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_v_name&quot; required/&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot; id=&quot;vendor_info&quot;&gt;
+                                    &lt;div class=&quot;col-lg-6&quot; style=&quot;text-align: left;&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;checkbox&quot; value=&quot;1&quot; style=&quot;width: 20px;&quot; name=&quot;f_v_vendor_info&quot;/&gt; Edit Vendor info
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-offset-2 col-lg-4&quot;&gt;
+                                        &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                                            &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; name=&quot;f_g_currency&quot;&gt;
+                                                &lt;option value=&quot;MYR&quot;&gt;MYR&lt;/option&gt;
+                                                &lt;option value=&quot;EUR&quot;&gt;EUR&lt;/option&gt;
+                                                &lt;option value=&quot;USD&quot;&gt;USD&lt;/option&gt;
+                                            &lt;/select&gt;
+                                        &lt;/span&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_v_address&quot;&gt;Address&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-10&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_v_address&quot;&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_v_city&quot;&gt;City&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_v_city&quot;&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_v_country&quot;&gt;Country&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_v_country&quot;&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_v_phone&quot;&gt;Phone&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;tel&quot; name=&quot;f_v_phone&quot;&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_v_contact&quot;&gt;Contact&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-4&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_v_contact&quot;&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;row window_padding&quot;&gt;
+                                    &lt;div class=&quot;col-lg-2&quot;&gt;
+                                        &lt;label for=&quot;f_v_mail&quot;&gt;Mail&lt;/label&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;col-lg-10&quot;&gt;
+                                        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_v_mail&quot;&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+
+                        &lt;div class=&quot;row&quot;&gt;
+                            &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center window_grey window_font nopadding&quot; style=&quot;margin-top: 3%;&quot;&gt;
+                                &lt;h2 id=&quot;title&quot;&gt;Part List&lt;/h2&gt;
+                                &lt;div class=&quot;col-lg-12&quot; id=&quot;ListCreator_area&quot;&gt;
+                                    &lt;!-- LIST PART Engine --&gt;
+                                &lt;/div&gt;
+                                &lt;script&gt;
+                                    creator.start();
+                                &lt;/script&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+                    &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+                        &lt;div class=&quot;col-lg-2 col-lg-offset-3&quot;&gt;
+                            &lt;button class=&quot;button&quot; onclick=&quot;$('#creator').toggle();&quot; type=&quot;button&quot;&gt;Close&lt;/button&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-2&quot; id=&quot;download&quot;&gt;
+
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-2&quot;&gt;
+                            &lt;button id=&quot;submit-form&quot; class=&quot;button&quot; type=&quot;submit&quot;&gt;Create&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/form&gt;
+            &lt;/span&gt;
+        &lt;?php } ?&gt;
+
+        &lt;!-- Main Content --&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot; style=&quot;margin-top: 8%; margin-bottom: 2%;&quot;&gt;
+                &lt;div class=&quot;col-lg-6&quot;&gt;
+                    &lt;h2&gt;&lt;strong&gt;ERV :&lt;/strong&gt; &lt;br/&gt;&lt;?php echo str_replace('%DOC%', 'ERV', $data_wo['WO_NAME']);?&gt;&lt;/h2&gt;
+                    &lt;h3&gt;&lt;strong&gt;Project :&lt;/strong&gt; &lt;?php echo $data_project['P_NAME'];?&gt;&lt;/h3&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-6&quot;&gt;
+                    &lt;h4&gt;&lt;strong&gt;Customer :&lt;/strong&gt; &lt;?php echo $data_project['C_NAME'];?&gt;&lt;/h4&gt;
+                    &lt;h4&gt;&lt;strong&gt;Aircraft :&lt;/strong&gt; &lt;?php echo $data_project['GA_NAME'];?&gt;&lt;/h4&gt;
+                    &lt;h4&gt;&lt;strong&gt;Serial :&lt;/strong&gt; &lt;?php echo $data_project['H_SERIAL'];?&gt;&lt;/h4&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;col-lg-12 col-lg-offset&quot;&gt;
+                &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(10, 'table')&quot; placeholder=&quot;Search..&quot; title=&quot;Type in a name&quot; /&gt;
+                &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                    &lt;div class=&quot;tr header&quot;&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:5%;&quot;&gt;ID&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:7%;&quot;&gt;Sub Task&lt;br/&gt;Number&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;Part Number&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:5%;&quot;&gt;Location&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;Description&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;IPC&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;Ask By&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:8%;&quot;&gt;Date&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:3%;&quot;&gt;QTY&lt;br/&gt;Req'D&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:3%;&quot;&gt;QTY&lt;br/&gt;Dlv'D&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:26%;&quot;&gt;Stock&lt;br/&gt;Available&lt;br/&gt;&lt;span style=&quot;font-size: small;&quot;&gt;Used[Available]&lt;/span&gt;&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;?php foreach($data_project_parts as &amp;$project_part) { ?&gt;
+                        &lt;form id=&quot;delete_row-&lt;?php echo $project_part['PP_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                            &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $project_part['PP_ID'];?&gt;&quot; /&gt;
+                        &lt;/form&gt;
+                        &lt;form class=&quot;tr &lt;?php if($project_part['PP_QUANTITY_REQUESTED'] != $project_part['LPS_QUANTITY_USED']) { echo 'highlight';}?&gt;&quot; id=&quot;row-&lt;?php echo $project_part['PP_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $project_part['PP_ID'];?&gt;', 'row-&lt;?php echo $project_part['PP_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; method=&quot;post&quot;&gt;
+                            &lt;?php include('row/ERV.php');?&gt;
+                        &lt;/form&gt;
+                    &lt;?php } ?&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+            &lt;div class=&quot;col-lg-2 col-lg-offset-2&quot;&gt;
+                &lt;a href=&quot;./?page=specificProject&amp;id=&lt;?php echo $data_project['P_ID'];?&gt;&quot;&gt;&lt;button class=&quot;button&quot;&gt;Back&lt;/button&gt;&lt;/a&gt;
+            &lt;/div&gt;
+            &lt;?php if($lvl_access &gt; 2) { ?&gt;
+                &lt;div class=&quot;col-lg-2&quot; id=&quot;excel_file&quot;&gt;
+                    &lt;button class=&quot;button&quot; onclick=&quot;call_excel('&lt;?php echo 'http://'.$_SERVER['SERVER_NAME'].'/project/?page=ERV&amp;excel='.$id_wo;?&gt;');&quot;&gt;Excel&lt;/button&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;button class=&quot;button&quot; onclick=&quot;$('#creator').toggle();&quot; type=&quot;button&quot;&gt;Creator PO/RFQ&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;?php } ?&gt;
+            &lt;div class=&quot;col-lg-2&quot;&gt;
+                &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='block'&quot; type=&quot;button&quot;&gt;Add Part&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;?php if($lvl_access &gt; 2) { ?&gt;
+        &lt;div class=&quot;row&quot; style=&quot;margin-top: 15px;&quot;&gt;
+            &lt;div class=&quot;col-lg-2 col-lg-offset-4&quot; id=&quot;excel_sticker&quot;&gt;
+                &lt;button class=&quot;button&quot; onclick=&quot;call_excel('&lt;?php echo 'http://'.$_SERVER['SERVER_NAME'].'/project/?page=ERV&amp;sticker_data='.$id_wo;?&gt;', 'excel_sticker');&quot;&gt;Excel Sticker&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-2&quot; id=&quot;doc_sticker&quot;&gt;
+                &lt;a href=&quot;/files/sticker.docx&quot;&gt;&lt;button class=&quot;button&quot;&gt;Doc Sticker&lt;/button&gt;&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;?php } ?&gt;
+    &lt;/div&gt;
+&lt;?php } else {
+    header('Location: /index.php');
+    exit();
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * PIF action for PROJECT part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Action
+ * @namespace Project
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/file_manager.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+/*Get $project_info var from database*/
+$id_wo = (int) $_GET['id'];
+
+$fields = array(
+    'fe_lps_pp_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+    'fe_lps_s_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+    'fe_lps_qty_dlv' =&gt; array('type' =&gt; 'int', 'required' =&gt; TRUE)
+);
+
+$sql_request = 'CALL update_link_pp_s(:fe_lps_pp_id,:fe_lps_s_id,:fe_lps_qty_dlv);';
+try {
+    $modify_part_pif_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_part_pif_form-&gt;validateForm()) {
+        $modify_part_pif_form-&gt;sendForm();
+
+        if((int)$_POST['fe_lps_qty_dlv'] &gt; 0) {
+            $req = $bdd-&gt;prepare('	SELECT * FROM T_LINK_PP_S
+                                    LEFT JOIN T_PROJECT_PART ON LPS_ID_PP=PP_ID
+                                    LEFT JOIN T_SUB_TASK ON PP_ID_ST=ST_ID
+                                    LEFT JOIN T_GENERIC_SUB_TASK ON ST_ID_GST=GST_ID
+                                    LEFT JOIN T_WORK_ORDER ON ST_ID_WO=WO_ID
+                                    LEFT JOIN T_STOCK ON LPS_ID_S=S_ID
+                                    LEFT JOIN T_GENERIC_PART ON S_ID_GP=GP_ID
+                                    LEFT JOIN T_ATA_REFERENCE ON GST_ID_AR=AR_ID
+                                    WHERE LPS_ID_S=:s_id AND LPS_ID_PP=:pp_id;');
+            $req-&gt;execute(array('s_id' =&gt; (int)$_POST['fe_lps_s_id'], 'pp_id' =&gt; (int)$_POST['fe_lps_pp_id']));
+            $project_part = $req-&gt;fetch();
+            include('row/PIF.php');
+        }
+        exit();
+    }
+} catch (Exception $error) {
+    $_SESSION['error']=$error;
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

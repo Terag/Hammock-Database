@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * documentationSubTask action for DOCUMENTATION part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Documentation\Action
+ * @namespace Documentation
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/form.php');
+$id_gst = (int) $_GET['id'];
+
+if($lvl_access &gt; 2) {
+    $fields = array(
+        /* GP_GST Part */
+        'f_id_gst' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE, 'value' =&gt; $id_gst),
+        'f_id_gp' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'f_qty' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'f_ipc' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        /* GP Part */
+        'f_number' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_type' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_location' =&gt; array('type' =&gt; 'test', 'required' =&gt; FALSE),
+        'f_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+    );
+    $sql_request = 'CALL add_link_gp_gst(:f_id_gp, :f_id_gst, :f_qty, :f_name, :f_number, :f_type, :f_location, :f_description);';
+    $form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_GPinGST.php';
+    try {
+        $add_link_gp_gst_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+        if ($add_link_gp_gst_form-&gt;validateForm()) {
+            $add_link_gp_gst_form-&gt;sendForm();
+
+            $last_insert = $bdd-&gt;query('SELECT MAX(LGG_ID) AS ID FROM T_LINK_GP_GST;')-&gt;fetch()['ID'];
+            $req = $bdd-&gt;prepare('SELECT * FROM T_LINK_GP_GST
+                                  LEFT JOIN T_GENERIC_SUB_TASK ON LGG_ID_GST=GST_ID
+                                  LEFT JOIN T_GENERIC_PART ON LGG_ID_GP=GP_ID
+                                  WHERE LGG_ID=:id;');
+            $req-&gt;execute(array('id' =&gt; $last_insert));
+            $sub_task_part = $req-&gt;fetch(); ?&gt;
+            &lt;form id=&quot;delete_row-&lt;?php echo $sub_task_part['LGG_ID']; ?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $sub_task_part['LGG_ID']; ?&gt;&quot;/&gt;
+            &lt;/form&gt;
+            &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $sub_task_part['LGG_ID']; ?&gt;&quot;
+                  onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $sub_task_part['LGG_ID']; ?&gt;', 'row-&lt;?php echo $sub_task_part['LGG_ID']; ?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot;
+                  method=&quot;post&quot;&gt;
+                &lt;?php include('row/documentationSubTask.php'); ?&gt;
+            &lt;/form&gt;
+            &lt;?php exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+
+    /* If received Update Sub Task Part form */
+    $fields = array(
+        'fe_lgg_id' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'fe_lgg_qty' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'fe_lgg_ipc' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE)
+    );
+    $sql_request = 'CALL update_link_gp_gst(:fe_lgg_id, :fe_lgg_qty, :fe_lgg_ipc);';
+    try {
+        $update_link_gp_gst_form = new Form($bdd, $fields, $sql_request, $form_path);
+
+        if ($update_link_gp_gst_form-&gt;validateForm()) {
+            $update_link_gp_gst_form-&gt;sendForm();
+
+            $req = $bdd-&gt;prepare('SELECT * FROM T_LINK_GP_GST
+                                  LEFT JOIN T_GENERIC_SUB_TASK ON LGG_ID_GST=GST_ID
+                                  LEFT JOIN T_GENERIC_PART ON LGG_ID_GP=GP_ID
+                                  WHERE LGG_ID=:id;');
+            $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_lgg_id']));
+            $sub_task_part = $req-&gt;fetch();
+            include('row/documentationSubTask.php');
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+
+    $fields = array('f_delete' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE));
+    $sql_request = 'DELETE FROM T_LINK_GP_GST WHERE LGG_ID=:f_delete;';
+    try {
+        $delete_link_gp_gst_form = new Form($bdd, $fields, $sql_request);
+        if ($delete_link_gp_gst_form-&gt;validateForm()) {
+            $delete_link_gp_gst_form-&gt;sendForm();
+
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

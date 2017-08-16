@@ -1,0 +1,142 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * The Form file merge_genericParts
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Form
+ * @namespace Form
+ * @filesource
+ */
+
+global $bdd;
+?&gt;
+
+&lt;div id=&quot;merge&quot; class=&quot;modal&quot;&gt;
+    &lt;span onclick=&quot;document.getElementById('merge').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+    &lt;form class=&quot;modal-form&quot; id=&quot;merge-row&quot; onsubmit=&quot;confirm('Merge : \n' + merge_alert('select_part1', 'select_part2'));&quot; method=&quot;post&quot;&gt;
+        &lt;div class=&quot;container modal-content animate form-style&quot;&gt;
+            &lt;h2&gt;&lt;strong&gt;Merge Generic Parts&lt;/strong&gt;&lt;/h2&gt;
+            &lt;div class=&quot;row&quot;&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;text-align: right;&quot;&gt;
+                    &lt;label&gt;&lt;b&gt;Search Part 1&lt;/b&gt;&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-4&quot;&gt;
+                    &lt;input type=&quot;text&quot; id=&quot;PartFilterInputMerge1&quot; class=&quot;formFilterInput&quot; onkeyup=&quot;filter_select('PartFilterInputMerge1','select_part1','select_part_element')&quot; placeholder=&quot;Search for part..&quot; title=&quot;Type in a part&quot; /&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-6&quot;&gt;
+                    &lt;div class=&quot;row&quot;&gt;
+                        &lt;div class=&quot;col-lg-4&quot; style=&quot;text-align: right;&quot;&gt;
+                            &lt;label for=&quot;f_gp_id&quot;&gt;&lt;b&gt;Select Part 1*&lt;/b&gt;&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-8&quot;&gt;
+                            &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                                &lt;select class=&quot;form_input form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; id=&quot;select_part1&quot; name=&quot;fm_pn_1&quot; required&gt;
+                                    &lt;option value=&quot;0&quot;&gt;Part 1&lt;/option&gt;
+                                    &lt;?php /* Get all generic parts */
+                                    $req_parts = get_gp_list($bdd);
+                                    foreach ($req_parts as $req_part) {
+                                        ?&gt;
+                                        &lt;option class=&quot;select_part_element&quot; value=&quot;&lt;?php echo $req_part['GP_ID'];?&gt;&quot;&gt;&lt;?php echo $req_part['GP_NAME'].&quot; &amp;#9658; &quot;.str_replace(';;',' &amp;#9632 ',$req_part['GP_NUMBER']);?&gt;&lt;/option&gt;
+                                    &lt;?php } ?&gt;
+                                &lt;/select&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;text-align: right;&quot;&gt;
+                    &lt;label&gt;&lt;b&gt;Search Part 2&lt;/b&gt;&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-4&quot;&gt;
+                    &lt;input type=&quot;text&quot; id=&quot;PartFilterInputMerge2&quot; class=&quot;formFilterInput&quot; onkeyup=&quot;filter_select('PartFilterInputMerge2','select_part2','select_part_element')&quot; placeholder=&quot;Search for part..&quot; title=&quot;Type in a part&quot; /&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-6&quot;&gt;
+                    &lt;div class=&quot;row&quot;&gt;
+                        &lt;div class=&quot;col-lg-4&quot; style=&quot;text-align: right;&quot;&gt;
+                            &lt;label for=&quot;f_gp_id&quot;&gt;&lt;b&gt;Select Part 2*&lt;/b&gt;&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-8&quot;&gt;
+                            &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                                &lt;select class=&quot;form_input form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; id=&quot;select_part2&quot; name=&quot;fm_pn_2&quot; required&gt;
+                                    &lt;option value=&quot;0&quot;&gt;Part 2&lt;/option&gt;
+                                    &lt;?php /* Get all generic parts */
+                                    $req_parts = get_gp_list($bdd);
+                                    foreach ($req_parts as $req_part) {
+                                        ?&gt;
+                                        &lt;option class=&quot;select_part_element&quot; value=&quot;&lt;?php echo $req_part['GP_ID'];?&gt;&quot;&gt;&lt;?php echo $req_part['GP_NAME'].&quot; &amp;#9658; &quot;.str_replace(';;',' &amp;#9632 ',$req_part['GP_NUMBER']);?&gt;&lt;/option&gt;
+                                    &lt;?php } ?&gt;
+                                &lt;/select&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 2%&quot;&gt;
+                &lt;div class=&quot;col-lg-12 clearfix&quot;&gt;
+                    &lt;button type=&quot;button&quot; onclick=&quot;document.getElementById('merge').style.display='none'&quot; class=&quot;button cancelbtn&quot;&gt;Cancel&lt;/button&gt;
+                    &lt;button type=&quot;submit&quot; class=&quot;button signupbtn&quot;&gt;Merge&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    // Get the modal
+    var modal_merge = document.getElementById('merge');
+
+    var merge_alert = function(id_select1, id_select2) {
+        var select1 = document.getElementById(id_select1);
+        var select2 = document.getElementById(id_select2);
+
+        return select1.options[select1.selectedIndex].innerHTML + '\n With \n' + select2.options[select2.selectedIndex].innerHTML;
+    }
+&lt;/script&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

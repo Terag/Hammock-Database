@@ -1,0 +1,102 @@
+<?php
+/**
+ * accountsAdmin action for HOME part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Home\Action
+ * @namespace Home
+ * @filesource
+ */
+
+/*Get $projectList var from database*/
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+
+if(isset($_POST['f_password']) AND $_POST['f_password'] != '') {
+    $_POST['f_password'] = sha1($_POST['f_password']);
+} else {
+    $_POST['f_password'] = NULL;
+}
+
+/* New Account */
+$fields = array(
+    'f_login' => array('type' => 'text', 'required' => TRUE),
+    'f_password' => array('type' => 'text', 'required' => TRUE),
+    'f_status' => array('type' => 'number-int', 'required' => TRUE),
+    'f_code' => array('type' => 'text', 'required' => FALSE)
+);
+$sql_request = 'CALL new_user(:f_login, :f_password, :f_status, :f_code);';
+try {
+    $modify_user_row_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_user_row_form->validateForm()) {
+        $modify_user_row_form->sendForm();
+
+        $last_insert = $bdd->query('SELECT MAX(U_ID) AS ID FROM T_USER;')->fetch()['ID'];
+        $req = $bdd->prepare('SELECT * FROM T_USER WHERE U_ID=:id;');
+        $req->execute(array('id' => $last_insert));
+        $account = $req->fetch();?>
+            <form id="delete_row-<?php echo $account['U_ID'];?>" name="delete_row-<?php echo $account['U_ID'];?>" method="post" style="display: none;">
+                <input type="hidden" name="f_delete" value="<?php echo $account['U_ID'];?>" />
+            </form>
+            <form class="tr" id="row-<?php echo $account['U_ID'];?>" onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $account['U_ID'];?>', 'row-<?php echo $account['U_ID'];?>', '<td><img src=\'/img/wait_rot.gif\'/></td>');return false;" method="post">
+                <?php include($_SERVER['DOCUMENT_ROOT'].'/row/accountsAdmin.php');?>
+            </form>
+        <?php exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}
+
+if(isset($_POST['fe_u_password']) AND $_POST['fe_u_password'] != '') {
+    $_POST['fe_u_password'] = sha1($_POST['fe_u_password']);
+} else {
+    $_POST['fe_u_password'] = NULL;
+}
+
+/* Edit Account */
+$fields = array(
+    'fe_u_id' => array('type' => 'number-int', 'required' => TRUE),
+    'fe_u_password' => array('type' => 'text', 'required' => FALSE),
+    'fe_u_status' => array('type' => 'number-int', 'required' => TRUE),
+    'fe_u_code' => array('type' => 'text', 'required' => FALSE),
+);
+$sql_request = 'CALL update_user(:fe_u_id, :fe_u_password, :fe_u_status, :fe_u_code);';
+try {
+    $modify_user_row_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_user_row_form->validateForm()) {
+        $modify_user_row_form->sendForm();
+
+        $req = $bdd->prepare('SELECT * FROM T_USER WHERE U_ID=:id');
+        $req->execute(array('id' => (int)$_POST['fe_u_id']));
+        $account = $req->fetch();
+        include($_SERVER['DOCUMENT_ROOT'].'/row/accountsAdmin.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}
+
+if(isset($_POST['f_delete'])) {
+
+    if(isset($_POST['f_delete'])) {
+        $delete = (int) $_POST['f_delete'];
+
+        if($delete != 0) {
+            $send = $bdd->prepare('DELETE FROM T_USER WHERE U_ID = :id');
+            $result = $send->execute(array('id' => $delete));
+            $send->closeCursor();
+            exit();
+        }
+    }
+}

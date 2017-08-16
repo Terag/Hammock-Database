@@ -1,0 +1,153 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+* managementHome row for MANAGEMENT part
+*
+* row displaying
+*
+* @author Victor ROUQUETTE
+* @copyright Hammock Helicopter Database by Victor ROUQUETTE
+* @license GPL
+* @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+* @category Part
+* @package Management\Row
+* @namespace Management
+* @filesource
+*/
+?&gt;
+
+&lt;input name=&quot;fe_rw_id&quot; value=&quot;&lt;?php echo $recorded_work['RW_ID'];?&gt;&quot; hidden/&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $recorded_work['RW_ID'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php
+    $href = '&lt;a href=&quot;/management/?page=workProjectCalendar&amp;Y='.date('Y').'&amp;M='.date('m').'&amp;D='.date('d').'&amp;id='.$recorded_work['P_ID'].'&quot; class=&quot;link&quot;&gt;';
+    echo $href.(($recorded_work['RW_ID_ST']!=NULL)? $recorded_work['P_NAME'].' &amp;#9658 '.$recorded_work['GST_NUMBER'] : 'DAILY').'&lt;/a&gt;';
+    ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div &lt;?php echo ($lvl_access &gt; 2) ? 'class=&quot;element&quot;':'';?&gt;&gt;
+        &lt;?php echo ($recorded_work['RW_ID_ST']!=NULL)? $recorded_work['GST_DESCRIPTION'] : $recorded_work['RW_DESCRIPTION'];?&gt;
+    &lt;/div&gt;
+    &lt;?php if($lvl_access &gt; 2) { ?&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;?php echo ($recorded_work['RW_ID_ST']!=NULL)? $recorded_work['GST_DESCRIPTION'] : '&lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;'.$recorded_work['RW_DESCRIPTION'].'&quot; name=&quot;fe_rw_description&quot; /&gt;';?&gt;
+    &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div &lt;?php echo ($lvl_access &gt; 2) ? 'class=&quot;element&quot;':'';?&gt;&gt;
+        &lt;?php echo min_to_hour($recorded_work['RW_TOTAL_MIN']);?&gt;
+    &lt;/div&gt;
+    &lt;?php if($lvl_access &gt; 2) { ?&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;number&quot; value=&quot;&lt;?php echo floor($recorded_work['RW_TOTAL_MIN']/60);?&gt;&quot; style=&quot;width: 40%;&quot; name=&quot;fe_rw_tt_h&quot; required/&gt;
+            h
+            &lt;input class=&quot;form_input&quot; type=&quot;number&quot; value=&quot;&lt;?php echo $recorded_work['RW_TOTAL_MIN']%60;?&gt;&quot; style=&quot;width: 40%;&quot; name=&quot;fe_rw_tt_m&quot; required/&gt;
+    &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php foreach ($data_user_works as $user_work) {
+            $time = strtotime($user_work['UW_DATETIME_BEGIN']);
+            $href = '&lt;a href=&quot;/management/?page=workUserCalendar&amp;Y='.date('Y', $time).'&amp;M='.date('m', $time).'&amp;D='.date('d', $time).'&amp;id='.$user_work['UW_ID_U'].'&quot; class=&quot;link&quot;&gt;';
+            echo (!isset($user_work['UW_DATETIME_END']))? $href.$user_work['U_NAME'].' &amp;#9658 '.$user_work['UW_DATETIME_BEGIN'].'&lt;/a&gt;&lt;hr style=&quot;margin: 1px;&quot;/&gt;' : '';
+        } ?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;?php if($lvl_access &gt; 2) { ?&gt;
+        &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot; style=&quot;margin-top: 1px&quot;&gt;
+            &lt;?php $users = get_user_list($bdd); ?&gt;
+            &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; name=&quot;fe_uw_new_performer&quot;&gt;
+                &lt;option value=&quot;0&quot;&gt;Add Performer&lt;/option&gt;
+                &lt;?php foreach($users as $user) { ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $user['U_ID'];?&gt;&quot;&gt;&lt;?php echo $user['U_NAME'];?&gt;&lt;/option&gt;
+                &lt;?php } ?&gt;
+            &lt;/select&gt;
+        &lt;/span&gt;
+        &lt;?php } else { ?&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;checkbox&quot; value=&quot;&lt;?php echo $_SESSION['user_id'];?&gt;&quot; style=&quot;width: 20px;&quot; name=&quot;fe_uw_toggle_performer&quot;/&gt; Begin/Stop Job
+        &lt;?php } ?&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php foreach ($data_user_works as $user_work) {
+            $time = strtotime($user_work['UW_DATETIME_BEGIN']);
+            $href = '&lt;a href=&quot;/management/?page=workUserCalendar&amp;Y='.date('Y', $time).'&amp;M='.date('m', $time).'&amp;D='.date('d', $time).'&amp;id='.$user_work['UW_ID_U'].'&quot; class=&quot;link&quot;&gt;';
+            echo (isset($user_work['UW_DATETIME_END']))? $href.$user_work['U_NAME'].' &amp;#9658 '.$user_work['UW_DATETIME_BEGIN']. ' &amp;#9632 '. $user_work['UW_DATETIME_END'].' &amp;#9658 '.min_to_hour($user_work['UW_TOTAL_MIN']).'&lt;/a&gt;&lt;hr style=&quot;margin: 1px;&quot;/&gt;' : '';
+        } ?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;?php $i = 0;
+        foreach ($data_user_works as $user_work) {
+            if(!isset($user_work['UW_DATETIME_END'])) {
+                echo ($lvl_access &gt; 2)? '&lt;b&gt;Close&lt;/b&gt; &lt;input type=&quot;checkbox&quot; value=&quot;&lt;?php echo $user_work[\'UW_ID\'];?&gt;&quot; style=&quot;border: none;&quot; name=&quot;fe_uw_close_performer_&lt;?php echo $i;?&gt;&quot;/&gt;': '';
+                echo $user_work['U_NAME'].' &amp;#9658 '.$user_work['UW_DATETIME_BEGIN'].'&lt;hr style=&quot;margin: 1px;&quot;/&gt;';
+                $i++;
+            }
+        } ?&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;hidden&quot; value=&quot;&lt;?php echo $i;?&gt;&quot; name=&quot;fe_uw_performer_number&quot; required/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $recorded_work['RW_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if($lvl_access &gt; 2) { ?&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $recorded_work['RW_ID'];?&gt;', 'row-&lt;?php echo $recorded_work['RW_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;?php } ?&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $recorded_work['RW_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

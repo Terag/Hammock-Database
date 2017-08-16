@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * The Index file of STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Home
+ * @namespace Home
+ * @filesource
+ */
+
+session_start();
+//Create and set var '$UserConnected' to true or false
+include('account/checkConnection.php');
+
+/*Go to Home page if user is already connected*/
+if($UserConnected) {
+    header('Location: home.php');
+    exit();
+}
+?&gt;
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+    &lt;?php include(&quot;ui/head_default.php&quot;); ?&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;!-- ----------------------------- Content ----------------------------- --&gt;
+    &lt;div class=&quot;container content&quot;&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center center&quot;&gt;
+                &lt;div class=&quot;myForm&quot;&gt;
+                    &lt;img src=&quot;img/Logo.svg&quot; style=&quot;width: 300px;&quot;/&gt;
+                    &lt;h1 id=&quot;title&quot;&gt;Hammock Database&lt;/h1&gt;
+                    &lt;form action=&quot;account/login.php&quot; method=&quot;post&quot;&gt;
+                        &lt;div class=&quot;row&quot;&gt;
+                            &lt;div class=&quot;col-lg-offset-5 col-lg-2&quot;&gt;
+                                &lt;label for=&quot;pseudo&quot;&gt; &lt;Strong&gt; Username : &lt;/Strong&gt; &lt;/label&gt;
+                                &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;pseudo&quot; id=&quot;pseudo&quot; required/&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;row&quot; style=&quot;margin-top: 15px;&quot;&gt;
+                            &lt;div class=&quot;col-lg-offset-5 col-lg-2&quot;&gt;
+                                &lt;label for=&quot;password&quot;&gt; &lt;Strong&gt; Password  : &lt;/Strong&gt;&lt;/label&gt;
+                                &lt;input class=&quot;form_input&quot; type=&quot;password&quot; name=&quot;password&quot; id=&quot;password&quot; required/&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;row text-center&quot; style=&quot;margin-top: 15px;&quot;&gt;
+                            &lt;input class=&quot;button&quot; TYPE=&quot;submit&quot; NAME=&quot;nom&quot; VALUE=&quot;Login&quot; id=&quot;Valider&quot;&gt;
+                        &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- ----------------------------- Footer ----------------------------- --&gt;
+    &lt;?php include(&quot;ui/footer.php&quot;) ?&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

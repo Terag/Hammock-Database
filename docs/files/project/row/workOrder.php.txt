@@ -1,0 +1,170 @@
+<?php
+/**
+ * workOrder row for PROJECT part
+ *
+ * row displaying
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Row
+ * @namespace Project
+ * @filesource
+ */
+
+/* Prepare data for str_link_reference function */
+$data['references']['array'] = $sub_task['ST_REFERENCE'].';;'.$sub_task['ST_S_REFERENCES'];
+$data['removed']['array'] = $sub_task['ST_S_REMOVE'];
+$data['installed']['array'] = $sub_task['ST_S_INSTALL'];
+$structure['M']['VALUE'] = $sub_task['M_REFERENCE'];
+?>
+
+<!-- Hidden Input -->
+<input type="hidden" value="<?php echo $sub_task['ST_ID'];?>" name="fe_st_id"/>
+<!-- User Input -->
+<span class="td"><?php echo $sub_task['ST_ID'];?></span>
+<span class="td" title="<?php echo $sub_task['GST_DESCRIPTION'];?>">
+    <a href="/documentation/?page=documentationSubTask&id=<?php echo $sub_task['GST_ID'];?>" class="link">
+        <?php echo $sub_task['GST_NUMBER'];?>
+    </a>
+</span>
+<span class="td">
+    <div <?php if($lvl_access>2) { echo 'class="element"'; }?>>
+        <a href="/documentation/?page=documentationManual&id=<?php echo $sub_task['M_ID'];?>" class="link">
+            <i><?php echo $sub_task['M_REFERENCE'];?></i>
+        </a>
+        <?php echo ', '.$sub_task['ST_REFERENCE'];
+        if(isset($sub_task['ST_S_REFERENCES'])) {
+            echo '<br/>'.str_replace(';;','<br/>',$sub_task['ST_S_REFERENCES']);
+        }
+        ?>
+    </div>
+    <?php if($lvl_access>2) { ?>
+        <div class="element" style="display: none;">
+            <input class="form_input" type="text" value="<?php echo $sub_task['ST_REFERENCE'];?>" name="fe_st_reference"/>
+            <br/>Secondary References<br/>
+            <input class="form_input" type="text" value="<?php echo $sub_task['ST_S_REFERENCES'];?>" name="fe_st_s_references"/>
+        </div>
+    <?php } else { ?>
+        <input type="hidden" value="<?php echo $sub_task['ST_REFERENCE'];?>" name="fe_st_reference" required/>
+        <input type="hidden" value="<?php echo $sub_task['ST_S_REFERENCES'];?>" name="fe_st_s_references"/>
+    <?php } ?>
+</span>
+<span class="td">
+    <div class="element">
+        <?php
+        echo str_link_references($sub_task['ST_WORK_REQUIRED'], $structure, $data);
+        if(isset($sub_task['ST_S_REMOVE']) AND $sub_task['ST_S_REMOVE'] != '') {
+            echo '<span style="font-size: small"><hr style="margin: 1px;"/><b>Removed Parts</b><br/>'.str_replace(';;','<br/>',$sub_task['ST_S_REMOVE']).'</span>';
+        }
+        ?>
+    </div>
+    <div class="element" style="display: none;">
+        <input class="form_input" type="text" value="<?php echo $sub_task['ST_WORK_REQUIRED'];?>" name="fe_st_required"/>
+        <br/> Removed Parts <br/>
+        <input class="form_input" type="text" value="<?php echo $sub_task['ST_S_REMOVE'];?>" name="fe_st_s_remove"/>
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php
+        echo str_link_references($sub_task['ST_RECTIFICATION_DETAILS'], $structure, $data);
+        if(isset($sub_task['ST_S_INSTALL']) AND $sub_task['ST_S_INSTALL'] != '') {
+            echo '<span style="font-size: small"><hr style="margin: 1px;"/><b>Installed Parts</b><br/>'.str_replace(';;','<br/>',$sub_task['ST_S_INSTALL']).'</span>';
+        }
+        ?>
+    </div>
+    <div class="element" style="display: none;">
+        <input class="form_input" type="text" value="<?php echo $sub_task['ST_RECTIFICATION_DETAILS'];?>" name="fe_st_rectification"/>
+        <br/>Installed Parts<br/>
+        <input class="form_input" type="text" value="<?php echo $sub_task['ST_S_INSTALL'];?>" name="fe_st_s_install"/>
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php /*Get user information if ID_Performer is not NULL*/
+        if($sub_task['ST_ID_U_PERFORMER']  != NULL) {
+            if ($data_name = get_user_info($bdd, $sub_task['ST_ID_U_PERFORMER'])) {
+                ?>
+                <p style="margin: 1px;"><?php echo $data_name['U_NAME'];?></p>
+                <hr style="margin: 1px;"/>
+                <p style="font-size: 14px; margin: 1px;"><?php echo $sub_task['ST_PERFORM_DATE'];?></p>
+            <?php }
+        } ?>
+    </div>
+    <div class="element" style="display: none;">
+        <?php /*Get users information to select performer */
+        $users = get_user_list($bdd); ?>
+        <input class="form_input date_select" type="text" placeholder="yyyy-mm-dd" value="<?php echo $sub_task['ST_PERFORM_DATE'];?>" name="fe_st_performed"/>
+        <?php if($lvl_access>2) { ?>
+            <select class="form_input" name="fe_st_performer">
+                <?php if(isset($data_name)) { ?>
+                    <option value="<?php echo $data_name['U_ID'];?>"><?php echo $data_name['U_NAME'];?></option>
+                <?php }
+                foreach ($users as $user) { ?>
+                    <option value="<?php echo $user['U_ID'];?>"><?php echo $user['U_NAME'];?></option>
+                <?php } ?>
+            </select>
+        <?php } else { ?>
+            <input type="hidden" value="<?php echo $_SESSION['user_id'];?>" name="fe_st_performer" required/>
+        <?php } ?>
+    </div>
+    <div>
+        <?php if($sub_task['ST_ID'] == $current_work_st) { ?>
+            <button class="btn danger" style="font-size: 12px;" onclick="xmlhttpPost(document.location.href, 'toggle-work_row-<?php echo $sub_task['ST_ID'];?>', 'row-<?php echo $sub_task['ST_ID'];?>', '');return false;" type="button">Stop Job</button>
+        <?php } else { ?>
+            <button class="btn add" style="font-size: 12px;" onclick="xmlhttpPost(document.location.href, 'toggle-work_row-<?php echo $sub_task['ST_ID'];?>', 'row-<?php echo $sub_task['ST_ID'];?>', '');return false;" type="button">Begin Job</button>
+        <?php } ?>
+    </div>
+</span>
+<?php unset($data_name) ?>
+<span class="td">
+    <div <?php if($lvl_access){echo 'class="element"';}?>>
+        <?php /*Get user information if ID_Performer is not NULL*/
+        if(isset($sub_task['ST_ID_U_RELEASER'])) {
+            if ($data_name = get_user_info($bdd, $sub_task['ST_ID_U_RELEASER'])) {
+                ?>
+                <p style="margin: 1px;"><?php echo $data_name['U_NAME'];?></p>
+                <hr style="margin: 1px;"/>
+                <p style="font-size: 14px; margin: 1px;"><?php echo $data_name['U_CODE'];?></p>
+                <hr style="margin: 1px;"/>
+                <p style="font-size: 14px; margin: 1px;"><?php echo $sub_task['ST_RELEASE_DATE'];?></p>
+            <?php }
+        } ?>
+    </div>
+    <?php if($lvl_access>2) { ?>
+        <div class="element" style="display: none;">
+            <input class="form_input" type="date" placeholder="yyyy-mm-dd" value="<?php echo $sub_task['ST_RELEASE_DATE'];?>" name="fe_st_released"/>
+            <select class="form_input" name="fe_st_releaser">
+                <?php if(isset($data_name)) { ?>
+                    <option value="<?php echo $data_name['U_ID'];?>"><?php echo $data_name['U_NAME'].' - '.$data_name['U_CODE'];?></option>
+                <?php }
+                foreach ($users as $user) {
+                    if (isset($user['U_CODE']) AND $user['U_CODE'] != '') { ?>
+                        <option value="<?php echo $user['U_ID'];?>"><?php echo $user['U_NAME'].' - '.$user['U_CODE'];?></option>
+                    <?php }
+                } ?>
+            </select>
+        </div>
+    <?php } ?>
+</span>
+<span class="td">
+    <div class="element">
+        <button class="btn edit" type="button" onclick="edit_row(<?php echo $sub_task['ST_ID'];?>)"><i class="fa fa-pencil"></i></button>
+    </div>
+    <div class="element" style="display: none;">
+        <button class="btn add" type="submit"><i class='fa fa-check-square-o'></i></button>
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php if($lvl_access>2) { ?>
+            <button class="btn danger" onclick="xmlhttpPost(document.location.href, 'delete_row-<?php echo $sub_task['ST_ID'];?>', 'row-<?php echo $sub_task['ST_ID'];?>', '');return false;" type="button"><i class="fa fa-close"></i></button>
+        <?php } ?>
+    </div>
+    <div class="element" style="display: none;">
+        <button class="btn cancel" type="button" onclick="edit_row(<?php echo $sub_task['ST_ID'];?>)"><i class="fa fa-arrow-circle-left"></i></button>
+    </div>
+</span>

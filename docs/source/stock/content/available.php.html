@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Available content for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Content
+ * @namespace Stock
+ * @filesource
+ */
+
+if(isset($_SESSION['error'])) {
+    display_modal($_SESSION['error']-&gt;getMessage());
+}
+
+/*Get $data_stock_parts var from database*/
+$data_available_stock_parts = get_available_stock_list($bdd);
+
+?&gt;
+
+&lt;!-- Main Content --&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 8%;&quot;&gt;
+        &lt;div class=&quot;col-lg-12 text-center&quot;&gt;
+            &lt;h2&gt;Stock Available&lt;/h2&gt;
+            &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(10, 'table')&quot; placeholder=&quot;Search..&quot; title=&quot;Type in a name&quot; /&gt;
+            &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                &lt;div class=&quot;tr header&quot;&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:3%;&quot;&gt;ID&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:14%;&quot;&gt;part NUMBER&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;LOCATION&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;SERIAL&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;DESCRIPTION&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:5%;&quot;&gt;POSSESSED&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:5%;&quot;&gt;AVAILABLE&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:13%;&quot;&gt;ARC&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:13%;&quot;&gt;PO&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:5%;&quot;&gt;UNIT&lt;br/&gt;price&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:5%;&quot;&gt;CURRENCY&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;?php foreach($data_available_stock_parts as &amp;$stock_part) { ?&gt;
+                &lt;form id=&quot;delete_row-&lt;?php echo $stock_part['S_ID'];?&gt;&quot; method=&quot;post&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $stock_part['S_ID'];?&gt;&quot; name=&quot;f_delete&quot;/&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $stock_part['S_ID_PURCHASE_ORDER'];?&gt;&quot; name=&quot;f_delete_po&quot;/&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $stock_part['S_ID_ARC'];?&gt;&quot; name=&quot;f_delete_arc&quot;/&gt;
+                &lt;/form&gt;
+                &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $stock_part['S_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $stock_part['S_ID'];?&gt;', 'row-&lt;?php echo $stock_part['S_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;
+                    &lt;?php include('row/available.php');?&gt;
+                &lt;/form&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+        &lt;div class=&quot;col-lg-2 col-lg-offset-5&quot;&gt;
+            &lt;a href=&quot;./&quot;&gt;&lt;button class=&quot;button&quot;&gt;Back&lt;/button&gt;&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

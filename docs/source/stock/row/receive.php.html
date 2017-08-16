@@ -1,0 +1,176 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Receive row for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Row
+ * @namespace Stock
+ * @filesource
+ */
+?&gt;
+&lt;!-- Hidden Input --&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $ordered_part['S_ID'];?&gt;&quot; name=&quot;fe_s_id&quot; required/&gt;
+&lt;!-- User Input --&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $ordered_part['S_ID'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php
+    $part_numbers = explode(';;', $ordered_part['GP_NUMBER']);
+    $index = ($ordered_part['S_INDEX_PN'] &gt; 0 AND $ordered_part['S_INDEX_PN'] &lt; count($part_numbers))? $ordered_part['S_INDEX_PN'] : 0;
+    $part_numbers[$index] = '&lt;b&gt;'.$part_numbers[$index].'&lt;/b&gt;';
+    echo $part_numbers[0];
+    for($i=1;$i&lt;count($part_numbers);$i++) {
+        echo '&lt;br/&gt;'.$part_numbers[$i];
+    }
+    ?&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;div class=&quot;col-lg-4&quot;&gt;
+            Index
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-8&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;&lt;?php echo $ordered_part['S_INDEX_PN'];?&gt;&quot; name=&quot;fe_s_index_pn&quot; required/&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $ordered_part['S_SERIAL'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $ordered_part['S_SERIAL'];?&gt;&quot; name=&quot;fe_s_serial&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $ordered_part['GP_NAME'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo str_replace(';;','&lt;br/&gt;',$ordered_part['GP_LOCATION']);?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $ordered_part['S_QUANTITY_NUMBER'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;1&quot; value=&quot;&lt;?php echo $ordered_part['S_QUANTITY_NUMBER'];?&gt;&quot; name=&quot;fe_s_qty&quot; required/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php if($ordered_part['S_ID_ARC'] != NULL) { ?&gt;
+            &lt;button class=&quot;btn default&quot; type=&quot;button&quot; onclick=&quot;openInNewTab('&lt;?php echo get_file_path($ordered_part['S_ID_ARC'],$bdd);?&gt;')&quot;&gt;
+                &lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+        &lt;?php } ?&gt;
+        &lt;?php echo $ordered_part['S_ARC_NAME'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $ordered_part['S_ARC_NAME'];?&gt;&quot; name=&quot;fe_arc_name&quot; required/&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;file&quot; size=&quot;10000000&quot; name=&quot;fe_f_arc&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php if($ordered_part['S_ID_PURCHASE_ORDER'] != NULL) { ?&gt;
+            &lt;button class=&quot;btn default&quot; type=&quot;button&quot; onclick=&quot;openInNewTab('&lt;?php echo get_file_path($ordered_part['S_ID_PURCHASE_ORDER'],$bdd);?&gt;')&quot;&gt;
+                &lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+        &lt;?php } ?&gt;
+        &lt;?php echo $ordered_part['S_PO_NAME'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $ordered_part['S_PO_NAME'];?&gt;&quot; name=&quot;fe_po_name&quot; required/&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;file&quot; size=&quot;10000000&quot; name=&quot;fe_f_po&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $ordered_part['S_PRICE'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;number&quot; step=&quot;0.01&quot; min=&quot;0&quot; value=&quot;&lt;?php echo $ordered_part['S_PRICE'];?&gt;&quot; name=&quot;fe_s_price&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $ordered_part['S_ACCURENCY'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $ordered_part['S_ACCURENCY'];?&gt;&quot; name=&quot;fe_s_accurency&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $ordered_part['S_VENDOR'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $ordered_part['S_VENDOR'];?&gt;&quot; name=&quot;fe_s_vendor&quot;&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;checkbox&quot; value=&quot;yes&quot; style=&quot;width: 20%;&quot; name=&quot;fe_s_rcvd&quot;/&gt; Received
+        &lt;input class=&quot;form_input&quot; type=&quot;date&quot; value=&quot;&lt;?php echo date('Y-m-d');?&gt;&quot; name=&quot;fe_s_rcvd_date&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $ordered_part['S_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $ordered_part['S_ID'];?&gt;', 'row-&lt;?php echo $ordered_part['S_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $ordered_part['S_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

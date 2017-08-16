@@ -1,0 +1,366 @@
+<?php
+/**
+ * File to describ forms class. Used to check data passed to server, upload its with a sql request and manage files.
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package Calendar
+ */
+
+/**
+ * Class Abstract _MONTH
+ *
+ * @package Calendar\Abstract_Const
+ * @tags Calendar Abstract
+ */
+abstract class _MONTH {
+
+    const JANUARY = 1;
+    const FEBRUARY = 2;
+    const MARCH = 3;
+    const APRIL = 4;
+    const MAY = 5;
+    const JUNE = 6;
+    const JULY = 7;
+    const AUGUST = 8;
+    const SEPTEMBER = 9;
+    const OCTOBER = 10;
+    const NOVEMBER = 11;
+    const DECEMBER = 12;
+
+    /**
+     * @var array<string> string associated to enum
+     */
+    public static $enums= array(
+        0 => "December",
+        self::JANUARY => "January",
+        self::FEBRUARY => 'February',
+        self::MARCH => 'March',
+        self::APRIL => 'April',
+        self::MAY => 'May',
+        self::JUNE => 'June',
+        self::JULY => 'July',
+        self::AUGUST => 'August',
+        self::SEPTEMBER => 'September',
+        self::OCTOBER => 'October',
+        self::NOVEMBER => 'November',
+        self::DECEMBER => 'December'
+    );
+
+    /**
+     * get month in string format
+     *
+     * @param _MONTH::<ENUM>|int $enum
+     * @return string
+     */
+    public static function toString($enum) {
+        return self::$enums[$enum];
+    }
+
+    /**
+     * Check if $enum is a valid month
+     *
+     * @param int $enum
+     * @return bool
+     */
+    public static function is_month($enum){
+        return key_exists($enum,self::$enums);
+    }
+}
+
+/**
+ * Class Abstract _WEEKDAY
+ *
+ * @package Calendar\Abstract_Const
+ * @tags Calendar Abstract
+ */
+abstract class _WEEKDAY {
+    const MONDAY = 1;
+    const TUESDAY = 2;
+    const WEDNESDAY = 3;
+    const THURSDAY = 4;
+    const FRIDAY = 5;
+    const SATURDAY = 6;
+    const SUNDAY = 7;
+
+    /**
+     * @var array<string> string associated to enum
+     */
+    public static $enums= array(
+        self::MONDAY => "Mon",
+        self::TUESDAY => 'Tue',
+        self::WEDNESDAY => 'Wed',
+        self::THURSDAY => 'Thu',
+        self::FRIDAY => 'Fri',
+        self::SATURDAY => 'Sat',
+        self::SUNDAY => 'Sun'
+    );
+
+    /**
+     * get weekday in string format
+     *
+     * @param _WEEKDAY::<ENUM>|int $enum
+     * @return string
+     */
+    public static function toString($enum) {
+        return self::$enums[$enum];
+    }
+
+    /**
+     * Check if $enum is a valid weekday
+     *
+     * @param int $enum
+     * @return bool
+     */
+    public static function is_day($enum){
+        return key_exists($enum,self::$enums);
+    }
+}
+
+/**
+ * Form class, used to check data before to sens to database
+ *
+ * it's based on arrays $_POST and $_FILES global variables. Form uses file_manager's functions to manage files with database.
+ * You can find this class in files in action folders of each parts of website. Please use only in these part of website to keep a coherence between data and view
+ *
+ * @example SQL_management/examples.php 73 15 "Calendar Example of use in Action file"
+ * @example SQL_management/examples.php 90 14 "Calendar Example of use in Content file"
+ * @package Calendar
+ * @tags Calendar
+ */
+class Calendar {
+
+    /**
+     * Actual day number
+     * @var int|null
+     */
+    protected $s_day = NULL;
+
+    /**
+     * Actual month number
+     * @var int|null
+     */
+    protected $s_month = NULL;
+
+    /**
+     * Actual month's day number
+     * @var int|null
+     */
+    protected $s_month_days_number = NULL;
+
+    /**
+     * Actual year number
+     * @var int|null
+     */
+    protected $s_year = NULL;
+
+    /**
+     * Actual month's first weekday type
+     * @var false|null|string
+     */
+    protected $s_first_monthday_type = NULL;
+
+    /**
+     * Date of calendar's first monday
+     * @var false|null|string
+     */
+    protected $s_first_monday = NULL;
+
+    /**
+     * Number of first's week of month
+     * @var false|null|string
+     */
+    protected $s_first_weeknumber = NULL;
+
+    /**
+     * Date of month's last sunday
+     * @var false|null|string
+     */
+    protected $s_last_sunday = NULL;
+
+    /**
+     * Number of days to display
+     * @var float|int|null
+     */
+    protected $s_calendar_length = NULL;
+
+    /**
+     * Days' content to display
+     * @var array
+     */
+    protected $s_content_days = array();
+
+    /**
+     * Calendar constructor.
+     *
+     * @param int $year current year
+     * @param int $month current month
+     * @param int $day current day
+     *
+     * @throws Exception Invalid date
+     */
+    function __construct($year, $month, $day)
+    {
+        if(!checkdate($month,$day,$year))
+            throw new Exception('This date doesn\'t exist: '.$day.'-'._MONTH::toString($month).'-'.$year);
+
+        //Set current_choice date to use in Calendar
+        $this->s_year = (int)$year;
+        $this->s_month = (int)$month;
+        $this->s_day = (int)$day;
+
+        //Set information for display format
+        $time_first_monthday = strtotime($year.'-'.$month.'-01');
+
+        $this->s_first_monthday_type = date('N',$time_first_monthday);
+
+        $this->s_first_monday = ($this->s_first_monthday_type > 1)?
+            date('Y-n-d', strtotime('last Monday of '._MONTH::toString($month-1).' '.$year)):
+            date('Y-n-d', $time_first_monthday);
+
+        $this->s_first_weeknumber =  date('W', $time_first_monthday);
+
+        $this->s_month_days_number = cal_days_in_month(CAL_GREGORIAN, $this->s_month, $this->s_year);
+
+        $this->s_last_sunday = date('Y-n-d', strtotime('next Sunday',strtotime($this->s_year.'-'.$this->s_month.'-'.($this->s_month_days_number-1))));
+
+        $this->s_calendar_length = (strtotime($this->s_last_sunday) - strtotime($this->s_first_monday))/(3600*24);
+
+        //Set calendar array
+        $i = 1;
+        $do = TRUE;
+        $past_day = TRUE;
+        while($i < ($this->s_month_days_number + $this->s_first_monthday_type) || $do) {
+
+            $do = ($i%7 != 0);
+            $current = (strtotime($this->s_first_monday) + 3600*24*($i-1) == strtotime($this->s_year.'-'.$this->s_month.'-'.$this->s_day));
+            if($current)
+                $past_day = FALSE;
+
+            $this->s_content_days[$i-1] = array(
+                'date'          => date('Y-m-d', strtotime($this->s_first_monday) + 3600*24*($i-1)),
+                'weekday'       => ($i%7==0)? 7: $i%7,
+                'week_number'   => $this->s_first_weeknumber + floor(($i-1)/7),
+                'not-month'     => ( $this->s_month != date('n', strtotime($this->s_first_monday) + 3600*24*($i-1)) ),
+                'past-day'      => $past_day,
+                'current_choice'       => ( (strtotime($this->s_first_monday) + 3600*24*($i-1)) == strtotime($this->s_year.'-'.$this->s_month.'-'.$this->s_day) )? TRUE: NULL,
+                'content'       => NULL,
+                //'z'             => '<br/>'
+            );
+            $i++;
+        }
+    }
+
+    /**
+     * Display calendar
+     */
+    public function display() {
+        echo '<ol class="calendar">';
+        foreach ($this->s_content_days as &$day) {
+            $this->display_day($day);
+        }
+        echo '</ol>';
+    }
+
+    /**
+     * Protected function used by display method of calendar
+     *
+     * @param array<mixed> $day day to display
+     */
+    protected function display_day(&$day) {
+        $class = 'calendar-day';
+        $class .= ($day['weekday'] == 1)? ' calendar-day--begin-week': '';
+        $class .= ($day['past-day'])? ' calendar-day--past': '';
+        $class .= (isset($day['current_choice']) AND $day['current_choice'])? ' calendar-day--today': '';
+        $class .= ($day['not-month'])? ' calendar-day--not-month': '';
+        $class .= (isset($day['content']))? ' calendar-day--entry': '';
+
+        $data_weekday = _WEEKDAY::toString($day['weekday']);
+        $data_week = $day['week_number'];
+        $day_number = date('d',strtotime($day['date']));
+        $content = $day['content'];
+
+        ?>
+        <li class="<?php echo $class;?>" data-weekday="<?php echo $data_weekday;?>" data-week="<?php echo $data_week;?>">
+            <span class="calendar-day__number"><?php echo $day_number;?></span>
+            <div class="calendar-day__content"><?php echo $content;?></div>
+        </li>
+        <?php
+    }
+
+    /**
+     * Get date of first day of calendar
+     *
+     * @return false|null|string
+     */
+    public function getBeginDate() {
+        return $this->s_first_monday;
+    }
+
+    /**
+     * Get date of last day of calendar
+     *
+     * @return false|null|string
+     */
+    public function getEndDate() {
+        return $this->s_last_sunday;
+    }
+
+    /**
+     * Get index in calendar's days for $date
+     *
+     * @param $date
+     * @return int
+     */
+    public function DateIndex($date) {
+        foreach($this->s_content_days as $key => $day) {
+            if($date === $day['date'])
+                return $key;
+        }
+        return 1;
+    }
+
+    /**
+     * Set the content for a specific date
+     *
+     * @param string $date format YYYY-MM-DD
+     * @param string $content html content
+     */
+    public function SetContentOnDate($date, $content) {
+        $this->s_content_days[$this->DateIndex($date)]['content'] = $content;
+    }
+
+    /**
+     * Add content on a specific date
+     *
+     * @param string $date format YYYY-MM-DD
+     * @param string $content html content
+     */
+    public function AddContentOnDate($date, $content) {
+        $this->s_content_days[$this->DateIndex($date)]['content'] = $content;
+    }
+
+    /**
+     * Set the content for a the day at index
+     *
+     * @param int $index
+     * @param string $content html content
+     */
+    public function SetContentOnIndex($index, $content) {
+        $this->s_content_days[$index]['content'] = $content;
+    }
+
+    /**
+     * Add content for a the day at index
+     *
+     * @param int $index
+     * @param string $content html content
+     */
+    public function AddContentOnIndex($index, $content) {
+        $this->s_content_days[$index]['content'] = $content;
+    }
+
+}

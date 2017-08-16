@@ -1,0 +1,179 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * recapitulate action for PROJECT part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Action
+ * @namespace Project
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+$id = (int) $_GET['id'];
+
+if($lvl_access &gt; 2) {
+    /* If received Update Project form */
+    $fields = array(
+        'fe_p_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE, 'value' =&gt; $id),
+        'fe_p_opened_date' =&gt; array('type' =&gt; 'date', 'required' =&gt; TRUE),
+        'fe_p_closed_date' =&gt; array('type' =&gt; 'date', 'required' =&gt; FALSE),
+    );
+    $sql_request = 'CALL update_project(:fe_p_id, :fe_p_opened_date, :fe_p_closed_date);';
+    try {
+        $modify_customer_form = new Form($bdd, $fields, $sql_request);
+
+        if ($modify_customer_form-&gt;validateForm()) {
+            $modify_customer_form-&gt;sendForm();
+            header('Location: ' . $_SERVER['REQUEST_URI'] . '');
+            exit();
+        }
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+    }
+
+    /* If received Update Customer form */
+    $fields = array(
+        'fe_c_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+        'fe_c_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+        'fe_c_phone' =&gt; array('type' =&gt; 'phone', 'required' =&gt; FALSE),
+        'fe_c_mail' =&gt; array('type' =&gt; 'mail', 'required' =&gt; FALSE)
+    );
+    $sql_request = 'CALL update_customer(:fe_c_id, :fe_c_name, :fe_c_phone, :fe_c_mail);';
+    try {
+        $modify_customer_form = new Form($bdd, $fields, $sql_request);
+
+        if ($modify_customer_form-&gt;validateForm()) {
+            $modify_customer_form-&gt;sendForm();
+            header('Location: ' . $_SERVER['REQUEST_URI'] . '');
+            exit();
+        }
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+    }
+
+    /* If received Update Helicopter form */
+    $fields = array(
+        'fe_h_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+        'fe_h_p_name' =&gt; array('type' =&gt; 'var', 'required' =&gt; TRUE),
+        'fe_h_serial' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'fe_h_time' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+        'fe_h_landing' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; FALSE),
+        'fe_h_status_sheet' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/status_sheet', 'file_name' =&gt; '%var%-status_sheet', 'var' =&gt; 'fe_h_p_name'),
+        'fe_h_delete_status_sheet' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE, 'cond' =&gt; 'fe_h_status_sheet'),
+        'fe_h_log_book' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/log_book', 'file_name' =&gt; '%var%-helicopter-log_book', 'var' =&gt; 'fe_h_p_name'),
+        'fe_h_delete_log_book' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE, 'cond' =&gt; 'fe_h_log_book')
+    );
+    $sql_request = 'CALL update_helicopter(:fe_h_id, :fe_h_serial, :fe_h_time, :fe_h_landing, :fe_h_status_sheet, :fe_h_log_book);';
+    try {
+        $modify_helicopter_form = new Form($bdd, $fields, $sql_request);
+
+        if ($modify_helicopter_form-&gt;validateForm()) {
+            $modify_helicopter_form-&gt;sendForm();
+            header('Location: ' . $_SERVER['REQUEST_URI'] . '');
+            exit();
+        }
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+    }
+
+    /* If received Update Engine 1 form */
+    $fields = array(
+        'fe_e1_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+        'fe_e1_p_name' =&gt; array('type' =&gt; 'var', 'required' =&gt; TRUE),
+        'fe_e1_serial' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'fe_e1_time' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+        'fe_e1_log_book' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/log_book', 'file_name' =&gt; '%var%-engine1-log_book', 'var' =&gt; 'fe_e1_p_name'),
+        'fe_e1_ng_cycle' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+        'fe_e1_nf_cycle' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+        'fe_e1_delete_log_book' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE, 'cond' =&gt; 'fe_e1_log_book')
+    );
+    $sql_request = 'CALL update_engine( :fe_e1_id, :fe_e1_serial, :fe_e1_time, :fe_e1_ng_cycle, :fe_e1_nf_cycle, :fe_e1_log_book);';
+    try {
+        $modify_engine1_form = new Form($bdd, $fields, $sql_request);
+
+        if ($modify_engine1_form-&gt;validateForm()) {
+            $modify_engine1_form-&gt;sendForm();
+            header('Location: ' . $_SERVER['REQUEST_URI'] . '');
+            exit();
+        }
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+    }
+
+    /* If received Update Engine 2 form */
+    $fields = array(
+        'fe_e2_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+        'fe_e2_p_name' =&gt; array('type' =&gt; 'var', 'required' =&gt; TRUE),
+        'fe_e2_serial' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'fe_e2_time' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+        'fe_e2_log_book' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/log_book', 'file_name' =&gt; '%var%-engine2-log_book', 'var' =&gt; 'fe_e2_p_name'),
+        'fe_e2_ng_cycle' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+        'fe_e2_nf_cycle' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+        'fe_e2_delete_log_book' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE, 'cond' =&gt; 'fe_e2_log_book')
+    );
+    $sql_request = 'CALL update_engine( :fe_e2_id, :fe_e2_serial, :fe_e2_time, :fe_e2_ng_cycle, :fe_e2_nf_cycle, :fe_e2_log_book);';
+    try {
+        $modify_engine2_form = new Form($bdd, $fields, $sql_request);
+
+        if ($modify_engine2_form-&gt;validateForm()) {
+            $modify_engine2_form-&gt;sendForm();
+            header('Location: ' . $_SERVER['REQUEST_URI'] . '');
+            exit();
+        }
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+    }
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,3413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>Hammock Helicopter Database</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">Hammock Helicopter Database</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">24</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1635426116"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1635426116" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/_MONTH.html">_MONTH</a></li>
+                                                    <li class="class"><a href="../classes/_WEEKDAY.html">_WEEKDAY</a></li>
+                                                    <li class="class"><a href="../classes/Calendar.html">Calendar</a></li>
+                                                    <li class="class"><a href="../classes/Form.html">Form</a></li>
+                                                    <li class="class"><a href="../classes/Form_modal.html">Form_modal</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content namespace">
+                    <nav>
+                                                
+                                            </nav>
+                    <h1><small></small>\</h1>
+
+                    
+                    
+                    
+                                        <h2>Classes</h2>
+                    <table class="table table-hover">
+                                            <tr>
+                            <td><a href="../classes/_MONTH.html">_MONTH</a></td>
+                            <td><em>Class Abstract _MONTH</em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/_WEEKDAY.html">_WEEKDAY</a></td>
+                            <td><em>Class Abstract _WEEKDAY</em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/Calendar.html">Calendar</a></td>
+                            <td><em>Form class, used to check data before to sens to database</em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/Form.html">Form</a></td>
+                            <td><em>Form class, used to check data before to sens to database</em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/Form_modal.html">Form_modal</a></td>
+                            <td><em>Child of Form. Permit to display a modal form in add of define a form validator</em></td>
+                        </tr>
+                                        </table>
+                                    </div>
+
+                <aside class="span4 detailsbar">
+                    <dl>
+                        <dt>Namespace hierarchy</dt>
+                        <dd class="hierarchy">
+                                                                                                                                                <div class="namespace-wrapper">\</div>
+                        </dd>
+                    </dl>
+                </aside>
+            </div>
+
+            
+                        <div class="row-fluid">
+                <section class="span8 content namespace">
+                    <h2>Functions</h2>
+                </section>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_check_token" name="method_check_token" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">check_token()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">check_token(string  <span class="argument">$timeout</span>, string  <span class="argument">$referer</span>, string  <span class="argument">$name = &#039;&#039;</span>) : boolean</pre>
+                <p><em>Check token validity</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$timeout </td>
+                                <td><p>validity time of token</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$referer </td>
+                                <td><p>requested address to validate the token</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Form Token</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\connection.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_delete_file" name="method_delete_file" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">delete_file()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">delete_file(integer  <span class="argument">$id</span>, \PDO  <span class="argument">$database</span>) : integer|string</pre>
+                <p><em>Delete files from database and website.</em></p>
+                <p>Delete in website if no more references to it in database.
+SQL: <code>DELETE FROM T_FILE WHERE F_ID=:id;</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>id of file</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer|string
+                                            &mdash; <p>ID in database if successfully and -2 if not</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\file_manager.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deleteExcel" name="method_deleteExcel" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">deleteExcel()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deleteExcel(string  <span class="argument">$path</span>) </pre>
+                <p><em>Use in project/action/close.php to close project</em></p>
+                <p>delete excel file</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$path </td>
+                                <td><p>path of excel file</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Project\Action</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>PROJECT Close</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>project/action/close.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_display_modal" name="method_display_modal" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">display_modal()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">display_modal(string  <span class="argument">$text_content</span>) </pre>
+                <p><em>Function to display a modal warning window</em></p>
+                <p>Display a modal warning window on screen with specified text. the system to hide modal is to change display style to &quot;none&quot;.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$text_content </td>
+                                <td><p>text to display</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>UI</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Modal Display</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>ui\modal_warning.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_file_is_used" name="method_file_is_used" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">file_is_used()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">file_is_used(string  <span class="argument">$path</span>, \PDO  <span class="argument">$database</span>) : boolean</pre>
+                <p><em>Check if the file on this path is referenced in database or not</em></p>
+                <p>SQL: <code>SELECT * FROM T_FILE WHERE F_DIRECTORY=:folder AND F_NAME=:name AND F_FORMAT=:format</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$path </td>
+                                <td><p>path of file</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\file_manager.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_generate_token" name="method_generate_token" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">generate_token()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">generate_token(string  <span class="argument">$name = &#039;&#039;</span>) : string</pre>
+                <p><em>Save and return a token</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td><p>optional name for token</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>token to send</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Form Token</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management/connection.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_available_stock_list" name="method_get_available_stock_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_available_stock_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_available_stock_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all available stock parts</em></p>
+                <p>SQL: <code>CALL available_stock_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_STOCK.*</li>
+<li>T_GENERIC_PART.*</li>
+<li>T_FILE po.F_ID                                             AS PO_ID</li>
+<li>T_FILE po.F_DIRECTORY                                      AS PO_DIRECTORY</li>
+<li>T_FILE po.F_NAME                                           AS PO_NAME</li>
+<li>T_FILE po.F_FORMAT                                         AS PO_FORMAT</li>
+<li>T_FILE arc.F_ID                                            AS ARC_ID</li>
+<li>T_FILE arc.F_DIRECTORY                                     AS ARC_DIRECTORY</li>
+<li>T_FILE arc.F_NAME                                          AS ARC_NAME</li>
+<li>T_FILE arc.F_FORMAT                                        AS ARC_FORMAT</li>
+<li>S_QUANTITY_NUMBER - SUM(COALESCE(LPS_QUANTITY_NUMBER,0))   AS S_QUANTITY_AVAILABLE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_current_user_work_for_user" name="method_get_current_user_work_for_user" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_current_user_work_for_user()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_current_user_work_for_user(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_user</span>) : mixed</pre>
+                <p><em>get info from database about all user work for user</em></p>
+                <p>SQL: <code>CALL current_user_work_for_user(:id_user);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_USER_WORK.*</li>
+<li>T_RECORDED_WORK.*</li>
+<li>T_SUB_TASK.*</li>
+<li>T_GENERIC_SUB_TASK.*</li>
+<li>T_WORK_ORDER.*</li>
+<li>T_PROJECT.*</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_user </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_current_user_work_list" name="method_get_current_user_work_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_current_user_work_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_current_user_work_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all user work</em></p>
+                <p>SQL: <code>CALL current_user_work_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_USER_WORK.*</li>
+<li>T_USER.*</li>
+<li>T_RECORDED_WORK.*</li>
+<li>T_SUB_TASK.*</li>
+<li>T_GENERIC_SUB_TASK.*</li>
+<li>T_WORK_ORDER.*</li>
+<li>T_PROJECT.*</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_engine_info" name="method_get_engine_info" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_engine_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_engine_info(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_engine</span>) : mixed</pre>
+                <p><em>get info from database about an engine</em></p>
+                <p>SQL: <code>SELECT * FROM T_ENGINE INNER JOIN T_GENERIC_AIRCRAFT ON E_ID_GA=GA_ID WHERE E_ID=:id</code></p>
+<p>ARRAY:</p>
+<ul>
+<li>E_ID</li>
+<li>E_ID_GA</li>
+<li>E_ID_LOG_BOOK</li>
+<li>E_SERIAL</li>
+<li>E_NAME</li>
+<li>E_TYPE</li>
+<li>E_TIME</li>
+<li>E_NG_CYCLE</li>
+<li>E_NF_CYCLE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_engine </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_file_info" name="method_get_file_info" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_file_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_file_info(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id</span>) : mixed</pre>
+                <p><em>get info from database about a specific file.</em></p>
+                <p>SQL: <code>SELECT F_DIRECTORY, F_NAME, F_FORMAT FROM T_FILE WHERE F_ID=:id</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>id of file</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array of file's information</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\file_manager.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_file_path" name="method_get_file_path" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_file_path()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_file_path(integer  <span class="argument">$id</span>, \PDO  <span class="argument">$database</span>) : boolean|string</pre>
+                <p><em>get path of file from database with corresponding ID</em></p>
+                <p>SQL: <code>SELECT F_DIRECTORY, F_NAME, F_FORMAT FROM T_FILE WHERE F_ID=:id</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>id of file</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean|string
+                                            &mdash; <p>false if doesn't exist</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\file_manager.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_filename" name="method_get_filename" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_filename()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_filename(integer  <span class="argument">$id</span>, \PDO  <span class="argument">$database</span>) : boolean|string</pre>
+                <p><em>get name of a file from database with corresponding ID</em></p>
+                <p>SQL: <code>SELECT F_DIRECTORY, F_NAME, F_FORMAT FROM T_FILE WHERE F_ID=:id</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>id of file</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean|string
+                                            &mdash; <p>false if doesn't exist</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\file_manager.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_generic_aircraft_list_by_type" name="method_get_generic_aircraft_list_by_type" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_generic_aircraft_list_by_type()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_generic_aircraft_list_by_type(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$type</span>) : array</pre>
+                <p><em>get info from database about all generic aircraft by type</em></p>
+                <p>SQL: <code>CALL generic_aircraft_list_by_type(:type);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>GA_ID</li>
+<li>GA_NAME</li>
+<li>GA_CONSTRUCTOR</li>
+<li>GA_TYPE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$type </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_gp_list" name="method_get_gp_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_gp_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_gp_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all generic parts</em></p>
+                <p>SQL: <code>CALL generic_part_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>GP_ID</li>
+<li>GP_NUMBER</li>
+<li>GP_NAME</li>
+<li>GP_TYPE</li>
+<li>GP_LOCATION</li>
+<li>GP_DESCRIPTION</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_gst_list_for_manual" name="method_get_gst_list_for_manual" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_gst_list_for_manual()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_gst_list_for_manual(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_manual</span>) : array</pre>
+                <p><em>get info from database about all generic sub tasks for a manual</em></p>
+                <p>SQL: <code>SELECT * FROM T_GENERIC_SUB_TASK WHERE GST_ID_M=:id ORDER BY GST_NUMBER;</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>GST_ID</li>
+<li>GST_ID_M</li>
+<li>GST_NUMBER</li>
+<li>GST_DESCRIPTION</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_manual </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_ip" name="method_get_ip" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_ip()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_ip() : string</pre>
+                <p><em>Get visitor IP address</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Token</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\connection.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_lps_for_pp_s_id" name="method_get_lps_for_pp_s_id" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_lps_for_pp_s_id()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_lps_for_pp_s_id(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$pp_id</span>, integer  <span class="argument">$s_id</span>) : mixed</pre>
+                <p><em>get info from database about link_pp_s for project part and stock</em></p>
+                <p>SQL: <code>CALL lps_for_pp_s_id(:pp_id, :s_id);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>LPS_ID</li>
+<li>LPS_ID_PP</li>
+<li>LPS_ID_S</li>
+<li>LPS_QUANTITY_NUMBER</li>
+<li>LPS_DATE_OUT</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$pp_id </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$s_id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_manual_list_for_aircraft" name="method_get_manual_list_for_aircraft" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_manual_list_for_aircraft()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_manual_list_for_aircraft(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_aircraft</span>) : array|null</pre>
+                <p><em>get info from database about all manuals for an aircraft</em></p>
+                <p>SQL: <code>SELECT M_ID, M_NAME, GA_NAME FROM T_MANUAL INNER JOIN T_GENERIC_AIRCRAFT ON M_ID_GA=GA_ID WHERE M_ID_GA=:id ORDER BY M_NAME;</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>M_ID</li>
+<li>M_NAME</li>
+<li>GA_NAME</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_aircraft </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array|null
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_not_performed_sub_task_list" name="method_get_not_performed_sub_task_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_not_performed_sub_task_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_not_performed_sub_task_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all not performed sub tasks</em></p>
+                <p>SQL: <code>CALL not_performed_sub_task_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_SUB_TASK.*</li>
+<li>T_GENERIC_SUB_TASK.*</li>
+<li>T_WORK_ORDER.*</li>
+<li>T_PROJECT.*</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_ordered_parts" name="method_get_ordered_parts" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_ordered_parts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_ordered_parts(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all ordered parts</em></p>
+                <p>SQL: <code>CALL ordered_part_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_STOCK AS s.*</li>
+<li>T_GP AS gp.*</li>
+<li>T_FILE po.F_ID             AS PO_ID</li>
+<li>T_FILE po.F_DIRECTORY      AS PO_DIRECTORY</li>
+<li>T_FILE po.F_NAME           AS PO_NAME</li>
+<li>T_FILE po.F_FORMAT         AS PO_FORMAT</li>
+<li>T_FILE arc.F_ID            AS ARC_ID</li>
+<li>T_FILE arc.F_DIRECTORY     AS ARC_DIRECTORY</li>
+<li>T_FILE arc.F_NAME          AS ARC_NAME</li>
+<li>T_FILE arc.F_FORMAT        AS ARC_FORMAT</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_pp_list_by_po_for_wo" name="method_get_pp_list_by_po_for_wo" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_pp_list_by_po_for_wo()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_pp_list_by_po_for_wo(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$wo_id</span>) : array</pre>
+                <p><em>get info from database about all project parts by po for work order</em></p>
+                <p>SQL: <code>CALL project_part_list_by_po_for_specific_work_order(:id);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_LINK_PP_S.*</li>
+<li>T_SUB_TASK.*</li>
+<li>T_GENERIC_SUB_TASK.*</li>
+<li>T_WORK_ORDER.*</li>
+<li>T_STOCK.*</li>
+<li>T_GENERIC_PART.*</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$wo_id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_pp_list_for_wo" name="method_get_pp_list_for_wo" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_pp_list_for_wo()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_pp_list_for_wo(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$wo_id</span>) : array</pre>
+                <p><em>get info from database about all project parts for a WO</em></p>
+                <p>Used for ERV</p>
+<p>SQL: <code>CALL project_part_list_for_specific_work_order(:id);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_PROJECT_PART.*</li>
+<li>T_GENERIC_PART.*</li>
+<li>T_SUB_TASK.*</li>
+<li>T_GENERIC_SUB_TASK.*</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$wo_id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_project_info" name="method_get_project_info" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_project_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_project_info(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_project</span>) : mixed</pre>
+                <p><em>get info from database about a specific project</em></p>
+                <p>SQL: <code>CALL project_specific(:id);</code></p>
+<p>ARRAY:</p>
+<ul>
+<li>P_ID id</li>
+<li>P_NAME p_name</li>
+<li>C_NAME c_name</li>
+<li>GA_NAME ga_name</li>
+<li>H_SERIAL h_serial</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_project </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_project_info_from_helico" name="method_get_project_info_from_helico" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_project_info_from_helico()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_project_info_from_helico(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_helico</span>) : mixed</pre>
+                <p><em>get info from database about a specific project from helico id</em></p>
+                <p>SQL: <code>CALL project_recapitulate_from_helicopter_ID(:id);</code></p>
+<p>ARRAY:</p>
+<ul>
+<li>P_ID</li>
+<li>P_ID_C</li>
+<li>P_ID_H</li>
+<li>P_NAME</li>
+<li>P_OPENED_DATE</li>
+<li>P_CLOSED_DATE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_helico </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_project_list" name="method_get_project_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_project_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_project_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about a all projects</em></p>
+                <p>SQL: <code>CALL project_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>P_ID id</li>
+<li>P_NAME p_name</li>
+<li>C_NAME c_name</li>
+<li>GA_NAME ga_name</li>
+<li>H_SERIAL h_serial</li>
+<li>H_ID h_id</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_recorded_work_list" name="method_get_recorded_work_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_recorded_work_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_recorded_work_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all recorded work</em></p>
+                <p>SQL: <code>CALL recorded_work_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_RECORDED_WORK.*</li>
+<li>T_SUB_TASK.*</li>
+<li>T_GENERIC_SUB_TASK.*</li>
+<li>T_WORK_ORDER.*</li>
+<li>T_PROJECT.*</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_st_list_for_wo" name="method_get_st_list_for_wo" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_st_list_for_wo()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_st_list_for_wo(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_wo</span>) : array</pre>
+                <p><em>get info from database about all sub tasks for a work order</em></p>
+                <p>SQL: <code>CALL sub_task_list_for_specific_work_order(:id_wo);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_SUB_TASK.*</li>
+<li>T_GENERIC_SUB_TASK.*</li>
+<li>T_MANUAL.*</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_wo </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_stock_available_list_by_po_from_gp_id" name="method_get_stock_available_list_by_po_from_gp_id" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_stock_available_list_by_po_from_gp_id()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_stock_available_list_by_po_from_gp_id(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$gp_id</span>) : array</pre>
+                <p><em>get info from database about all available stock parts by po from gp</em></p>
+                <p>SQL: <code>CALL available_stock_list_by_po_from_gp_id(:id);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_STOCK.*</li>
+<li>SUM(COALESCE(LPS_QUANTITY_NUMBER,0))                       AS S_QUANTITY_USED</li>
+<li>S_QUANTITY_NUMBER - SUM(COALESCE(LPS_QUANTITY_NUMBER,0))   AS S_QUANTITY_AVAILABLE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$gp_id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_stock_list" name="method_get_stock_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_stock_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_stock_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all stock parts</em></p>
+                <p>SQL: <code>CALL stock_list();</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>T_STOCK.*</li>
+<li>T_GENERIC_PART.*</li>
+<li>T_FILE po.F_ID                         AS PO_ID</li>
+<li>T_FILE po.F_DIRECTORY                  AS PO_DIRECTORY</li>
+<li>T_FILE po.F_NAME                       AS PO_NAME</li>
+<li>T_FILE po.F_FORMAT                     AS PO_FORMAT</li>
+<li>T_FILE arc.F_ID                        AS ARC_ID</li>
+<li>T_FILE arc.F_DIRECTORY                 AS ARC_DIRECTORY</li>
+<li>T_FILE arc.F_NAME                      AS ARC_NAME</li>
+<li>T_FILE arc.F_FORMAT                    AS ARC_FORMAT</li>
+<li>SUM(COALESCE(LPS_QUANTITY_NUMBER,0))   AS S_QUANTITY_USED</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_stock_used_list_by_po_from_pp_id" name="method_get_stock_used_list_by_po_from_pp_id" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_stock_used_list_by_po_from_pp_id()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_stock_used_list_by_po_from_pp_id(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$pp_id</span>) : array</pre>
+                <p><em>get info from database about all used stock parts by po for pp</em></p>
+                <p>SQL: <code>CALL used_stock_list_by_po_from_pp(:id);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>LPS_ID</li>
+<li>S_ID_GP</li>
+<li>S_RECEIVED_DATE</li>
+<li>S_RECEIVED</li>
+<li>S_ID_PURCHASE_ORDER</li>
+<li>S_PO_NAME</li>
+<li>LPS_QUANTITY_NUMBER</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$pp_id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_user_info" name="method_get_user_info" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_user_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_user_info(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_user</span>) : mixed</pre>
+                <p><em>get info from database about an user</em></p>
+                <p>SQL: <code>SELECT * FROM T_USER WHERE U_ID=:id;</code></p>
+<p>ARRAY:</p>
+<ul>
+<li>U_ID</li>
+<li>U_NAME</li>
+<li>U_PASSWORD</li>
+<li>U_STATUS</li>
+<li>U_CODE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_user </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_user_list" name="method_get_user_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_user_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_user_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all users</em></p>
+                <p>SQL: <code>SELECT U_ID, U_NAME, U_CODE FROM T_USER;</code></p>
+<p>ARRAY OF ARRAY</p>
+<ul>
+<li>U_ID</li>
+<li>U_NAME</li>
+<li>U_CODE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_user_work_for_rw" name="method_get_user_work_for_rw" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_user_work_for_rw()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_user_work_for_rw(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_rw</span>) : array</pre>
+                <p><em>get info from database about all user work for a recorded work</em></p>
+                <p>SQL: <code>CALL user_work_for_rw(:id_rw);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>UW_ID</li>
+<li>UW_ID_RW</li>
+<li>UW_ID_U</li>
+<li>UW_DATETIME_BEGIN</li>
+<li>UW_DATETIME_END</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_rw </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_user_work_for_rw_and_user" name="method_get_user_work_for_rw_and_user" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_user_work_for_rw_and_user()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_user_work_for_rw_and_user(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_rw</span>, integer  <span class="argument">$id_user</span>) : array</pre>
+                <p><em>get info from database about all user work for a recorded work and user</em></p>
+                <p>SQL: <code>CALL user_work_for_rw_and_user(:id_rw, :id_u);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>UW_ID</li>
+<li>UW_ID_RW</li>
+<li>UW_ID_U</li>
+<li>UW_DATETIME_BEGIN</li>
+<li>UW_DATETIME_END</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_rw </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_user </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_vendor_list" name="method_get_vendor_list" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_vendor_list()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_vendor_list(\PDO  <span class="argument">$database</span>) : array</pre>
+                <p><em>get info from database about all vendor</em></p>
+                <p>SQL: <code>SELECT * FROM T_VENDOR;</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>V_ID</li>
+<li>V_NAME</li>
+<li>V_ADDRESS</li>
+<li>V_CITY</li>
+<li>V_COUNTRY</li>
+<li>V_PHONE</li>
+<li>V_MAIL</li>
+<li>V_CONTACT</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_wo_info" name="method_get_wo_info" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_wo_info()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_wo_info(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_wo</span>) : mixed</pre>
+                <p><em>get info from database about a specific work order</em></p>
+                <p>SQL: <code>SELECT * FROM T_WORK_ORDER WHERE WO_ID=:id_wo;</code></p>
+<p>ARRAY:</p>
+<ul>
+<li>WO_ID</li>
+<li>WO_ID_H</li>
+<li>WO_NAME</li>
+<li>WO_OPENED_DATE</li>
+<li>WO_CLOSED_DATE</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_wo </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_wo_name_list_for_project" name="method_get_wo_name_list_for_project" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">get_wo_name_list_for_project()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_wo_name_list_for_project(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_project</span>) : array</pre>
+                <p><em>get info from database about all work order for a project</em></p>
+                <p>SQL: <code>CALL work_order_name_list_for_specific_project(:id);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>WO_ID</li>
+<li>WO_NAME</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_project </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>array of data</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_is_pn_available" name="method_is_pn_available" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">is_pn_available()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">is_pn_available(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$number</span>, integer  <span class="argument">$id</span>) : boolean</pre>
+                <p><em>get info from database about if a part is available or not</em></p>
+                <p>SQL: <code>CALL generic_part_by_part_number(:number, :id);</code></p>
+<p>ARRAY OF ARRAY:</p>
+<ul>
+<li>GP_ID</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$number </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL Getter</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\data_getters.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_min_to_hour" name="method_min_to_hour" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">min_to_hour()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">min_to_hour(integer  <span class="argument">$min</span>) : string</pre>
+                <p><em>transform a int number a minutes to hour string format</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$min </td>
+                                <td><p>time in minutes</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>format Ex: &quot;4h35&quot;</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Management\Action</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Calendar</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>management\action\managementHome.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_reference_file" name="method_reference_file" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">reference_file()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">reference_file(string  <span class="argument">$path</span>, \PDO  <span class="argument">$database</span>, boolean  <span class="argument">$maxsize = FALSE</span>, boolean  <span class="argument">$extensions = FALSE</span>) : integer|string</pre>
+                <p><em>Reference file from a directory in database</em></p>
+                <p>SQL: <code>INSERT INTO T_FILE ('F_ID', 'F_NAME', 'F_DIRECTORY', 'F_SIZE', 'F_FORMAT', 'F_MD5') VALUES (NULL, :f_name, :f_directory, :f_size, :f_format, :f_md5);</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$path </td>
+                                <td><p>path of file</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$maxsize </td>
+                                <td><p>maximum size</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$extensions </td>
+                                <td><p>authorized extensions</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer|string
+                                            &mdash; <p>if of file in database or -2 if error</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\file_manager.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_removeFromStock" name="method_removeFromStock" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">removeFromStock()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">removeFromStock(\PDO  <span class="argument">$database</span>, integer  <span class="argument">$id_lps</span>, integer  <span class="argument">$id_part</span>, integer  <span class="argument">$qty</span>) </pre>
+                <p><em>Use in project/action/close.php to close project</em></p>
+                <p>Remove a part from stock</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_lps </td>
+                                <td><p>lps that will be removed</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_part </td>
+                                <td><p>part that will be removed</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$qty </td>
+                                <td><p>quantity to remove</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Project\Action</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>PROJECT Close</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>project/action/close.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_str_link_references" name="method_str_link_references" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">str_link_references()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">str_link_references(string  <span class="argument">$str</span>, array  <span class="argument">$ref_structure</span>, array  <span class="argument">$ref_data</span>) : mixed</pre>
+                <p><em>Replace defined structure in str par defined references</em></p>
+                <p>Param1 : $ref_structure
+<code>array( '&lt;REF&gt;' =&gt; array('VALUE' =&gt; &lt;value&gt;, 'N' =&gt; &lt;reference|number&gt;, 'array_name' =&gt; &lt;array&gt;) );</code></p>
+<p>Param2 : $ref_data
+<code>array( '&lt;data_name&gt;' =&gt; array( 'array' =&gt; &lt;array|string&gt;, 'separator' =&gt; &lt;separator&gt;) );</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$ref_structure </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$ref_data </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>type of array is string and separator not set</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>string</p>
+                                    				
+                                                            <h4>Examples</h4>
+                                                                <h5>&quot;Reference Helper example of use&quot;</h5>
+                        <pre class="pre-scrollable">/* ---------- References Helper Example ---------- */
+
+/* Prepare data for str_link_reference function */
+$structure = array(
+    &#039;DOC&#039; =&gt; array(&#039;VALUE&#039; =&gt; $wo_name),
+    &#039;P&#039; =&gt; array(&#039;VALUE&#039; =&gt; $data_project[&#039;P_NAME&#039;]),
+    &#039;M&#039; =&gt; array(&#039;VALUE&#039; =&gt; NULL),
+    &#039;H&#039; =&gt; array(&#039;N&#039; =&gt; &#039;H_SERIAL&#039;, &#039;array_name&#039; =&gt; &#039;project&#039;),
+    &#039;E1&#039; =&gt; array(&#039;N&#039; =&gt; &#039;E_SERIAL&#039;, &#039;array_name&#039; =&gt; &#039;engine1&#039;),
+    &#039;E2&#039; =&gt; array(&#039;N&#039; =&gt; &#039;E_SERIAL&#039;, &#039;array_name&#039; =&gt; &#039;engine2&#039;),
+    &#039;R&#039; =&gt; array(&#039;N&#039; =&gt; &#039;number&#039;, &#039;array_name&#039; =&gt; &#039;references&#039;),
+    &#039;PI&#039; =&gt; array(&#039;N&#039; =&gt; &#039;number&#039;, &#039;array_name&#039; =&gt; &#039;installed&#039;),
+    &#039;PR&#039; =&gt; array(&#039;N&#039; =&gt; &#039;number&#039;, &#039;array_name&#039; =&gt; &#039;removed&#039;)
+);
+$data = array(
+    &#039;project&#039; =&gt; array( &#039;array&#039; =&gt; $data_project),
+    &#039;engine1&#039; =&gt; array( &#039;array&#039; =&gt; $data_engine1),
+    &#039;engine2&#039; =&gt; array( &#039;array&#039; =&gt; $data_engine2),
+    &#039;references&#039; =&gt; array( &#039;array&#039; =&gt; NULL, &#039;separator&#039; =&gt; &#039;;;&#039;),
+    &#039;installed&#039; =&gt; array( &#039;array&#039; =&gt; NULL, &#039;separator&#039; =&gt; &#039;;;&#039;),
+    &#039;removed&#039; =&gt; array( &#039;array&#039; =&gt; NULL, &#039;separator&#039; =&gt; &#039;;;&#039;),
+);
+
+echo str_link_references($sub_task[&#039;ST_WORK_REQUIRED&#039;], $structure, $data);</pre>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>SQL</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>SQL References</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\reference_helper.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_upload_file" name="method_upload_file" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">upload_file()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">upload_file(string  <span class="argument">$index</span>, string  <span class="argument">$destination</span>, string  <span class="argument">$name</span>, \PDO  <span class="argument">$database</span>, boolean  <span class="argument">$maxsize = FALSE</span>, boolean  <span class="argument">$extensions = FALSE</span>) : integer|string</pre>
+                <p><em>Upload a file from $_FILES</em></p>
+                <p>SQL: <code>INSERT INTO T_FILE ('F_ID', 'F_NAME', 'F_DIRECTORY', 'F_SIZE', 'F_FORMAT', 'F_MD5') VALUES (NULL, :f_name, :f_directory, :f_size, :f_format, :f_md5);</code></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$index </td>
+                                <td><p>index of file in $_FILES</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$destination </td>
+                                <td><p>path to send file</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td><p>name of file</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$maxsize </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$extensions </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer|string
+                                            &mdash; <p>ID in database if successfully and -2 if not</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper"></div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            tags
+                        </th>
+                        <td>
+                                                                                            <p>Files</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            source
+                        </th>
+                        <td>
+                                                                                            <p>SQL_management\file_manager.php</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+        </div>
+    </section>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on August 15th, 2017 at 07:15.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

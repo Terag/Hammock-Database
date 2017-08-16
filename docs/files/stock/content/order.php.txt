@@ -1,0 +1,231 @@
+<?php
+/**
+ * Order content for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Content
+ * @namespace Stock
+ * @filesource
+ */
+
+if($UserConnected AND isset($_GET['page'])) {
+
+    $data_projects = $bdd->query('SELECT P_ID, P_NAME FROM T_PROJECT;')->fetchAll();
+
+    $data_vendors = $bdd->query('SELECT V_ID, V_NAME FROM T_VENDOR ORDER BY V_NAME;')->fetchAll();
+
+    ?>
+
+    <!------------------------------- Content ------------------------------->
+    <div class="container content">
+        <script src="/js/file_creator/Creator.js"></script>
+        <script>
+            // Creating prototype to use in creator
+            var creator = new Creator('ListCreator_area', '/stock/?page=order');
+        </script>
+        <form id="form_creator" action="" onsubmit="xmlhttpPost(document.location.origin + '/stock/?page=order&excel=1', 'form_creator', 'download', '<button class=\'button\' type=\'button\' disabled><img src=\'/img/wait_rot.gif\'/></button>');$('input[name=\'f_g_add_receive\']').prop('checked', false);return false;" method="post">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 center text-center window_grey window_font nopadding">
+                    <h2 id="title">RFQ/PO creator</h2>
+                    <div class="col-md-6 window_white">
+                        <div class="row window_grey">
+                            <h3>Global Information</h3>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-4">
+                                <span class="custom-dropdown custom-dropdown--white">
+                                    <select class="form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white" name="f_g_doctype">
+                                        <option value="0">Purchase Order</option>
+                                        <option value="1">Request For Quotation</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="f_g_name">
+                                    Name
+                                </label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input class="form_input" type="text" name="f_g_name" required/>
+                            </div>
+                        </div>
+                        <div class="row window_padding" id="add_receive">
+                            <div class="col-lg-12" style="text-align: left;">
+                                <input class="form_input" type="checkbox" value="1" style="width: 20px;" name="f_g_add_receive"/> Add Parts in Receive (PO Online)
+                            </div>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-6">
+                                <span class="custom-dropdown custom-dropdown--white">
+                                    <select class="form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white" name="f_g_project">
+                                        <option value="0">Project</option>
+                                        <?php foreach($data_projects as $project) { ?>
+                                            <option value="<?php echo $project['P_NAME'];?>"><?php echo $project['P_NAME']?></option>
+                                        <?php } ?>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="f_g_project_name">(Project)</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="text" name="f_g_project_name">
+                            </div>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-2">
+                                <label for="f_rep">Rep</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="text" value="Mark D McGregor" name="f_g_rep">
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="f_date">Date</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="date" name="f_g_date">
+                            </div>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-2">
+                                <label for="f_phone">Phone</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="tel" value="+60122869186" name="f_g_phone">
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="f_location">Location</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="text" value="Skypark RAC, Block C" name="f_g_location">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 window_white">
+                        <div class="row window_grey">
+                            <h3>Vendor Information</h3>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-6">
+                                <span class="custom-dropdown custom-dropdown--white">
+                                    <select class="form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white"
+                                    onclick="select_edit_inputs('vendor_select', document.location + '&VENDOR=', {
+                                        'address' : 'f_v_address',
+                                        'city' : 'f_v_city',
+                                        'country' : 'f_v_country',
+                                        'phone' : 'f_v_phone',
+                                        'mail' : 'f_v_mail',
+                                        'contact' : 'f_v_contact',
+                                        'name' : 'f_v_name'
+                                    });" id="vendor_select" name="f_v_vendor">
+                                        <option value="0">Vendor</option>
+                                        <option value="-1">New</option>
+                                        <?php foreach($data_vendors as $vendor) { ?>
+                                            <option value="<?php echo $vendor['V_ID'];?>"><?php echo $vendor['V_NAME']?></option>
+                                        <?php } ?>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="f_v_name">Name</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="text" name="f_v_name" required/>
+                            </div>
+                        </div>
+                        <div class="row window_padding" id="vendor_info">
+                            <div class="col-lg-6" style="text-align: left;">
+                                <input class="form_input" type="checkbox" value="1" style="width: 20px;" name="f_v_vendor_info"/> Edit Vendor info
+                            </div>
+                            <div class="col-lg-offset-2 col-lg-4">
+                                <span class="custom-dropdown custom-dropdown--white">
+                                    <select class="form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white" name="f_g_currency">
+                                        <option value="MYR">MYR</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="USD">USD</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-2">
+                                <label for="f_v_address">Address</label>
+                            </div>
+                            <div class="col-lg-10">
+                                <input class="form_input" type="text" name="f_v_address">
+                            </div>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-2">
+                                <label for="f_v_city">City</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="text" name="f_v_city">
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="f_v_country">Country</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="text" name="f_v_country">
+                            </div>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-2">
+                                <label for="f_v_phone">Phone</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="tel" name="f_v_phone">
+                            </div>
+                            <div class="col-lg-2">
+                                <label for="f_v_contact">Contact</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input class="form_input" type="text" name="f_v_contact">
+                            </div>
+                        </div>
+                        <div class="row window_padding">
+                            <div class="col-lg-2">
+                                <label for="f_v_mail">Mail</label>
+                            </div>
+                            <div class="col-lg-10">
+                                <input class="form_input" type="text" name="f_v_mail">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1 text-center window_grey window_font nopadding" style="margin-top: 3%;">
+                        <h2 id="title">Part List</h2>
+                        <div class="col-lg-12" id="ListCreator_area">
+                            <!-- LIST PART Engine -->
+                        </div>
+                        <script>
+                            creator.start();
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 3%;">
+                <div class="col-lg-2 col-lg-offset-3">
+                    <a href="./"><button class="button">Back</button></a>
+                </div>
+                <div class="col-lg-2" id="download">
+
+                </div>
+                <div class="col-lg-2">
+                    <button id="submit-form" class="button" type="submit">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+<?php } else {
+    header('Location: ../');
+    exit();
+}

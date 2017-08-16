@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Edit content for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Content
+ * @namespace Stock
+ * @filesource
+ */
+
+if(isset($_SESSION['error'])) {
+    display_modal($_SESSION['error']-&gt;getMessage());
+}
+
+/*Get $data_stock_parts var from database*/
+$data_generic_parts = get_gp_list($bdd); ?&gt;
+
+&lt;!-- Form Content --&gt;
+&lt;?php $new_generic_part_form-&gt;display_Form();?&gt;
+
+&lt;!-- Merge form --&gt;
+&lt;?php if($lvl_access&gt;3) {$merge_generic_parts-&gt;display_Form();}?&gt;
+
+&lt;!-- Information Box --&gt;
+&lt;div id=&quot;info_modal&quot; class=&quot;modal&quot;&gt;
+    &lt;div class=&quot;container modal-content animate form-style&quot;&gt;
+        &lt;span onclick=&quot;document.getElementById('info_modal').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+        &lt;h2&gt;&lt;strong&gt;References helper&lt;/strong&gt;&lt;/h2&gt;
+        &lt;div class=&quot;row&quot; style=&quot;margin-top: 15px;&quot;&gt;
+            &lt;div class=&quot;col-lg-12&quot;&gt;
+                &lt;p&gt;
+                    &lt;b&gt;Please use ;; to separate elements in :&lt;/b&gt;
+                &lt;/p&gt;
+                &lt;p&gt;- Location&lt;/p&gt;
+                &lt;p&gt;- Part Numbers&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Main Content --&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 8%;&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center&quot;&gt;
+            &lt;h2&gt;Generic Parts Information&lt;/h2&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 1%;margin-bottom: 1%;&quot;&gt;
+                &lt;div class=&quot;col-lg-2 col-lg-offset-3&quot;&gt;
+                    &lt;a href=&quot;./&quot;&gt;&lt;button class=&quot;button&quot;&gt;Back&lt;/button&gt;&lt;/a&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='block'&quot; type=&quot;submit&quot;&gt;New Part&lt;/button&gt;
+                &lt;/div&gt;
+                &lt;?php if($lvl_access&gt;3){;?&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('merge').style.display='block'&quot; type=&quot;submit&quot;&gt;Merge&lt;/button&gt;
+                &lt;/div&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+                &lt;div class=&quot;col-lg-11&quot;&gt;
+                    &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(5, 'table')&quot; placeholder=&quot;Search..&quot; title=&quot;Type in a name&quot; /&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-1&quot;&gt;
+                    &lt;button class=&quot;btn2 add&quot; type=&quot;button&quot; onclick=&quot;$('#info_modal').toggle();&quot;&gt;&lt;i class=&quot;fa fa-question&quot; style=&quot;width: 50px;padding: 10px 20px 10px 20px;&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                &lt;div class=&quot;tr header&quot;&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:3%;&quot;&gt;ID&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Part Number&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:20%;&quot;&gt;Location&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:20%;&quot;&gt;Description&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Note&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;?php foreach($data_generic_parts as &amp;$generic_part) { ?&gt;
+                    &lt;form id=&quot;delete_row-&lt;?php echo $generic_part['GP_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                        &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $generic_part['GP_ID'];?&gt;&quot; /&gt;
+                    &lt;/form&gt;
+                    &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $generic_part['GP_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $generic_part['GP_ID'];?&gt;', 'row-&lt;?php echo $generic_part['GP_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; action=&quot;?page=edit&quot; method=&quot;post&quot;&gt;
+                        &lt;?php include('row/edit.php');?&gt;
+                    &lt;/form&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

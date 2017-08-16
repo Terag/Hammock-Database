@@ -1,0 +1,389 @@
+<?php
+/**
+ * File to describe forms class. Used to check data passed to server, upload its with a sql request and manage files.
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package SQL
+ */
+
+include_once('file_manager.php');
+
+/**
+ * Form class, used to check data before to sens to database
+ *
+ * it's based on arrays $_POST and $_FILES global variables. Form uses file_manager's functions to manage files with database.
+ * You can find this class in files in action folders of each parts of website. Please use only in these part of website to keep a coherence between data and view
+ *
+ * @example SQL_management/examples.php 3 31  "Form example of use"
+ * @package SQL\Form
+ * @tags Form
+ */
+class Form {
+
+    /**
+     * uses to communicate with database
+     * @var PDO $database
+     */
+    protected $database;
+
+    /**
+     * form's fields definition and use
+     * @var array[] $fields
+     */
+    protected $fields = array();
+
+    /**
+     * fields' values
+     * @var array[] string|int|float $values
+     */
+    protected $values = array();
+
+    /**
+     * sql procedure to send form
+     * @var string $sql
+     */
+    protected $sql = NULL;
+
+    /**
+     * list of id of file to delete
+     * @var string $delete_files
+     */
+    protected $delete_files = array();
+
+    /**
+     * array to stock 'var'
+     */
+    protected $var_values = array();
+
+    /**
+     * validation of Form
+     */
+    protected $valide = false;
+    /**
+     * is validation done ?
+     */
+    protected $check = false;
+
+
+    /**
+     * Constructor of Form Class
+     *
+     * Keys of fields have to be similar as the parameters names in sql_procedure.<br/>
+     * Fields parameters is an array of array. sub_array have to respect a certain structure :<br/>
+     * <br/>
+     * 'KEY' => array(<br/>
+     *  -----NEEDED <br/>
+     *  'type' => '<number-<int|float>|text|file|date|hidden<int|float>>',<br/>
+     *  'required' => <TRUE|FALSE>,<br/>
+     *  -----IF TYPE = 'file' <br/>
+     *  'var' => string (key in $_FILE) <br/>
+     *  'file_destination' => string <br/>
+     *  'file_name' => string <br/>
+     *  -----OPTIONAL <br/>
+     *  'value' => string (check value of field) <br/>
+     *
+     * @param PDO $bdd "Database PDO to communicate with database"
+     * @param array $fields_array "Usage in example"
+     * @param string $sql_procedure 'SQL request to send with fields
+     *
+     * @throws Exception Invalid array field
+     * @throws Exception File field information are missing
+     * @throws Exception hidden field information are missing
+     * @throws Exception $sql_procedure is not a string
+     */
+    function __construct(PDO &$bdd, array $fields_array, $sql_procedure)  {
+
+        if(!empty($fields_array) AND is_array($fields_array)) {
+
+            foreach ($fields_array as $key => $field) {
+
+                if (!isset($field['type'], $field['required'])) {
+                    throw new Exception('$field is not a valid array');
+                }
+
+                switch ($field['type']) {
+                    case 'file' :
+                        if(!isset($field['file_destination']) AND !isset($field['file_name'])) {
+                            throw new Exception($key.' file field information are missing');
+                        }
+                        break;
+                    case 'hidden' :
+                        if(!isset($field['value'])) {
+                            throw new Exception($key.' hidden field information are missing');
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } else {
+            throw new Exception('$fields_array is not an array');
+        }
+
+        $this->fields = &$fields_array;
+        $this->database = &$bdd;
+
+        if(!is_string($sql_procedure)) {
+            throw new Exception('$sql_procedure is not a string');
+        }
+        /*if(count($this->fields) != substr_count($sql_procedure, ':')) {
+            throw new Exception('number of fields and sql_required fields are different, need '.substr_count($sql_procedure, ':').' and received '.count($this->fields));
+        }*/
+
+        $this->sql = $sql_procedure;
+    }
+
+    /**
+     * validate form and check all fields depending on array provided to the constructor
+     *
+     * @return bool
+     *
+     * @throws Exception Error, on of form field value is incorrect
+     * @throws Exception Invalid Date Format, format : YYYY-MM-DD
+     */
+    public function validateForm() {
+
+        if ($this->check == false && !empty($_POST)) {
+
+            foreach ($this->fields as $key => $field) {
+
+                if($field['type'] != 'file') {
+
+                    if(isset($_POST[$key])) {
+
+                        switch ($field['type']) {
+                            case 'number-int':
+                                $this->values[$key]=(int)$_POST[$key];
+                                break;
+                            case 'number-float':
+                                $this->values[$key]=(float)$_POST[$key];
+                                break;
+                            case 'hidden':
+
+                                $this->values[$key]=htmlspecialchars($_POST[$key]);
+                                if($this->values[$key] != $field['value']) {
+                                    throw new Exception('Error, on of form field value is incorrect');
+                                }
+                                break;
+                            case 'hidden-delete-file':
+
+                                if(isset($field['cond'])) {
+                                    if (isset($_FILES[$field['cond']]) AND $_FILES[$field['cond']]['error'] == UPLOAD_ERR_OK) {
+                                        $this->delete_files[$key] = (int)$_POST[$key];
+                                    }
+                                }else {
+                                    $this->delete_files[$key] = (int)$_POST[$key];
+                                }
+                                break;
+                            case 'var':
+                                $this->var_values[$key]=htmlspecialchars($_POST[$key]);
+                                break;
+                            case 'date':
+                                if (preg_match("/^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/",htmlspecialchars($_POST[$key])))
+                                {
+                                    $this->values[$key]=$_POST[$key];
+                                } else if (htmlspecialchars($_POST[$key]) == '') {
+                                    $this->values[$key]=NULL;
+                                }
+                                else{
+                                    throw new Exception('Invalid Date Format, format : YYYY-MM-DD');
+                                }
+                                break;
+                            default :
+                                $this->values[$key]=htmlspecialchars($_POST[$key]);
+                                break;
+                        }
+
+                    } else {
+                        if($field['required'] == TRUE) {
+                            return FALSE;
+                        }
+                        $this->values[$key]=NULL;
+                    }
+
+                } else {
+
+                    if(!isset($_FILES[$key]) AND $field['required']) {
+                        return FALSE;
+                    }
+                    $this->values[$key]=NULL;
+                }
+            }
+            $this->valide = true;
+        }
+        $this->check = true;
+        return $this->valide;
+    }
+
+
+    /**
+     * Send form with constructor parameters to database and execute query. Add files from $_FILES if needed. Form needs to be validated before to send
+     *
+     * @return bool
+     *
+     * @throws Exception is not a valid field
+     * @throws Exception %var% is not define
+     * @throws Exception Error during file uploading, please try again (Can be an Error from File module)
+     */
+    public function sendForm() {
+
+        foreach ($this->fields as $key => $field) {
+
+            if ($field['type'] == 'file') {
+                if(isset($_FILES[$key]['error']) AND $_FILES[$key]['error'] == UPLOAD_ERR_OK) {
+
+                    $file_destination = $field['file_destination'];
+                    if(isset($field['var'])) {
+
+                        if(!isset($this->values[$field['var']]) AND !isset($this->var_values[$field['var']])) {
+                            throw new Exception('var : \''.$field['var'].'\' is not a valid field');
+                        }
+                        if(isset($this->values[$field['var']]))
+                        {
+                            $file_name = str_replace('%var%', str_replace(' ', '_', $this->values[$field['var']]), $field['file_name']);
+                        }
+                        else if (isset($this->var_values[$field['var']]))
+                        {
+                            $file_name = str_replace('%var%', str_replace(' ', '_', $this->var_values[$field['var']]), $field['file_name']);
+                        }
+                        else
+                        {
+                            throw new Exception('%var% is not define');
+                        }
+                    } else {
+                        $file_name = $field['file_name'];
+                    }
+
+                    $this->values[$key] = upload_file($key, $file_destination, $file_name, $this->database, 2.4e+8, array('pdf'));
+                    if ($this->values[$key] < 1) {
+                        throw new Exception('Error during file uploading, please try again. Check Max Size 10MB');
+                    }
+                }
+            }
+        }
+
+        $send = $this->database->prepare($this->sql);
+        try {
+            $send->execute($this->values);
+        } catch (PDOException $error) {
+            throw new Exception('SQL Request error, you can\'t do that : '.$error->getMessage());
+        }
+        $send->closeCursor();
+
+        if(is_array($this->delete_files)) {
+
+            foreach ($this->delete_files as $key => $file) {
+
+                if ($fields[$key]['type']='hidden-delete-file' AND $this->delete_files[$key] != '') {
+                    delete_file($file, $this->database);
+                }
+            }
+        }
+
+        return TRUE;
+    }
+
+
+    /**
+     * magic method surcharge. Return value of $key
+     *
+     * @param string $key
+     * @return array|bool
+     */
+    function __get($key) {
+
+        if(!$this->check)
+            $this->validateForm();
+        if(!$this->valide)
+            return FALSE;
+
+        if(!isset($this->values[$key]))
+            return false;
+
+        return $this->values[$key];
+    }
+
+
+    /**
+     * magic method surcharge. Check if $key field exists
+     *
+     * @param string $key
+     * @return bool
+     */
+    function __isset($key) {
+        if(!$this->check)
+            $this->validateForm();
+        if(!$this->valide)
+            return false;
+
+        return isset($this->values[$key]);
+    }
+
+
+    /**
+     * Return the values array
+     *
+     * @return array[]|bool
+     */
+    public function getValues() {
+
+        if(!$this->check)
+            $this->validateForm();
+        if(!$this->valide)
+            return false;
+
+        return $this->values;
+    }
+}
+
+/**
+ * Child of Form. Permit to display a modal form in add of define a form validator
+ *
+ * In add of parameters for Form constructor, you have to provide the file path of the modal you want to display for the form
+ *
+ * @example SQL_management/examples.php 35 37  "Form example of use"
+ * @package SQL\Form\Child
+ * @tags Form Modal
+ */
+class Form_modal extends Form {
+
+    /**
+     * file path for modal form to display
+     * @var null|string
+     */
+    protected $form_html = NULL;
+
+    /**
+     * Form_modal constructor.
+     * @param PDO $bdd "Database PDO to communicate with database"
+     * @param array $fields_array "Usage in example"
+     * @param string $sql_procedure "SQL request to send with fields"
+     * @param $htmlFile_path "path of file for modal form to display"
+     *
+     * @throws Exception htmlFile_path bad input
+     * @throws Exception htmlFile_path file does not exist
+     */
+    public function __construct(PDO $bdd, array $fields_array, $sql_procedure, $htmlFile_path) {
+        parent::__construct($bdd, $fields_array, $sql_procedure);
+
+        if(!is_string($htmlFile_path))
+            throw new Exception('htmlFile_path bad input');
+
+        if(!file_exists($htmlFile_path))
+            throw new Exception('htmlFile_path file doesn\'t exist');
+
+        $this->form_html =  $htmlFile_path;
+    }
+
+    /**
+     * Calls include of $form_html
+     */
+    public function display_Form () {
+        include $this->form_html;
+    }
+
+}

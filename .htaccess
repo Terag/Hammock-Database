@@ -1,0 +1,9 @@
+ErrorDocument 403 /error/404.php
+ErrorDocument 404 /error/404.php
+
+RewriteEngine On
+
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
+SetEnv MAX_FILE_SIZE 2.4e+8

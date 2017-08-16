@@ -1,0 +1,454 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * recapitulate content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+//user identification
+if($UserConnected AND isset($_GET['page']) AND isset($_GET['id'])) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+
+    /*Get datas from database*/
+    $req = $bdd-&gt;prepare('CALL project_recapitulate_from_project_ID(:id);');
+    $req-&gt;execute(array('id' =&gt; $id));
+    if($data = $req-&gt;fetch()) {
+
+        /* New query for engines */
+        $req-&gt;closeCursor();
+        $e_req = $bdd-&gt;prepare('CALL engine_recapitulate(:e_id);');
+        /* Engine 1 information */
+        $e_req-&gt;execute(array('e_id' =&gt; $data['H_ID_E1']));
+        $data_e1 = $e_req-&gt;fetch();
+        $e_req-&gt;closeCursor();
+        /* Engine 2 information */
+        $e_req-&gt;execute(array('e_id' =&gt; $data['H_ID_E2']));
+        $data_e2 = $e_req-&gt;fetch();
+        $e_req-&gt;closeCursor();
+
+        ?&gt;
+        &lt;div class=&quot;container content&quot;&gt;
+            &lt;div class=&quot;row&quot; id=&quot;row-1&quot;&gt;
+                &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot; style=&quot;margin-top: 5%;&quot;&gt;
+                    &lt;h2&gt;Project&lt;/h2&gt;
+                    &lt;form action=&quot;&quot; method=&quot;post&quot; name=&quot;fe_p_form&quot;&gt;
+                    &lt;!-- Hidden Input --&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $id?&gt;&quot; name=&quot;fe_p_id&quot;&gt;
+                    &lt;!-- User Input --&gt;
+                    &lt;div class=&quot;table myTable&quot;&gt;
+                        &lt;div class=&quot;tr header&quot;&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:9%;&quot;&gt;ID&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Name&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:20%;&quot;&gt;Progress&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:20%;&quot;&gt;Opened Date&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:20%;&quot;&gt;Closed Date&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;tr fixTab&quot;&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['P_ID'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['P_NAME'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['P_OPENED_DATE'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;date&quot; placeholder=&quot;yyyy/mm/dd&quot; value=&quot;&lt;?php echo $data['P_OPENED_DATE'];?&gt;&quot; name=&quot;fe_p_opened_date&quot; required/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['P_CLOSED_DATE'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;date&quot; placeholder=&quot;yyyy/mm/dd&quot; value=&quot;&lt;?php echo $data['P_CLOSED_DATE'];?&gt;&quot; name=&quot;fe_p_closed_date&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;?php if($lvl_access&gt;2) { ?&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(1)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                                &lt;?php } ?&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;button class=&quot;btn add&quot; type=&quot;submit&quot; value=&quot;1&quot; name=&quot;fe_p_form&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; id=&quot;row-2&quot;&gt;
+                &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot;&gt;
+                    &lt;h2&gt;Customer&lt;/h2&gt;
+                    &lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['C_ID'];?&gt;&quot; name=&quot;fe_c_id&quot;&gt;
+                    &lt;div class=&quot;table myTable&quot;&gt;
+                        &lt;div class=&quot;tr header&quot;&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:9%;&quot;&gt;ID&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Name&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Phone&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Mail&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;tr fixTab&quot;&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['C_ID'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['C_NAME'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $data['C_NAME'];?&gt;&quot; name=&quot;fe_c_name&quot; required/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['C_PHONE'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;phone&quot; value=&quot;&lt;?php echo $data['C_PHONE'];?&gt;&quot; name=&quot;fe_c_phone&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['C_MAIL'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;mail&quot; value=&quot;&lt;?php echo $data['C_MAIL'];?&gt;&quot; name=&quot;fe_c_mail&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;?php if($lvl_access&gt;2) { ?&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(2)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                                &lt;?php } ?&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;button class=&quot;btn add&quot; type=&quot;submit&quot; value=&quot;1&quot; name=&quot;fe_c_form&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; id=&quot;row-3&quot;&gt;
+                &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot;&gt;
+                    &lt;h2&gt;Helicopter&lt;/h2&gt;
+                    &lt;form action=&quot;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['H_ID'];?&gt;&quot; name=&quot;fe_h_id&quot;/&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['P_NAME'];?&gt;&quot; name=&quot;fe_h_p_name&quot;/&gt;
+                    &lt;div class=&quot;table myTable&quot;&gt;
+                        &lt;div class=&quot;tr header&quot;&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;ID&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:20%;&quot;&gt;Serial&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:18%;&quot;&gt;Type&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;Total Time&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;Landing&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:21%;&quot;&gt;Status/Log&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;tr fixTab&quot;&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['H_ID'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['H_SERIAL'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $data['H_SERIAL'];?&gt;&quot; name=&quot;fe_h_serial&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['GA_NAME'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['H_TIME'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.01&quot; value=&quot;&lt;?php echo $data['H_TIME']?&gt;&quot; name=&quot;fe_h_time&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data['H_LANDING'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; value=&quot;&lt;?php echo $data['H_LANDING'];?&gt;&quot; name=&quot;fe_h_landing&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php if($data['H_ID_STATUS_SHEET'] != null) { ?&gt;
+                                    &lt;button class=&quot;btn default&quot; onclick=&quot;openInNewTab('&lt;?php echo get_file_path($data['H_ID_STATUS_SHEET'], $bdd)?&gt;');return false;&quot; title=&quot;Status Sheet&quot;&gt;&lt;i class=&quot;fa fa-file&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                    &lt;?php }
+                                    if($data['H_ID_LOG_BOOK'] != null) { ?&gt;
+                                    &lt;button class=&quot;btn default&quot; onclick=&quot;openInNewTab('&lt;?php echo get_file_path($data['H_ID_LOG_BOOK'], $bdd)?&gt;');return false;&quot; title=&quot;Log Book&quot;&gt;&lt;i class=&quot;fa fa-file-text&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                    &lt;?php } ?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;div class=&quot;row&quot;&gt;
+                                        &lt;div class=&quot;col-lg-4&quot;&gt;
+                                            Status Sheet
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;col-lg-8&quot;&gt;
+                                            &lt;input class=&quot;form_input&quot; type=&quot;file&quot; name=&quot;fe_h_status_sheet&quot;/&gt;
+                                            &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['H_ID_STATUS_SHEET'];?&gt;&quot; name=&quot;fe_h_delete_status_sheet&quot;&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class=&quot;row&quot;&gt;
+                                        &lt;div class=&quot;col-lg-4&quot;&gt;
+                                            Log Book
+                                        &lt;/div&gt;
+                                        &lt;div class=&quot;col-lg-8&quot;&gt;
+                                            &lt;input class=&quot;form_input&quot; type=&quot;file&quot; name=&quot;fe_h_log_book&quot;/&gt;
+                                            &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['H_ID_LOG_BOOK'];?&gt;&quot; name=&quot;fe_h_delete_log_book&quot;&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;?php if($lvl_access&gt;2) { ?&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(3)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                                &lt;?php } ?&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;button class=&quot;btn add&quot; type=&quot;submit&quot; value=&quot;1&quot; name=&quot;fe_h_form&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;?php if(isset($data_e1) AND $data_e1){ ?&gt;&lt;div class=&quot;row&quot; id=&quot;row-4&quot;&gt;
+                &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot;&gt;
+                    &lt;h2&gt;Engine 1&lt;/h2&gt;
+                    &lt;form action=&quot;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['H_ID_E1'];?&gt;&quot; name=&quot;fe_e1_id&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['P_NAME'];?&gt;&quot; name=&quot;fe_e1_p_name&quot;/&gt;
+                    &lt;div class=&quot;table myTable&quot;&gt;
+                        &lt;div class=&quot;tr header&quot;&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;ID&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Serial&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:17%;&quot;&gt;Type&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:12%;&quot;&gt;Total Time&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:11%;&quot;&gt;NG Cycle&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:11%;&quot;&gt;NF Cycle&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:21%;&quot;&gt;Log&lt;/span&gt;
+                            &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;tr fixTab&quot;&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data_e1['E_ID'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e1['E_SERIAL'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $data_e1['E_SERIAL'];?&gt;&quot; name=&quot;fe_e1_serial&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data_e1['GA_NAME'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e1['E_TIME'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.01&quot; value=&quot;&lt;?php echo $data_e1['E_TIME'];?&gt;&quot; name=&quot;fe_e1_time&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e1['E_NG_CYCLE'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; step=&quot;0.1&quot; value=&quot;&lt;?php echo $data_e1['E_NG_CYCLE'];?&gt;&quot; name=&quot;fe_e1_ng_cycle&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e1['E_NF_CYCLE'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; step=&quot;0.1&quot; value=&quot;&lt;?php echo $data_e1['E_NF_CYCLE'];?&gt;&quot; name=&quot;fe_e1_nf_cycle&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php if($data_e1['E_ID_LOG_BOOK'] != null) { ?&gt;
+                                    &lt;button class=&quot;btn default&quot; onclick=&quot;openInNewTab('&lt;?php echo get_file_path($data_e1['E_ID_LOG_BOOK'], $bdd)?&gt;');return false;&quot; title=&quot;Log Book&quot;&gt;&lt;i class=&quot;fa fa-file-text&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                    &lt;?php } ?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;file&quot; name=&quot;fe_e1_log_book&quot;/&gt;
+                                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data_e1['E_ID_LOG_BOOK'];?&gt;&quot; name=&quot;fe_e1_delete_log_book&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;?php if($lvl_access&gt;2) { ?&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(4)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                                &lt;?php } ?&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;button class=&quot;btn add&quot; type=&quot;submit&quot; value=&quot;1&quot; name=&quot;fe_e1_form&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;&lt;?php } ?&gt;
+            &lt;?php if(isset($data_e2) AND $data_e2){ ?&gt;&lt;div class=&quot;row&quot; id=&quot;row-5&quot;&gt;
+                &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot;&gt;
+                    &lt;h2&gt;Engine 2&lt;/h2&gt;
+                    &lt;form action=&quot;&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['H_ID_E2'];?&gt;&quot; name=&quot;fe_e2_id&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data['P_NAME'];?&gt;&quot; name=&quot;fe_e2_p_name&quot;/&gt;
+                    &lt;div class=&quot;table myTable&quot;&gt;
+                        &lt;div class=&quot;tr header&quot;&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:10%;&quot;&gt;ID&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:25%;&quot;&gt;Serial&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:17%;&quot;&gt;Type&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:12%;&quot;&gt;Total Time&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:11%;&quot;&gt;NG Cycle&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:11%;&quot;&gt;NF Cycle&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:21%;&quot;&gt;Log&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;tr fixTab&quot;&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data_e2['E_ID'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e2['E_SERIAL'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $data_e2['E_SERIAL'];?&gt;&quot; name=&quot;fe_e2_serial&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data_e2['GA_NAME'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e2['E_TIME'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.01&quot; value=&quot;&lt;?php echo $data_e2['E_TIME'];?&gt;&quot; name=&quot;fe_e2_time&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e2['E_NG_CYCLE'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; step=&quot;0.1&quot; value=&quot;&lt;?php echo $data_e2['E_NG_CYCLE'];?&gt;&quot; name=&quot;fe_e2_ng_cycle&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php echo $data_e2['E_NF_CYCLE'];?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;number&quot; step=&quot;0.1&quot; value=&quot;&lt;?php echo $data_e2['E_NF_CYCLE'];?&gt;&quot; name=&quot;fe_e2_nf_cycle&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;?php if($data_e2['E_ID_LOG_BOOK'] != null) { ?&gt;
+                                        &lt;button class=&quot;btn default&quot; onclick=&quot;openInNewTab('&lt;?php echo get_file_path($data_e2['E_ID_LOG_BOOK'], $bdd)?&gt;'); return false;&quot; title=&quot;Log Book&quot;&gt;&lt;i class=&quot;fa fa-file-text&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                    &lt;?php } ?&gt;
+                                &lt;/div&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;input class=&quot;form_input&quot; type=&quot;file&quot; name=&quot;fe_e2_log_book&quot;/&gt;
+                                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data_e2['E_ID_LOG_BOOK'];?&gt;&quot; name=&quot;fe_e2_delete_log_book&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;
+                                &lt;?php if($lvl_access&gt;2) { ?&gt;
+                                &lt;div class=&quot;element&quot;&gt;
+                                    &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(5)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                                &lt;?php } ?&gt;
+                                &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+                                    &lt;button class=&quot;btn add&quot; type=&quot;submit&quot; value=&quot;1&quot; name=&quot;fe_e2_form&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;&lt;?php } ?&gt;
+            &lt;div class=&quot;row&quot;&gt;
+                &lt;div class=&quot;col-lg-2 col-lg-offset-5&quot; style=&quot;margin-bottom: 8%; margin-top: 3%;&quot;&gt;
+                    &lt;form action=&quot;?page=specificProject&amp;id=&lt;?php echo $id?&gt;&quot; method=&quot;post&quot;&gt;
+                        &lt;input class=&quot;button&quot; type=&quot;submit&quot; value=&quot;Back&quot; /&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;?php } else {
+        $req-&gt;closeCursor();
+        header('Location: ../');
+        exit();
+    }
+} else {
+    header('Location: ../');
+    exit();
+}
+
+?&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

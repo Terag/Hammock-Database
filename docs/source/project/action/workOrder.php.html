@@ -1,0 +1,248 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * WorkOrder action for PROJECT part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Action
+ * @namespace Project
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/reference_helper.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/form.php');
+$id_wo = (int) $_GET['id'];
+
+/* Need to define the data for reference helper */
+
+/*Get Data about Work Order*/
+$data_wo = get_wo_info($bdd, $id_wo);
+if(!$data_wo) {
+    header('Location: ./index.php');
+    exit();
+}
+
+$wo_name = str_replace('%DOC%','WO',$data_wo['WO_NAME']);
+/*  Get Project information */
+$data_project = get_project_info_from_helico($bdd, $data_wo['WO_ID_H']);
+
+$data_engine1 = null;
+if($data_project['H_ID_E1'] != null) {
+    $data_engine1 = get_engine_info($bdd, $data_project['H_ID_E1']);
+}
+$data_engine2 = null;
+if($data_project['H_ID_E2'] != null) {
+    $data_engine2 = get_engine_info($bdd, $data_project['H_ID_E2']);
+}
+
+/* Prepare data for str_link_reference function */
+$structure = array(
+    'DOC' =&gt; array('VALUE' =&gt; $wo_name),
+    'P' =&gt; array('VALUE' =&gt; $data_project['P_NAME']),
+    'M' =&gt; array('VALUE' =&gt; NULL),
+    'H' =&gt; array('N' =&gt; 'H_SERIAL', 'array_name' =&gt; 'project'),
+    'E1' =&gt; array('N' =&gt; 'E_SERIAL', 'array_name' =&gt; 'engine1'),
+    'E2' =&gt; array('N' =&gt; 'E_SERIAL', 'array_name' =&gt; 'engine2'),
+    'R' =&gt; array('N' =&gt; 'number', 'array_name' =&gt; 'references'),
+    'PI' =&gt; array('N' =&gt; 'number', 'array_name' =&gt; 'installed'),
+    'PR' =&gt; array('N' =&gt; 'number', 'array_name' =&gt; 'removed')
+);
+$data = array(
+    'project' =&gt; array( 'array' =&gt; $data_project),
+    'engine1' =&gt; array( 'array' =&gt; $data_engine1),
+    'engine2' =&gt; array( 'array' =&gt; $data_engine2),
+    'references' =&gt; array( 'array' =&gt; NULL, 'separator' =&gt; ';;'),
+    'installed' =&gt; array( 'array' =&gt; NULL, 'separator' =&gt; ';;'),
+    'removed' =&gt; array( 'array' =&gt; NULL, 'separator' =&gt; ';;'),
+);
+
+/* Manage Forms */
+
+if($lvl_access&gt;2) {
+    if (isset($_POST['f_id_wo'])) {
+        $_POST['f_approved'] = date('Y-m-d');
+        $_POST['f_id_user'] = $_SESSION['user_id'];
+    }
+
+    $fields = array(
+        'f_id_wo' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE, 'value' =&gt; $id_wo),
+        'f_manual' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'f_id_gst' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'f_approved' =&gt; array('type' =&gt; 'date', 'required' =&gt; TRUE),
+        'f_reference' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_required' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_rectification' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_new_number' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_s_references' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_s_remove' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_s_install' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_id_user' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE)
+    );
+    $sql_request = 'CALL new_subtask(:f_id_wo, :f_manual, :f_id_gst, :f_reference, :f_required, :f_rectification, :f_approved, &quot;no&quot;, :f_id_user,
+                                     :f_new_number, :f_description,
+                                     :f_s_references, :f_s_remove, :f_s_install);';
+    $form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_subtask_WO.php';
+    try {
+        $new_subtask_wo_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+        if ($new_subtask_wo_form-&gt;validateForm()) {
+            $new_subtask_wo_form-&gt;sendForm();
+
+            $last_insert = $bdd-&gt;query('SELECT MAX(ST_ID) AS ID FROM T_SUB_TASK;')-&gt;fetch()['ID'];
+            $req = $bdd-&gt;prepare('SELECT * FROM T_SUB_TASK
+                              INNER JOIN T_GENERIC_SUB_TASK ON ST_ID_GST = GST_ID
+                              LEFT JOIN T_MANUAL ON GST_ID_M = M_ID
+                              WHERE ST_ID=:id;');
+            $req-&gt;execute(array('id' =&gt; $last_insert));
+            $sub_task = $req-&gt;fetch();
+            $data_current_user_work = get_current_user_work_for_user($bdd, $_SESSION['user_id']);
+            $current_work_st = ($data_current_user_work)? $data_current_user_work['ST_ID']: 0;
+            if($lvl_access &gt; 2) { ?&gt;
+                &lt;form id=&quot;delete_row-&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; /&gt;
+                &lt;/form&gt;
+                &lt;?php } ?&gt;
+                &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; method=&quot;post&quot;&gt;
+                    &lt;?php include('row/workOrder.php');?&gt;
+                &lt;/form&gt;
+            &lt;?php exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+
+    $fields = array(
+        'f_delete' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+    );
+    $sql_request = 'DELETE FROM T_SUB_TASK WHERE ST_ID=:f_delete;';
+    try {
+        $delete_subtask_ow_form = new Form($bdd, $fields, $sql_request);
+
+        if($delete_subtask_ow_form-&gt;validateForm()) {
+            $delete_subtask_ow_form-&gt;sendForm();
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+}
+
+$fields = array(
+    'fe_st_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+    'fe_st_reference' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_st_required' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_st_rectification' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_st_performed' =&gt; array('type' =&gt; 'date', 'required' =&gt; FALSE),
+    'fe_st_performer' =&gt; array('type' =&gt; 'int', 'required' =&gt; FALSE),
+    'fe_st_released' =&gt; array('type' =&gt; 'date', 'required' =&gt; FALSE),
+    'fe_st_releaser' =&gt; array('type' =&gt; 'int', 'required' =&gt; FALSE),
+    'fe_st_s_references' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_st_s_remove' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_st_s_install' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+);
+$sql_request = 'CALL update_subtask(:fe_st_id, :fe_st_reference, NULL, :fe_st_required, :fe_st_rectification,
+                :fe_st_performed, :fe_st_performer, :fe_st_released, :fe_st_releaser, NULL,
+                :fe_st_s_references, :fe_st_s_remove, :fe_st_s_install);';
+try {
+    $modify_subtask_wo_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_subtask_wo_form-&gt;validateForm()) {
+        $modify_subtask_wo_form-&gt;sendForm();
+
+        $req = $bdd-&gt;prepare('SELECT * FROM T_SUB_TASK
+                              INNER JOIN T_GENERIC_SUB_TASK ON ST_ID_GST = GST_ID
+                              LEFT JOIN T_MANUAL ON GST_ID_M = M_ID
+                              WHERE ST_ID=:id;');
+        $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_st_id']));
+        $sub_task = $req-&gt;fetch();
+        $data_current_user_work = get_current_user_work_for_user($bdd, $_SESSION['user_id']);
+        $current_work_st = ($data_current_user_work)? $data_current_user_work['ST_ID']: 0;
+        include('row/workOrder.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+$fields = array(
+    'fw_toggle_user' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE, 'value' =&gt; (int)$_SESSION['user_id']),
+    'fw_toggle_st_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE)
+);
+$sql_request = 'CALL toggle_user_work_on_st(:fw_toggle_user, :fw_toggle_st_id);';
+try {
+    $modify_subtask_wo_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_subtask_wo_form-&gt;validateForm()) {
+        $modify_subtask_wo_form-&gt;sendForm();
+
+        $req = $bdd-&gt;prepare('SELECT * FROM T_SUB_TASK
+                              INNER JOIN T_GENERIC_SUB_TASK ON ST_ID_GST = GST_ID
+                              LEFT JOIN T_MANUAL ON GST_ID_M = M_ID
+                              WHERE ST_ID=:id;');
+        $req-&gt;execute(array('id' =&gt; (int)$_POST['fw_toggle_st_id']));
+        $sub_task = $req-&gt;fetch();
+        $data_current_user_work = get_current_user_work_for_user($bdd, $_SESSION['user_id']);
+        $current_work_st = ($data_current_user_work)? $data_current_user_work['ST_ID']: 0;
+        include('row/workOrder.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

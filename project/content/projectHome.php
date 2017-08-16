@@ -1,0 +1,53 @@
+<?php
+/**
+ * projectHome content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+/*Get $projectList var from database*/
+
+
+$projectList = $bdd->query('CALL project_list();');
+?>
+<div class="container content">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 text-center center">
+            <h2>Projects</h2>
+            <input type="text" id="myFilterInput" onkeyup="filter(4, 'table')" placeholder="Search for names.." title="Type in a name" />
+            <div class="table myTable" id="table">
+                <div class="tr header">
+                    <span class="th" style="width:10%;">ID</span>
+                    <span class="th" style="width:25%;">Name</span>
+                    <span class="th" style="width:25%;">Customer</span>
+                    <span class="th" style="width:25%;">Helicopter</span>
+                    <span class="th" style="width:15%;">Serial</span>
+                </div>
+                <?php while($data = $projectList->fetch()) { ?>
+                    <div class="tr" onclick="location.href='?page=specificProject&id=<?php echo $data['id']?>';" style="cursor:pointer;">
+                        <span class="td"><?php echo $data['id'];?></span>
+                        <span class="td"><?php echo $data['p_name'];?></span>
+                        <span class="td"><?php echo $data['c_name'];?></span>
+                        <span class="td"><?php echo $data['ga_name'];?></span>
+                        <span class="td"><?php echo $data['h_serial'];?></span>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <?php if($lvl_access > 2) { ?>
+    <div class="row" style="margin-top: 3%;">
+        <div class="col-lg-2 col-lg-offset-5">
+            <a href="./?page=createNewProject"><button class="button">New Project</button></a>
+        </div>
+    </div>
+    <?php } ?>
+</div>

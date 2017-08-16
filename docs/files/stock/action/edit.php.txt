@@ -1,0 +1,123 @@
+<?php
+/**
+ * Edit action for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Action
+ * @namespace Stock
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+
+$fields = array(
+    /* CREATE GP */
+    'f_name' => array('type' => 'text', 'required' => TRUE),
+    'f_number' => array('type' => 'text', 'required' => FALSE),
+    'f_location' => array('type' => 'text', 'required' => FALSE),
+    'f_description' => array('type' => 'text', 'required' => FALSE)
+);
+$sql_request = 'CALL new_generic_part(:f_number, :f_name, NULL, :f_location, :f_description);';
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_genericPart.php';
+try {
+    $new_generic_part_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_generic_part_form->validateForm()) {
+        $new_generic_part_form->sendForm();
+
+        $last_insert = $bdd->query('SELECT MAX(GP_ID) AS ID FROM T_GENERIC_PART;')->fetch()['ID'];
+        $req = $bdd->prepare('SELECT * FROM T_GENERIC_PART WHERE GP_ID=:id;');
+        $req->execute(array('id' => $last_insert));
+        $generic_part = $req->fetch();?>
+        <form id="delete_row-<?php echo $generic_part['GP_ID'];?>" method="post" style="display: none;">
+            <input type="hidden" name="f_delete" value="<?php echo $generic_part['GP_ID'];?>" />
+        </form>
+        <form class="tr" id="row-<?php echo $generic_part['GP_ID'];?>" onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $generic_part['GP_ID'];?>', 'row-<?php echo $generic_part['GP_ID'];?>', '<span class=\'td\'><img src=\'/img/wait_rot.gif\'/></span>');return false;" action="?page=edit" method="post">
+            <?php include('row/edit.php');?>
+        </form>
+        <?php exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}
+
+$fields = array(
+    /* CREATE GP */
+    'fe_gp_id' => array('type' => 'text', 'required' => TRUE),
+    'fe_gp_name' => array('type' => 'text', 'required' => TRUE),
+    'fe_gp_number' => array('type' => 'text', 'required' => FALSE),
+    'fe_gp_location' => array('type' => 'text', 'required' => FALSE),
+    'fe_gp_description' => array('type' => 'text', 'required' => FALSE)
+);
+$sql_request = 'CALL update_generic_part(:fe_gp_id, :fe_gp_number, :fe_gp_name, NULL, :fe_gp_location, :fe_gp_description);';
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_genericPart.php';
+try {
+    $new_generic_part_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_generic_part_form->validateForm()) {
+
+        $part_numbers = explode(';;', htmlspecialchars($_POST['fe_gp_number']));
+        foreach ($part_numbers as $number) {
+            if(!is_pn_available($bdd, $number, (int)$_POST['fe_gp_id']))
+                throw new Exception('This Part Number is already used');
+        }
+
+        $new_generic_part_form->sendForm();
+
+        $req = $bdd->prepare('SELECT * FROM T_GENERIC_PART WHERE GP_ID=:id');
+        $req->execute(array('id' => (int)$_POST['fe_gp_id']));
+        $generic_part = $req->fetch();
+        include('row/edit.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}
+
+$fields = array(
+    'f_delete' => array('type' => 'number-int', 'required' => TRUE)
+);
+$sql_request = 'DELETE FROM T_GENERIC_PART WHERE GP_ID=:f_delete;';
+try {
+    $delete_generic_part = new Form($bdd, $fields, $sql_request);
+
+    if($delete_generic_part->validateForm()) {
+        $delete_generic_part->sendForm();
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}
+
+if($lvl_access>3) {
+    $fields = array(
+        'fm_pn_1' => array('type' => 'number-int', 'required' => TRUE),
+        'fm_pn_2' => array('type' => 'number-int', 'required' => TRUE)
+    );
+    $sql_request = 'CALL merge_generic_parts(:fm_pn_1, :fm_pn_2);';
+    $form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/merge_genericParts.php';
+
+    try {
+        $merge_generic_parts = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+        if ($merge_generic_parts->validateForm()) {
+            $merge_generic_parts->sendForm();
+            header('Location: '.$_SERVER['REQUEST_URI']);
+        }
+
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+
+    }
+}
+

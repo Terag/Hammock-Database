@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * documentationManual action for DOCUMENTATION part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Documentation\Action
+ * @namespace Documentation
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/form.php');
+$id_m = (int) $_GET['id'];
+
+if($lvl_access &gt; 2) {
+    /* If received New Sub Task form */
+    $fields = array(
+        'f_id_m' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE, 'value' =&gt; $id_m),
+        'f_number' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+        'f_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+    );
+    $sql_request = 'CALL new_generic_sub_task(:f_id_m,:f_ata_ref,:f_number,:f_description);';
+    $form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_genericSubTask.php';
+    try {
+        $new_generic_subtask_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+        if ($new_generic_subtask_form-&gt;validateForm()) {
+            $new_generic_subtask_form-&gt;sendForm();
+
+            $last_insert = $bdd-&gt;query('SELECT MAX(GST_ID) AS ID FROM T_GENERIC_SUB_TASK;')-&gt;fetch()['ID'];
+            $req = $bdd-&gt;prepare('SELECT * FROM T_GENERIC_SUB_TASK LEFT JOIN T_ATA_REFERENCE ON GST_ID_AR=AR_ID WHERE GST_ID=:id;');
+            $req-&gt;execute(array('id' =&gt; $last_insert));
+            $sub_task = $req-&gt;fetch(); ?&gt;
+            &lt;form id=&quot;delete_row-&lt;?php echo $sub_task['GST_ID']; ?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $sub_tasks['GST_ID']; ?&gt;&quot;/&gt;
+            &lt;/form&gt;
+            &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $sub_task['GST_ID']; ?&gt;&quot;
+                  onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $sub_task['GST_ID']; ?&gt;', 'row-&lt;?php echo $sub_task['GST_ID']; ?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot;
+                  method=&quot;post&quot;&gt;
+                &lt;?php include('row/documentationManual.php'); ?&gt;
+            &lt;/form&gt;
+            &lt;?php exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+
+    /* If received Update Sub Task form */
+    $fields = array(
+        'fe_gst_id' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'fe_gst_number' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+        'fe_gst_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+    );
+    $sql_request = 'CALL update_generic_sub_task(:fe_gst_id,:fe_gst_ata_ref,:fe_gst_number,:fe_gst_description);';
+    try {
+        $update_generic_subtask_form = new Form($bdd, $fields, $sql_request, $form_path);
+
+        if ($update_generic_subtask_form-&gt;validateForm()) {
+            $update_generic_subtask_form-&gt;sendForm();
+
+            $req = $bdd-&gt;prepare('SELECT * FROM T_GENERIC_SUB_TASK LEFT JOIN T_ATA_REFERENCE ON GST_ID_AR=AR_ID WHERE GST_ID=:id;');
+            $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_gst_id']));
+            $sub_task = $req-&gt;fetch();
+            include('row/documentationManual.php');
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+
+    /* If received Delete Sub Task form */
+    $fields = array('f_delete' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE));
+    $sql_request = 'DELETE FROM T_GENERIC_SUB_TASK WHERE GST_ID=:f_delete;';
+    try {
+        $delete_generic_subtask_form = new Form($bdd, $fields, $sql_request, $form_path);
+
+        if ($delete_generic_subtask_form-&gt;validateForm()) {
+            $delete_generic_subtask_form-&gt;sendForm();
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

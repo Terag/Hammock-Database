@@ -1,0 +1,105 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * The Form file new_genericPart
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Form
+ * @namespace Form
+ * @filesource
+ */
+?&gt;
+
+&lt;!-- Modal PN Cross References --&gt;
+&lt;?php include $_SERVER['DOCUMENT_ROOT'].'/ui/modal_PNRef.php'; ?&gt;
+
+&lt;div id=&quot;id01&quot; class=&quot;modal&quot;&gt;
+    &lt;script&gt;var count = 0;&lt;/script&gt;
+    &lt;span onclick=&quot;document.getElementById('id01').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+    &lt;form class=&quot;modal-form&quot; id=&quot;new_row&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'new_row', 'table', '', true);
+                                                    count++;modal.style.display = 'none';return false;&quot; method=&quot;post&quot;&gt;
+        &lt;div class=&quot;container modal-content animate form-style&quot;&gt;
+            &lt;h2&gt;&lt;strong&gt;New Generic Part&lt;/strong&gt;&lt;/h2&gt;
+            &lt;div class=&quot;row&quot; style=&quot;border:1px dotted black;padding: 5px;&quot;&gt;
+                &lt;div class=&quot;col-lg-6&quot; style=&quot;text-align: left;&quot;&gt;
+                    &lt;label for=&quot;f_name&quot;&gt;Description *&lt;/label&gt;
+                    &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_name&quot; /&gt;
+                    &lt;hr style=&quot;margin: 5px;&quot;/&gt;
+                    &lt;label for=&quot;f_number&quot;&gt;Part Number&lt;/label&gt;
+                    &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                    &lt;input class=&quot;form_input&quot; id=&quot;PartFilterInput&quot; type=&quot;text&quot; name=&quot;f_number&quot; /&gt;
+                    &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                    &lt;button class=&quot;btn2 add&quot; id=&quot;PN-SEARCH&quot; type=&quot;button&quot; onclick=&quot;this.disabled = true;$('#pn_modal').toggle();searchPNRef(this);&quot;&gt;&lt;i class=&quot;fa fa-question&quot; style=&quot;width: 50px;padding: 10px 20px 10px 20px;&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                    Check Cross PN References
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-6&quot; style=&quot;text-align: left;&quot;&gt;
+                    &lt;label for=&quot;f_location&quot;&gt;Location&lt;/label&gt;
+                    &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_location&quot; /&gt;
+                    &lt;hr style=&quot;margin: 5px;&quot;/&gt;
+                    &lt;label for=&quot;f_description&quot;&gt;&lt;b&gt;Note&lt;/b&gt;&lt;/label&gt;
+                    &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+                    &lt;textarea class=&quot;form_input&quot; name=&quot;f_description&quot; rows=&quot;5&quot; cols=&quot;25&quot;&gt;&lt;/textarea&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 2%&quot;&gt;
+                &lt;div class=&quot;col-lg-12 clearfix&quot;&gt;
+                    &lt;button type=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='none'&quot; class=&quot;button cancelbtn&quot;&gt;Cancel&lt;/button&gt;
+                    &lt;button type=&quot;submit&quot; class=&quot;button signupbtn&quot;&gt;Create&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    // Get the modal
+    var modal = document.getElementById('id01');
+&lt;/script&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,130 @@
+<?php
+/**
+ * scopeOfWork action for PROJECT part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Action
+ * @namespace Project
+ * @filesource
+ */
+
+/* -------------------- Include Files -------------------- */
+
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/form.php');
+/*Get $project_info var from database*/
+$id_wo = (int) $_GET['id'];
+
+
+/* -------------------- New Sub Task Form -------------------- */
+
+if(isset($_POST['f_id_wo'])) {
+    $_POST['f_id_user'] = $_SESSION['user_id'];
+}
+$fields = array(
+    'f_id_wo' => array('type' => 'hidden-int', 'required' => TRUE, 'value' => $id_wo),
+    'f_manual' => array('type' => 'number-int', 'required' => TRUE),
+    'f_id_gst' => array('type' => 'number-int', 'required' => TRUE),
+    'f_reference' => array('type' => 'text', 'required' => FALSE),
+    'f_new_number' => array('type' => 'text', 'required' => FALSE),
+    'f_description' => array('type' => 'text', 'required' => FALSE),
+    'f_id_user' => array('type' => 'number-int', 'required' => TRUE)
+);
+$sql_request = 'CALL new_subtask(:f_id_wo, :f_manual, :f_id_gst, :f_reference, NULL, NULL, NULL, "yes", :f_id_user,
+                :f_new_number, :f_description,
+                NULL, NULL, NULL);';
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_subtask_SOW.php';
+try {
+    $new_subtask_sow_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_subtask_sow_form->validateForm()) {
+        $new_subtask_sow_form->sendForm();
+
+        $last_insert = $bdd->query('SELECT MAX(ST_ID) AS ID FROM T_SUB_TASK;')->fetch()['ID'];
+        $req = $bdd->prepare('SELECT * FROM T_SUB_TASK
+                              INNER JOIN T_GENERIC_SUB_TASK ON ST_ID_GST = GST_ID
+                              LEFT JOIN T_MANUAL ON GST_ID_M = M_ID
+                              WHERE ST_ID=:id;');
+        $req->execute(array('id' => $last_insert));
+        $sub_task = $req->fetch();?>
+        <form id="delete_row-<?php echo $sub_task['ST_ID'];?>" method="post">
+            <input type="hidden" name="f_delete" value="<?php echo $sub_task['ST_ID'];?>" />
+        </form>
+        <form class="tr" id="row-<?php echo $sub_task['ST_ID'];?>" onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $sub_task['ST_ID'];?>', 'row-<?php echo $sub_task['ST_ID'];?>', '<span class=\'td\'><img src=\'/img/wait_rot.gif\'/></span>');return false;" method="post">
+            <?php include('row/scopeOfWork.php');?>
+        </form>
+        <?php exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}
+
+/* -------------------- Modify Sub Task Form -------------------- */
+
+$_POST['fe_st_required'] = NULL;
+$_POST['fe_st_id_user'] = $_SESSION['user_id'];
+if((!isset($_POST['fe_st_old_approved']) OR $_POST['fe_st_old_approved'] == NULL) AND isset($_POST['fe_st_description'])) {
+    $_POST['fe_st_required'] = htmlspecialchars($_POST['fe_st_description']);
+}
+
+$fields = array(
+    'fe_st_id' => array('type' => 'hidden-int', 'required' => TRUE),
+    'fe_st_reference' => array('type' => 'text', 'required' => FALSE),
+    'fe_st_approved' => array('type' => 'date', 'required' => FALSE),
+    'fe_st_required' => array('type' => 'text', 'required' => FALSE),
+    'fe_st_id_user' => array('type' => 'number-int', 'required' => TRUE)
+);
+$sql_request = 'CALL update_subtask(:fe_st_id, :fe_st_reference, :fe_st_approved, :fe_st_required, NULL,
+                NULL, NULL, NULL, NULL, :fe_st_id_user,
+                NULL, NULL, NULL);';
+try {
+    $modify_subtask_sow_form = new Form($bdd, $fields, $sql_request);
+
+    if($modify_subtask_sow_form->validateForm()) {
+        $modify_subtask_sow_form->sendForm();
+
+        $id_gst = (int)$_POST['fe_gst_id'];
+        $new_description = htmlspecialchars($_POST['fe_st_description']);
+        $req = $bdd->prepare('UPDATE T_GENERIC_SUB_TASK SET GST_DESCRIPTION=:description WHERE GST_ID=:id;');
+        $req->execute(array('description' => $new_description, 'id' => $id_gst));
+
+        $req = $bdd->prepare('SELECT * FROM T_SUB_TASK
+                              INNER JOIN T_GENERIC_SUB_TASK ON ST_ID_GST = GST_ID
+                              LEFT JOIN T_MANUAL ON GST_ID_M = M_ID
+                              WHERE ST_ID=:id;');
+        $req->execute(array('id' => (int)$_POST['fe_st_id']));
+        $sub_task = $req->fetch();
+        include('row/scopeOfWork.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}
+
+/* -------------------- Delete Sub Task Form -------------------- */
+
+$fields = array(
+    'f_delete' => array('type' => 'hidden-int', 'required' => TRUE),
+);
+$sql_request = 'DELETE FROM T_SUB_TASK WHERE ST_ID=:f_delete;';
+try {
+    $delete_subtask_sow_form = new Form($bdd, $fields, $sql_request);
+
+    if($delete_subtask_sow_form->validateForm()) {
+        $delete_subtask_sow_form->sendForm();
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error->getMessage());
+    exit();
+}

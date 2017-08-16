@@ -1,0 +1,134 @@
+<?php
+/**
+ * documentationSubTask content for DOCUMENTATION part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Documentation\Content
+ * @namespace Documentation
+ * @filesource
+ */
+
+if($UserConnected AND isset($_GET['page']) AND isset($_GET['id'])) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']->getMessage());
+    }
+
+    /*Get Data about Aircraft*/
+    $query = 'SELECT * FROM T_GENERIC_SUB_TASK
+              INNER JOIN T_MANUAL ON GST_ID_M=M_ID
+              INNER JOIN T_GENERIC_AIRCRAFT ON M_ID_GA=GA_ID 
+              WHERE GST_ID=:id_gst';
+    $req = $bdd->prepare($query);
+    $req->execute(array('id_gst' => $id_gst));
+    $data_sub_task = $req->fetch();
+    $req->closeCursor();
+
+    /* Get Data Sub Task */
+    $query = 'SELECT * FROM T_LINK_GP_GST
+              LEFT JOIN T_GENERIC_SUB_TASK ON LGG_ID_GST=GST_ID
+              LEFT JOIN T_GENERIC_PART ON LGG_ID_GP=GP_ID
+              WHERE LGG_ID_GST=:id_gst';
+    $req = $bdd->prepare($query);
+    $req->execute(array('id_gst' => $id_gst));
+    $data_sub_task_parts = $req->fetchAll();
+    $req->closeCursor();
+
+    if($data_sub_task) { ?>
+
+        <!-- Form Content -->
+        <?php if($lvl_access > 2) { $add_link_gp_gst_form->display_Form(); }?>
+
+        <!-- Main Content -->
+        <div class="container content">
+            <div class="row" style="margin-top: 5%">
+                <div class="col-lg-10 col-lg-offset-1 header-resume">
+                    <div class="col-lg-6">
+                        <h2><strong>Sub Task :</strong> <?php echo $data_sub_task['GST_NUMBER'];?></h2>
+                        <h3><strong>Manual :</strong> <?php echo $data_sub_task['M_NAME'];?> - <?php echo $data_sub_task['M_REFERENCE'];?></h3>
+                        <h3><strong>Aircraft :</strong> <?php echo $data_sub_task['GA_NAME'];?></h3>
+                        <h3><strong>Constructor :</strong> <?php echo $data_sub_task['GA_CONSTRUCTOR'];?></h3>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6" style="text-align: right;">
+                                <h4><strong>Type :</strong> <?php echo $data_sub_task['GA_TYPE'];?></h4>
+                                <?php if($data_sub_task['M_ID_MANUAL'] != NULL) { ?>
+                                    <h4>
+                                        <strong><a href="<?php echo get_file_path($data_sub_task['M_ID_MANUAL'],$bdd);?>" target="_blank">download</a></strong>
+                                        <i class="fa fa-download"></i>
+                                    </h4>
+                                <?php } ?>
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="max-width: 150px;">
+                                    <?php if($data_sub_task['GA_TYPE'] == "engine") { ?>
+                                        <img src="../../img/motorIcon.png" style="max-width: 100%;max-height: 100%;" />
+                                    <?php } else { ?>
+                                        <img src="../../img/helicoIcon.png" style="max-width: 100%;max-height: 100%;" />
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4><strong>Description :</strong> <?php echo $data_sub_task['GST_DESCRIPTION'];?></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1" style="margin-top: 3%;">
+                    <h2 style="text-align: center">Systematic Parts</h2>
+                    <input type="text" id="myFilterInput" onkeyup="filter(5, 'table')" placeholder="Search for names.." title="Type in a name" />
+                    <div class="table myTable" id="table">
+                        <div class="tr header">
+                            <span class="th" style="width:5%;">ID</span>
+                            <span class="th" style="width:18%;">Number</span>
+                            <span class="th" style="width:18%;">Location</span>
+                            <span class="th" style="width:30%;">Description</span>
+                            <span class="th" style="width:17%;">IPC</span>
+                            <span class="th" style="width:12%;">Qty</span>
+                            <span class="th" style="width:1%;"></span>
+                            <span class="th" style="width:1%;"></span>
+                        </div>
+                        <?php foreach($data_sub_task_parts as $sub_task_part) { ?>
+                            <form id="delete_row-<?php echo $sub_task_part['LGG_ID'];?>" method="post" style="display: none;">
+                                <input type="hidden" name="f_delete" value="<?php echo $sub_task_part['LGG_ID'];?>" />
+                            </form>
+                            <form class="tr" id="row-<?php echo $sub_task_part['LGG_ID'];?>" onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $sub_task_part['LGG_ID'];?>', 'row-<?php echo $sub_task_part['LGG_ID'];?>', '<span class=\'td\'><img src=\'/img/wait_rot.gif\'/></span>');return false;" method="post">
+                                <?php include('row/documentationSubTask.php'); ?>
+                            </form>
+                        <?php } $req->closeCursor();?>
+                    </div>
+                </div>
+            </div>
+            <?php if($lvl_access) { ?>
+            <div class="row" style="margin-top: 3%;">
+                <div class="col-lg-2 col-lg-offset-4">
+                    <a href="./?page=documentationManual&id=<?php echo $data_sub_task['M_ID'];?>"><button class="button">Back</button> </a>
+                </div>
+                <?php if($lvl_access > 2) { ?>
+                <div class="col-lg-2">
+                    <button class="button" onclick="document.getElementById('id01').style.display='block'" type="submit">Add Part</button>
+                </div>
+                <?php } ?>
+            </div>
+            <?php } ?>
+        </div>
+    <?php } else {
+        $req->closeCursor();
+        header('Location: ./');
+        exit();
+    }
+} else {
+    header('Location: ./');
+    exit();
+}

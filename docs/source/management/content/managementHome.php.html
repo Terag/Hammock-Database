@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * managementHome content for MANAGEMENT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Management\Content
+ * @namespace Management
+ * @filesource
+ */
+
+$data_recorded_works = get_recorded_work_list($bdd);
+
+?&gt;
+
+&lt;!-- Form Content --&gt;
+&lt;?php if($lvl_access &gt; 2) { $new_daily_task-&gt;display_Form(); }?&gt;
+
+&lt;!-- Main Content --&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 8%;&quot;&gt;
+        &lt;div class=&quot;col-lg-12 text-center&quot;&gt;
+            &lt;h2&gt;Tasks&lt;/h2&gt;
+            &lt;script src=&quot;/js/functions.js&quot;&gt;&lt;/script&gt;       &lt;!-- WebSite JavaScript --&gt;
+            &lt;script&gt;
+                var buttons = ['FILTER-1','FILTER-2','FILTER-3','FILTER-4'];
+                var tab_filter = new Filter(6, 'table', buttons);
+                tab_filter.set_class_filter(0);
+            &lt;/script&gt;
+            &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;tab_filter.set_content_filter('myFilterInput');tab_filter.execute_filter();&quot; placeholder=&quot;Search..&quot; title=&quot;Type in a name&quot; style=&quot;margin-bottom: 0px;&quot;/&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-bottom: 8px;text-align: left;&quot;&gt;
+                &lt;div class=&quot;col-lg-8&quot; style=&quot;margin-top: 1px;&quot;&gt;
+                    &lt;button id=&quot;FILTER-1&quot; value=&quot;ALL&quot; onclick=&quot;tab_filter.set_class_filter(0);tab_filter.execute_filter();&quot; type=&quot;button&quot; class=&quot;btn2 default&quot; style=&quot;width: 25%&quot;&gt;
+                        ALL
+                    &lt;/button&gt;&lt;button id=&quot;FILTER-2&quot; value=&quot;CURRENT&quot; onclick=&quot;tab_filter.set_class_filter(1);tab_filter.execute_filter();&quot; type=&quot;button&quot; class=&quot;btn2 default&quot; style=&quot;width: 25%&quot;&gt;
+                        CURRENT
+                    &lt;/button&gt;&lt;button id=&quot;FILTER-3&quot; value=&quot;DAILY&quot; onclick=&quot;tab_filter.set_class_filter(2);tab_filter.execute_filter();&quot; type=&quot;button&quot; class=&quot;btn2 default&quot; style=&quot;width: 25%&quot;&gt;
+                        DAILY
+                    &lt;/button&gt;&lt;button id=&quot;FILTER-4&quot; value=&quot;PROJECT&quot; onclick=&quot;tab_filter.set_class_filter(3, 'h-'+document.getElementById('FILTER-5').options[document.getElementById('FILTER-5').selectedIndex].value);tab_filter.execute_filter();&quot; type=&quot;button&quot; class=&quot;btn2 default&quot; style=&quot;width: 25%&quot;&gt;
+                        PROJECT
+                    &lt;/button&gt;
+                &lt;/div&gt;
+                &lt;script&gt;
+                    tab_filter.set_class_filter(0);
+                &lt;/script&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot; style=&quot;margin-top: 1px&quot;&gt;
+                        &lt;?php $data_projects = $bdd-&gt;query('CALL project_list();')-&gt;fetchAll(); ?&gt;
+                        &lt;select id=&quot;FILTER-5&quot; class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot;
+                                onchange=&quot;tab_filter.set_class_filter(3, 'h-'+document.getElementById('FILTER-5').options[document.getElementById('FILTER-5').selectedIndex].value);tab_filter.execute_filter();&quot;
+                                name=&quot;p_filter&quot; style=&quot;box-shadow: 2px 2px #999;padding: 8px;font-size: 16px;&quot;&gt;
+                            &lt;option value=&quot;0&quot;&gt;PROJECTS&lt;/option&gt;
+                            &lt;?php foreach($data_projects as $project) { ?&gt;
+                                &lt;option value=&quot;&lt;?php echo $project['h_id'];?&gt;&quot;&gt;&lt;?php echo $project['p_name'];?&gt;&lt;/option&gt;
+                            &lt;?php } ?&gt;
+                        &lt;/select&gt;
+                    &lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                &lt;div class=&quot;tr header&quot;&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:3%;&quot;&gt;ID&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;SubTask Number&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Description&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;Total Hours&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:20%;&quot;&gt;Current Performers&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Performers&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;?php foreach ($data_recorded_works as $recorded_work) {
+                    if($lvl_access &gt; 2) {
+                        $data_user_works = get_user_work_for_rw($bdd, $recorded_work['RW_ID']);
+                    } else {
+                        $data_user_works = get_user_work_for_rw_and_user($bdd, $recorded_work['RW_ID'], $_SESSION['user_id']);
+                    }
+                    $isCurrent = false;
+                    foreach($data_user_works as $user_work){$isCurrent = ($isCurrent || !isset($user_work['UW_DATETIME_END']));}
+                    ?&gt;
+                    &lt;form id=&quot;delete_row-&lt;?php echo $recorded_work['RW_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                        &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $recorded_work['RW_ID'];?&gt;&quot; /&gt;
+                    &lt;/form&gt;
+                    &lt;form class=&quot;tr ALL &lt;?php echo (($recorded_work['RW_ID_ST']!=NULL)? 'PROJECT h-0 h-'.$recorded_work['WO_ID_H'] : 'DAILY').(($isCurrent)? ' CURRENT' : '');?&gt;&quot; id=&quot;row-&lt;?php echo $recorded_work['RW_ID'];?&gt;&quot; name=&quot;row-&lt;?php echo $recorded_work['RW_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $recorded_work['RW_ID'];?&gt;', 'row-&lt;?php echo $recorded_work['RW_ID'];?&gt;', '&lt;td&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/td&gt;');return false;&quot; enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;
+                        &lt;?php include('row/managementHome.php')?&gt;
+                    &lt;/form&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;?php if($lvl_access &gt; 2) { ?&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 1%;&quot;&gt;
+        &lt;div class=&quot;col-lg-2 col-lg-offset-4&quot; id=&quot;excel_file&quot;&gt;
+            &lt;button class=&quot;button&quot; onclick=&quot;call_excel('&lt;?php echo 'http://'.$_SERVER['SERVER_NAME'].'/management/?page=managementHome&amp;excel=1';?&gt;', 'excel_file');&quot;&gt;Excel&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='block'&quot; type=&quot;button&quot;&gt;Add Record&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

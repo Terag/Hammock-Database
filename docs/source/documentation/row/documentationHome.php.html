@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * documentationHome row for DOCUMENTATION part
+ *
+ * row displaying
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Documentation\Row
+ * @namespace Documentation
+ * @filesource
+ */
+?&gt;
+&lt;input name=&quot;fe_ga_id&quot; value=&quot;&lt;?php echo $aircraft['GA_ID']?&gt;&quot; hidden/&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;a href=&quot;?page=documentationAircraft&amp;id=&lt;?php echo $aircraft['GA_ID']?&gt;&quot;&gt;&lt;?php echo $aircraft['GA_ID'];?&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;a href=&quot;?page=documentationAircraft&amp;id=&lt;?php echo $aircraft['GA_ID']?&gt;&quot;&gt;&lt;?php echo $aircraft['GA_NAME'];?&gt;&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $aircraft['GA_NAME']?&gt;&quot; name=&quot;fe_ga_name&quot; required/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;a href=&quot;?page=documentationAircraft&amp;id=&lt;?php echo $aircraft['GA_ID']?&gt;&quot;&gt;&lt;?php echo $aircraft['GA_CONSTRUCTOR'];?&gt;&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $aircraft['GA_CONSTRUCTOR'];?&gt;&quot; name=&quot;fe_ga_constructor&quot; required/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;a href=&quot;?page=documentationAircraft&amp;id=&lt;?php echo $aircraft['GA_ID']?&gt;&quot;&gt;&lt;?php echo $aircraft['GA_TYPE'];?&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if($lvl_access &gt; 2) { ?&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $aircraft['GA_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if($lvl_access &gt; 2) { ?&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $aircraft['GA_ID'];?&gt;', 'row-&lt;?php echo $aircraft['GA_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $aircraft['GA_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

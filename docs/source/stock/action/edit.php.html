@@ -1,0 +1,167 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Edit action for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Action
+ * @namespace Stock
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+
+$fields = array(
+    /* CREATE GP */
+    'f_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'f_number' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_location' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+);
+$sql_request = 'CALL new_generic_part(:f_number, :f_name, NULL, :f_location, :f_description);';
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_genericPart.php';
+try {
+    $new_generic_part_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_generic_part_form-&gt;validateForm()) {
+        $new_generic_part_form-&gt;sendForm();
+
+        $last_insert = $bdd-&gt;query('SELECT MAX(GP_ID) AS ID FROM T_GENERIC_PART;')-&gt;fetch()['ID'];
+        $req = $bdd-&gt;prepare('SELECT * FROM T_GENERIC_PART WHERE GP_ID=:id;');
+        $req-&gt;execute(array('id' =&gt; $last_insert));
+        $generic_part = $req-&gt;fetch();?&gt;
+        &lt;form id=&quot;delete_row-&lt;?php echo $generic_part['GP_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $generic_part['GP_ID'];?&gt;&quot; /&gt;
+        &lt;/form&gt;
+        &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $generic_part['GP_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $generic_part['GP_ID'];?&gt;', 'row-&lt;?php echo $generic_part['GP_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; action=&quot;?page=edit&quot; method=&quot;post&quot;&gt;
+            &lt;?php include('row/edit.php');?&gt;
+        &lt;/form&gt;
+        &lt;?php exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+$fields = array(
+    /* CREATE GP */
+    'fe_gp_id' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'fe_gp_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'fe_gp_number' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_gp_location' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_gp_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+);
+$sql_request = 'CALL update_generic_part(:fe_gp_id, :fe_gp_number, :fe_gp_name, NULL, :fe_gp_location, :fe_gp_description);';
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_genericPart.php';
+try {
+    $new_generic_part_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_generic_part_form-&gt;validateForm()) {
+
+        $part_numbers = explode(';;', htmlspecialchars($_POST['fe_gp_number']));
+        foreach ($part_numbers as $number) {
+            if(!is_pn_available($bdd, $number, (int)$_POST['fe_gp_id']))
+                throw new Exception('This Part Number is already used');
+        }
+
+        $new_generic_part_form-&gt;sendForm();
+
+        $req = $bdd-&gt;prepare('SELECT * FROM T_GENERIC_PART WHERE GP_ID=:id');
+        $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_gp_id']));
+        $generic_part = $req-&gt;fetch();
+        include('row/edit.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+$fields = array(
+    'f_delete' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE)
+);
+$sql_request = 'DELETE FROM T_GENERIC_PART WHERE GP_ID=:f_delete;';
+try {
+    $delete_generic_part = new Form($bdd, $fields, $sql_request);
+
+    if($delete_generic_part-&gt;validateForm()) {
+        $delete_generic_part-&gt;sendForm();
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+if($lvl_access&gt;3) {
+    $fields = array(
+        'fm_pn_1' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'fm_pn_2' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE)
+    );
+    $sql_request = 'CALL merge_generic_parts(:fm_pn_1, :fm_pn_2);';
+    $form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/merge_genericParts.php';
+
+    try {
+        $merge_generic_parts = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+        if ($merge_generic_parts-&gt;validateForm()) {
+            $merge_generic_parts-&gt;sendForm();
+            header('Location: '.$_SERVER['REQUEST_URI']);
+        }
+
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+
+    }
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<?php
+/**
+ * File to provide display_modal function. Permits to display an error modal with a specific content.
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package UI
+ * @filesource
+ */
+
+/**
+ * Function to display a modal warning window
+ *
+ * Display a modal warning window on screen with specified text. the system to hide modal is to change display style to "none".
+ *
+ * @param string $text_content text to display
+ *
+ * @tags Modal Display
+ * @source ui\modal_warning.php
+ */
+function display_modal($text_content) {
+?>
+    <!-- The Warning Modal -->
+    <div id="modal-warning" class="modal" style="display: block;">
+        <!-- Modal content -->
+        <span onclick="document.getElementById('modal-warning').style.display='none'" class="close" title="Close Modal">×</span>
+        <div class="container" style="margin-top: 10%;">
+            <div class="modal-content modal-warning-content animate">
+                <div class="modal-header row">
+                    <div class="col-lg-12">
+                        <span onclick="document.getElementById('modal-warning').style.display='none'" class="close" title="Close Modal">×</span>
+                        <h2>! Warning !</h2>
+                    </div>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-lg-12">
+                        <h2><?php echo $text_content;?></h2>
+                    </div>
+                </div>
+                <div class="modal-footer row">
+                    <div class="col-lg-12">
+                        <h2></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //Get the warning_modal
+        var warning_modal = document.getElementById('modal-warning');
+    </script>
+<?php }

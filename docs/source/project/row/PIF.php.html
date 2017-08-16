@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * PIF row for PROJECT part
+ *
+ * row displaying
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Row
+ * @namespace Project
+ * @filesource
+ */
+?&gt;
+
+&lt;!-- Hidden Input --&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $project_part['LPS_ID_PP'];?&gt;&quot;name=&quot;fe_lps_pp_id&quot;/&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $project_part['LPS_ID_S'];?&gt;&quot; name=&quot;fe_lps_s_id&quot;/&gt;
+&lt;!-- User Input --&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['LPS_ID'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;a href=&quot;/documentation/?page=documentationSubTask&amp;id=&lt;?php echo $project_part['GST_ID'];?&gt;&quot; class=&quot;link&quot;&gt;
+        &lt;?php echo $project_part['GST_NUMBER'];?&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['GP_NAME'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php
+        $part_numbers = explode(';;', $project_part['GP_NUMBER']);
+        $index = ($project_part['S_INDEX_PN'] &gt; 0 AND $project_part['S_INDEX_PN'] &lt; count($part_numbers))? $project_part['S_INDEX_PN'] : 0;
+        echo $part_numbers[$index];
+    ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['PP_IPC'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if(isset($project_part['S_ID_ARC'])) {
+        $data_arc_file = get_file_info($bdd, $project_part['S_ID_ARC']); ?&gt;
+        &lt;button class=&quot;btn default&quot; onclick=&quot;openInNewTab('&lt;?php echo $data_arc_file['F_DIRECTORY'].'/'.$data_arc_file['F_NAME'].'.'.$data_arc_file['F_FORMAT'];?&gt;')&quot; formtarget=&quot;_blank&quot; type=&quot;button&quot;&gt;
+            &lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+    &lt;?php }
+    echo $project_part['S_ARC_NAME']; ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if(isset($project_part['S_ID_PURCHASE_ORDER'])) {
+        $data_po_file = get_file_info($bdd, $project_part['S_ID_PURCHASE_ORDER']); ?&gt;
+        &lt;button class=&quot;btn default&quot; onclick=&quot;openInNewTab('&lt;?php echo $data_po_file['F_DIRECTORY'].'/'.$data_po_file['F_NAME'].'.'.$data_po_file['F_FORMAT'];?&gt;')&quot; formtarget=&quot;_blank&quot; type=&quot;button&quot;&gt;
+            &lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;
+        &lt;/button&gt;
+    &lt;?php }
+    echo $project_part['S_PO_NAME']; ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['PP_QUANTITY_REQUESTED'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $project_part['LPS_QUANTITY_NUMBER'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;&lt;?php echo $project_part['LPS_QUANTITY_NUMBER'];?&gt;&quot; value=&quot;&lt;?php echo $project_part['LPS_QUANTITY_NUMBER'];?&gt;&quot; name=&quot;fe_lps_qty_dlv&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['S_PRICE'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['S_ACCURENCY'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $project_part['LPS_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $project_part['LPS_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

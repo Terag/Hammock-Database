@@ -1,0 +1,166 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * specificProject content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+if($UserConnected AND isset($_GET['page']) AND isset($_GET['id'])) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+
+    /*Get Work Order name List */
+    $data_wo_names = get_wo_name_list_for_project($bdd, $id_project);
+;?&gt;
+
+        &lt;!-- Form Content --&gt;
+    &lt;?php if($lvl_access&gt;2) {$new_document_form-&gt;display_Form();}?&gt;
+
+        &lt;!-- Main Content --&gt;
+    &lt;div class=&quot;container content&quot;&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center center&quot;&gt;
+                &lt;h2&gt;Project&lt;/h2&gt;
+                &lt;table class=&quot;myTable&quot;&gt;
+                    &lt;tr class=&quot;header&quot;&gt;
+                        &lt;th style=&quot;width:10%;&quot;&gt;ID&lt;/th&gt;
+                        &lt;th style=&quot;width:30%;&quot;&gt;Name&lt;/th&gt;
+                        &lt;th style=&quot;width:30%;&quot;&gt;Customer&lt;/th&gt;
+                        &lt;th style=&quot;width:30%;&quot;&gt;Helicopter&lt;/th&gt;
+                    &lt;/tr&gt;
+                    &lt;tr class=&quot;fixTab&quot;&gt;
+                        &lt;td&gt;&lt;?php echo $data_project['id'];?&gt;&lt;/td&gt;
+                        &lt;td&gt;&lt;?php echo $data_project['p_name'];?&gt;&lt;/td&gt;
+                        &lt;td&gt;&lt;?php echo $data_project['c_name'];?&gt;&lt;/td&gt;
+                        &lt;td&gt;&lt;?php echo $data_project['ga_name'];?&gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;col-lg-10 col-lg-offset-1&quot; style=&quot;margin-top: 5%;&quot;&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;a href=&quot;?page=recapitulate&amp;id=&lt;?php echo $id_project?&gt;&quot;&gt;&lt;button class=&quot;button&quot;&gt;Summary&lt;/button&gt; &lt;/a&gt;
+                &lt;/div&gt;
+                &lt;?php if($lvl_access&gt;2) { ?&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;div class=&quot;dropdown&quot;&gt;
+                        &lt;button onclick=&quot;dropdown('SOW')&quot; class=&quot;dropbtn button&quot;&gt;Scope of Work&lt;/button&gt;
+                        &lt;div id=&quot;myDropdown-SOW&quot; class=&quot;dropdown-content&quot;&gt;
+                                &lt;?php foreach($data_wo_names as $data_dropdown) {?&gt;
+                                    &lt;a href=&quot;index.php?page=scopeOfWork&amp;id=&lt;?php echo $data_dropdown['WO_ID']?&gt;&quot;&gt;&lt;?php echo str_replace('%DOC%','SOW', $data_dropdown['WO_NAME']);?&gt;&lt;/a&gt;
+                                &lt;?php }
+                                if($lvl_access&gt;2) { ?&gt;
+                                    &lt;a onclick=&quot;document.getElementById('id01').style.display='block'&quot; &quot;&gt;New&lt;/a&gt;
+                                &lt;?php } ?&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;?php } ?&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;div class=&quot;dropdown&quot;&gt;
+                        &lt;button onclick=&quot;dropdown('WO')&quot; class=&quot;dropbtn button&quot;&gt;Work Order&lt;/button&gt;
+                        &lt;div id=&quot;myDropdown-WO&quot; class=&quot;dropdown-content&quot;&gt;
+                            &lt;?php foreach($data_wo_names as $data_dropdown) {?&gt;
+                                &lt;a href=&quot;index.php?page=workOrder&amp;id=&lt;?php echo $data_dropdown['WO_ID']?&gt;&quot;&gt;&lt;?php echo str_replace('%DOC%','WO', $data_dropdown['WO_NAME'])?&gt;&lt;/a&gt;
+                            &lt;?php }
+                            if($lvl_access&gt;2) { ?&gt;
+                                &lt;a onclick=&quot;document.getElementById('id01').style.display='block'&quot; &quot;&gt;New&lt;/a&gt;
+                            &lt;?php } ?&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;div class=&quot;dropdown&quot;&gt;
+                        &lt;button onclick=&quot;dropdown('ERV')&quot; class=&quot;dropbtn button&quot;&gt;ERV&lt;/button&gt;
+                        &lt;div id=&quot;myDropdown-ERV&quot; class=&quot;dropdown-content&quot;&gt;
+                            &lt;?php foreach($data_wo_names as $data_dropdown) {?&gt;
+                                &lt;a href=&quot;index.php?page=ERV&amp;id=&lt;?php echo $data_dropdown['WO_ID']?&gt;&quot;&gt;&lt;?php echo str_replace('%DOC%','ERV', $data_dropdown['WO_NAME'])?&gt;&lt;/a&gt;
+                            &lt;?php }
+                            if($lvl_access&gt;2) { ?&gt;
+                                &lt;a onclick=&quot;document.getElementById('id01').style.display='block'&quot;&gt;New&lt;/a&gt;
+                            &lt;?php } ?&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;?php if($lvl_access&gt;2) { ?&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;div class=&quot;dropdown&quot;&gt;
+                        &lt;button onclick=&quot;dropdown('PIF')&quot; class=&quot;dropbtn button&quot;&gt;PIF&lt;/button&gt;
+                        &lt;div id=&quot;myDropdown-PIF&quot; class=&quot;dropdown-content&quot;&gt;
+                            &lt;?php foreach($data_wo_names as $data_dropdown) {?&gt;
+                                &lt;a href=&quot;index.php?page=PIF&amp;id=&lt;?php echo $data_dropdown['WO_ID']?&gt;&quot;&gt;&lt;?php echo str_replace('%DOC%','PIF', $data_dropdown['WO_NAME'])?&gt;&lt;/a&gt;
+                            &lt;?php } ?&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;?php } ?&gt;
+                &lt;?php if($lvl_access&gt;3) { ?&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;a href=&quot;?page=close&amp;id=&lt;?php echo $id_project?&gt;&quot;&gt;&lt;button class=&quot;button&quot;&gt;Archive &lt;/button&gt; &lt;/a&gt;
+                &lt;/div&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;?php } else {
+    header('Location: /index.php');
+    exit();
+}
+
+?&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

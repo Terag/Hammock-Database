@@ -1,0 +1,148 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * documentationAircraft action for DOCUMENTATION part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Documentation\Action
+ * @namespace Documentation
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/form.php');
+
+$id_ga = (int) $_GET['id'];
+
+if($lvl_access &gt; 2) {
+    /* If received New Manual form */
+    $fields = array(
+        'f_id_ga' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE, 'value' =&gt; $id_ga),
+        'f_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+        'f_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'f_reference' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+        'f_file' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/manual', 'file_name' =&gt; $id_ga . '-%var%', 'var' =&gt; 'f_name'),
+    );
+    $sql_request = 'CALL new_manual(:f_id_ga,:f_file,:f_name, :f_reference,:f_description);';
+    $form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_manual.php';
+    try {
+        $new_manual_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+        if ($new_manual_form-&gt;validateForm()) {
+            $new_manual_form-&gt;sendForm();
+
+            $last_insert = $bdd-&gt;query('SELECT MAX(M_ID) AS ID FROM T_MANUAL;')-&gt;fetch()['ID'];
+            $req = $bdd-&gt;prepare('SELECT * FROM T_MANUAL LEFT JOIN T_FILE ON M_ID_MANUAL=F_ID WHERE M_ID=:id;');
+            $req-&gt;execute(array('id' =&gt; $last_insert));
+            $manual = $req-&gt;fetch(); ?&gt;
+            &lt;form id=&quot;delete_row-&lt;?php echo $manual['M_ID']; ?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $manual['M_ID']; ?&gt;&quot;/&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;f_delete_file&quot; value=&quot;&lt;?php echo $manual['M_ID_MANUAL']; ?&gt;&quot;&gt;
+            &lt;/form&gt;
+            &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $manual['M_ID']; ?&gt;&quot;
+                  onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $manual['M_ID']; ?&gt;', 'row-&lt;?php echo $manual['M_ID']; ?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot;
+                  enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;
+                &lt;?php include('row/documentationAircraft.php'); ?&gt;
+            &lt;/form&gt;
+            &lt;?php exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+
+    /* If received Update Manual form */
+    $fields = array(
+        'fe_m_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+        'fe_m_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+        'fe_m_reference' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+        'fe_m_description' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+        'fe_m_file' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/manual', 'file_name' =&gt; $id_ga . '-%var%', 'var' =&gt; 'fe_m_name'),
+        'fe_m_delete_file' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE, 'cond' =&gt; 'fe_m_file')
+    );
+    $sql_request = 'CALL update_manual(:fe_m_id, :fe_m_file, :fe_m_name, :fe_m_reference, :fe_m_description);';
+    try {
+        $modify_manual_form = new Form($bdd, $fields, $sql_request);
+
+        if ($modify_manual_form-&gt;validateForm()) {
+            $modify_manual_form-&gt;sendForm();
+
+            $req = $bdd-&gt;prepare('SELECT * FROM T_MANUAL LEFT JOIN T_FILE ON M_ID_MANUAL=F_ID WHERE M_ID=:id;');
+            $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_m_id']));
+            $manual = $req-&gt;fetch();
+            include('row/documentationAircraft.php');
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+
+    /* If received Delete Manual form */
+    $fields = array(
+        'f_delete' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+        'f_delete_file' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE)
+    );
+    $sql_request = 'DELETE FROM T_MANUAL WHERE M_ID = :f_delete;';
+    try {
+        $delete_manual_form = new Form($bdd, $fields, $sql_request);
+
+        if ($delete_manual_form-&gt;validateForm()) {
+            $delete_manual_form-&gt;sendForm();
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error-&gt;getMessage());
+        exit();
+    }
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

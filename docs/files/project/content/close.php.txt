@@ -1,0 +1,140 @@
+<?php
+/**
+ * close content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+if($id_project > 0) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']->getMessage());
+    }
+
+    /*  Get other data from database */
+    /*  Get Project information */
+    $data_project = get_project_info_from_helico($bdd, $id_project);
+    if(!$data_project) {
+        header('Location: ./');
+        exit();
+    }
+
+    $data_engine1 = null;
+    if($data_project['H_ID_E1'] != null) {
+        $data_engine1 = get_engine_info($bdd, $data_project['H_ID_E1']);
+    }
+    $data_engine2 = null;
+    if($data_project['H_ID_E2'] != null) {
+        $data_engine2 = get_engine_info($bdd, $data_project['H_ID_E2']);
+    }
+
+    $data_wos = get_wo_name_list_for_project($bdd, $id_project);
+    ?>
+
+<div class="container content">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 header-resume" style="margin-top: 8%; margin-bottom: 2%;">
+            <div class="col-lg-6">
+                <h2><strong>Project :</strong> <br/><?php echo $data_project['P_NAME'];?></h2>
+            </div>
+            <div class="col-lg-6">
+                <h4><strong>Customer :</strong> <?php echo $data_project['C_NAME'];?></h4>
+                <h4><strong>Aircraft :</strong> <?php echo $data_project['GA_NAME'];?></h4>
+                <h4><strong>Serial :</strong> <?php echo $data_project['H_SERIAL'];?></h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="col-lg-6">
+                <h2>Word Order List</h2>
+                <div class="table myTable">
+                    <div class="tr header">
+                        <span class="td" style="width:5%;">ID</span>
+                        <span class="td" style="width:85%;">NAME</span>
+                        <span class="td" style="width:10%;"></span>
+                    </div>
+                    <script>
+                        var rows = [];
+
+                        function selectrow(id) {
+                            var selected = $('#' + id);
+                            if(selected.hasClass('header')) {
+                                return false;
+                            } else {
+                                rows.forEach(function(row) {
+                                    row.removeClass('header');
+                                    $('button', row).css('display', 'none');
+                                });
+                                selected.addClass('header');
+                                $('#zip-' + id + ' > button', selected).css('display', 'block');
+                                return true;
+                            }
+                        }
+                    </script>
+                    <?php $i=0; foreach ($data_wos as $wo) { $i++;?>
+                        <div class="tr" onclick="if(selectrow('row-<?php echo $wo['WO_ID'];?>')) {
+                                                    xmlhttpPost('http://<?php echo $_SERVER['HTTP_HOST'];?>/project/?page=close&wo=<?php echo $wo['WO_ID'];?>', '', 'result', '<span><img src=\'/img/wait_rot.gif\'/></span>')
+                                                 }" id="row-<?php echo $wo['WO_ID'];?>">
+                            <script>rows.push($('#row-<?php echo $wo['WO_ID'];?>'));</script>
+                            <span class="td"><?php echo $wo['WO_ID'];?></span>
+                            <span class="td"><?php echo str_replace('%DOC%','SOW', $wo['WO_NAME']);?></span>
+                            <span class="td" id="zip-row-<?php echo $wo['WO_ID'];?>"><button type="button" onclick="xmlhttpPost(document.location.origin + '/project/?page=close&id=<?php echo $id_project;?>&excel=<?php echo $wo['WO_ID'];?>', '', 'result', '<button class=\'button\'>Wait..</button>');" class="button edit" style="display: none;">Files</button></span>
+                        </div>
+                    <?php } ?>
+                </div>
+                <?php if($i==0) { ?>
+                    <div class="col-lg-4 col-lg-offset-4">
+                        <form id="close-project-form" onsubmit="return confirm('Delete Project <?php echo $data_project['P_NAME'];?> ?')" action="/project/?page=close&id=<?php echo $id_project;?>&delete_project=<?php echo $id_project;?>" method="post">
+                            <input type="hidden" value="<?php echo generate_token('close-project-'.$id_project);?>" name="token" required/>
+                            <button type="submit" class="button danger">Delete Project</button>
+                        </form>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="col-lg-6" id="result">
+                <?php if(isset($succeed) AND $succeed == true AND isset($data_project_parts)) { ?>
+                    <h2>Delete WO : <?php echo $wo_name;?></h2>
+                    <div class="table myTable">
+                        <div class="tr header">
+                            <span class="td" style="width:5%;">ID</span>
+                            <span class="td" style="width:15%;">ST Index</span>
+                            <span class="td" style="width:20%;">DESCRIPTION</span>
+                            <span class="td" style="width:20%;">PN</span>
+                            <span class="td" style="width:30%;">PO</span>
+                            <span class="td" style="width:10%;">QTY</span>
+                        </div>
+                        <?php foreach ($data_project_parts as $project_part) { ?>
+                            <div class="tr">
+                                <span class="td"><?php echo $project_part['LPS_ID'];?></span>
+                                <span class="td"><?php echo $project_part['GST_NUMBER'];?></span>
+                                <span class="td"><?php echo $project_part['GP_NAME'];?></span>
+                                <span class="td"><?php echo $project_part['GP_NUMBER'];?></span>
+                                <span class="td"><?php echo $project_part['S_PO_NAME'];?></span>
+                                <span class="td"><?php echo $project_part['LPS_QUANTITY_NUMBER'];?></span>
+                            </div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 3%;">
+            <div class="col-lg-2 col-lg-offset-5">
+                <a href="./?page=specificProject&id=<?php echo $data_project['P_ID'];?>"><button class="button">Back</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php } else {
+    display_modal('Error to load Project information, are you on the good page ?');
+}
