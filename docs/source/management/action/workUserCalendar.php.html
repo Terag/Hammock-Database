@@ -1,0 +1,184 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * workUserCalendar action for MANAGEMENT part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Management\Action
+ * @namespace Management
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/form.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/SQL_management/calendar.php');
+
+if(isset($_GET['id'])) {
+    $year = (isset($_GET['Y']))? (int)$_GET['Y']: (int)date('Y');
+    $month = (isset($_GET['M']))? (int)$_GET['M']: (int)date('m');
+    $day = (isset($_GET['D']))? (int)$_GET['D']: (int)date('d');
+    $id = (int)$_GET['id'];
+
+    if($id != $_SESSION['user_id'] AND $lvl_access &lt; 2) {
+        header('Location: ./');
+        exit();
+    }
+
+    try {
+        $calendar = new Calendar($year, $month, $day);
+    } catch (Exception $error) {
+        $_SESSION['error'] = $error;
+    }
+
+    if(isset($calendar)) {
+        $date_begin = $calendar-&gt;getBeginDate();
+        $date_end = $calendar-&gt;getEndDate();
+
+        try {
+            $req = $bdd-&gt;prepare('CALL user_work_list_between_two_date(:id_u, :date_begin, :date_end);');
+            $req-&gt;execute(array(
+                'id_u' =&gt; $id,
+                'date_begin' =&gt; $date_begin,
+                'date_end' =&gt; date('Y-m-d', strtotime($date_end) + 3600*24)
+            ));
+            $date_userworks = $req-&gt;fetchAll();
+            $req-&gt;closeCursor();
+        } catch (Exception $error) {
+            display_modal($error-&gt;getMessage());
+            exit();
+        }
+
+        $work_days = array();
+
+        foreach ($date_userworks as &amp;$userwork) {
+            $date = date('Y-m-d',strtotime($userwork['UW_DATETIME_BEGIN']));
+            if(!isset($work_days[$date])) {
+                $work_days[$date]['begin'] = strtotime($date) + 3600*24;
+                $work_days[$date]['end'] = 0;
+                $work_days[$date]['total'] = 0;
+                $work_days[$date]['tasks'] = 0;
+                $work_days[$date]['project_list'] = array();
+                //$work_days[$date]['z'] = '&lt;br/&gt;&lt;br/&gt;';
+            }
+
+            $work_days[$date]['tasks']++;
+
+            $work_days[$date]['total'] += $userwork['UW_TOTAL_MIN'];
+
+            $work_days[$date]['begin'] = (strtotime($userwork['UW_DATETIME_BEGIN']) &lt; $work_days[$date]['begin'])?
+                strtotime($userwork['UW_DATETIME_BEGIN']):
+                $work_days[$date]['begin'];
+
+            $work_days[$date]['end'] = ( ((strtotime($userwork['UW_DATETIME_END']) - 24*3600) &lt; strtotime($date)) AND (strtotime($userwork['UW_DATETIME_END']) &gt; $work_days[$date]['end']))?
+                strtotime($userwork['UW_DATETIME_END']):
+                $work_days[$date]['end'];
+
+            $project_name = ($userwork['P_ID']==0)? 'DAILY' : $userwork['P_NAME'];
+            if(!isset($work_days[$date]['project_list'][$project_name])) {
+                $work_days[$date]['project_list'][$project_name] = array();
+            }
+
+            array_push($work_days[$date]['project_list'][$project_name], array(
+                'Ref' =&gt; (($userwork['RW_ID_ST']==NULL)? 'DAILY': $userwork['GST_NUMBER']),
+                'Sum' =&gt; (($userwork['RW_ID_ST']==NULL)? $userwork['RW_DESCRIPTION']: $userwork['GST_DESCRIPTION']),
+                'Begin' =&gt; date('H:i', strtotime($userwork['UW_DATETIME_BEGIN'])),
+                'Time' =&gt; (int)($userwork['UW_TOTAL_MIN']/60).'h'.(int)($userwork['UW_TOTAL_MIN']%60)
+            ));
+        }
+
+        foreach ($work_days as $key =&gt; $day) {
+
+            $global_content = '&lt;div class=&quot;calendar-day__content-global&quot;&gt;
+                                &lt;b&gt;Begin :&lt;/b&gt;'.date('H:i',$day['begin']).'&lt;br/&gt;
+                                &lt;b&gt;End :&lt;/b&gt;'.(($day['end']==0)? 'N/A': date('H:i',$day['end'])).'&lt;br/&gt;
+                                &lt;b&gt;Total :&lt;/b&gt;'.((int)($day['total']/60)).'h'.((int)($day['total']%60)).'&lt;br/&gt;
+                                &lt;b&gt;Tasks :&lt;/b&gt;'.$day['tasks'].'
+                               &lt;/div&gt;';
+            $global_content .= '&lt;div class=&quot;table myTable&quot;&gt;
+                                    &lt;div class=&quot;tr header&quot; style=&quot;border-bottom: white solid;&quot;&gt;
+                                        &lt;span class=&quot;th&quot; style=&quot;width: 20%;&quot;&gt;Ref&lt;/span&gt;
+                                        &lt;span class=&quot;th&quot; style=&quot;width: 40%;&quot;&gt;Sum&lt;/span&gt;
+                                        &lt;span class=&quot;th&quot; style=&quot;width: 30%;&quot;&gt;Begin&lt;/span&gt;
+                                        &lt;span class=&quot;th&quot; style=&quot;width: 30%;&quot;&gt;Time&lt;/span&gt;
+                                    &lt;/div&gt;';
+
+            foreach ($day['project_list'] as $key_project =&gt; $project) {
+                $global_content .= '&lt;div class=&quot;tr header&quot;&gt;
+                                        &lt;span class=&quot;td&quot; style=&quot;width: 20%;&quot;&gt;'.$key_project.'&lt;/span&gt;
+                                        &lt;span class=&quot;th&quot; style=&quot;width: 40%;&quot;&gt;&lt;/span&gt;
+                                        &lt;span class=&quot;th&quot; style=&quot;width: 30%;&quot;&gt;&lt;/span&gt;
+                                        &lt;span class=&quot;th&quot; style=&quot;width: 30%;&quot;&gt;&lt;/span&gt;
+                                    &lt;/div&gt;';
+                foreach ($project as $task) {
+                    $global_content.= '&lt;div class=&quot;tr&quot;&gt;
+                                            &lt;span class=&quot;td&quot;&gt;'.$task['Ref'].'&lt;/span&gt;
+                                            &lt;span class=&quot;td&quot;&gt;'.$task['Sum'].'&lt;/span&gt;
+                                            &lt;span class=&quot;td&quot;&gt;'.$task['Begin'].'&lt;/span&gt;
+                                            &lt;span class=&quot;td&quot;&gt;'.$task['Time'].'&lt;/span&gt;
+                                        &lt;/div&gt;';
+                }
+            }
+            $global_content.= '&lt;/div&gt;';
+
+            $calendar-&gt;SetContentOnDate($key, $global_content);
+        }
+    }
+
+
+} else {
+    header('Location: ./');
+    exit();
+}
+
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

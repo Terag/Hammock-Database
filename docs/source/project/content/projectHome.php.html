@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * projectHome content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+/*Get $projectList var from database*/
+
+
+$projectList = $bdd-&gt;query('CALL project_list();');
+?&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center center&quot;&gt;
+            &lt;h2&gt;Projects&lt;/h2&gt;
+            &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(4, 'table')&quot; placeholder=&quot;Search for names..&quot; title=&quot;Type in a name&quot; /&gt;
+            &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                &lt;div class=&quot;tr header&quot;&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;ID&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Name&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Customer&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Helicopter&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;Serial&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;?php while($data = $projectList-&gt;fetch()) { ?&gt;
+                    &lt;div class=&quot;tr&quot; onclick=&quot;location.href='?page=specificProject&amp;id=&lt;?php echo $data['id']?&gt;';&quot; style=&quot;cursor:pointer;&quot;&gt;
+                        &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['id'];?&gt;&lt;/span&gt;
+                        &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['p_name'];?&gt;&lt;/span&gt;
+                        &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['c_name'];?&gt;&lt;/span&gt;
+                        &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['ga_name'];?&gt;&lt;/span&gt;
+                        &lt;span class=&quot;td&quot;&gt;&lt;?php echo $data['h_serial'];?&gt;&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;?php if($lvl_access &gt; 2) { ?&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+        &lt;div class=&quot;col-lg-2 col-lg-offset-5&quot;&gt;
+            &lt;a href=&quot;./?page=createNewProject&quot;&gt;&lt;button class=&quot;button&quot;&gt;New Project&lt;/button&gt;&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * login for account module
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Account
+ * @namespace Account
+ * @filesource
+ */
+
+ob_start();
+// Connection to database
+include(&quot;../SQL_management/connection.php&quot;);
+
+// Get posted information
+$pass = $_POST['password'];
+$pseudo = $_POST['pseudo'];
+$pass_hash = sha1($pass);
+
+//user identification
+$req = $bdd-&gt;prepare('SELECT * FROM T_USER WHERE U_NAME = :pseudo');
+$req-&gt;execute(array(
+    'pseudo' =&gt; $pseudo));
+$datas = $req-&gt;fetch();
+
+if ($datas AND $datas['U_PASSWORD']==$pass_hash)
+{
+    session_start();
+    $_SESSION['user_id'] = $datas['U_ID'];
+    $_SESSION['pseudo'] = $datas['U_NAME'];
+    $_SESSION['access'] = $datas['U_STATUS'];
+    $_SESSION['new'] = TRUE;
+    $_SESSION['currentPage'] = 'defaultHome.php';
+    $req-&gt;closeCursor();
+
+    header(&quot;Location: ../home.php&quot;);
+    exit;
+}
+else
+{
+    $req-&gt;closeCursor();
+    header('Location: ../index.php');
+    exit;
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

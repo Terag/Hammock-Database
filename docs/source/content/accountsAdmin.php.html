@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * accountsAdmin content for HOME part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Home\Content
+ * @namespace Home
+ * @filesource
+ */
+
+if(isset($_SESSION['error'])) {
+    display_modal($_SESSION['error']-&gt;getMessage());
+}
+
+$req = $bdd-&gt;query('SELECT * FROM T_USER;');
+$data_accounts = $req-&gt;fetchAll();
+?&gt;
+
+&lt;!-- Form Content --&gt;
+&lt;div id=&quot;id01&quot; class=&quot;modal&quot;&gt;
+    &lt;script&gt;var count = 0;&lt;/script&gt;
+    &lt;span onclick=&quot;document.getElementById('id01').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+    &lt;form class=&quot;modal-form&quot; id=&quot;new_row&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'new_row', 'table', '', true);console.log('send form');
+                                                    count++;modal.style.display = 'none';return false;&quot; method=&quot;post&quot;&gt;
+        &lt;div class=&quot;container modal-content animate form-style&quot;&gt;
+            &lt;h2&gt;&lt;strong&gt;New Account&lt;/strong&gt;&lt;/h2&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 2%;&quot;&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;text-align: right;&quot;&gt;
+                    &lt;label for=&quot;f_login&quot;&gt;&lt;b&gt;Login&lt;/b&gt;&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-4&quot;&gt;
+                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_login&quot; id=&quot;f_login&quot; required/&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;text-align: right;&quot;&gt;
+                    &lt;label for=&quot;f_password&quot;&gt;&lt;b&gt;Password&lt;/b&gt;&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-4&quot;&gt;
+                    &lt;input class=&quot;form_input&quot; type=&quot;password&quot; name=&quot;f_password&quot; id=&quot;f_password&quot; required/&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 2%&quot;&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;text-align: right&quot;&gt;
+                    &lt;label for=&quot;f_access&quot;&gt;Level Access&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-4&quot;&gt;
+                    &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                        &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; name=&quot;f_status&quot;&gt;
+                            &lt;option value=&quot;1&quot;&gt;View&lt;/option&gt;
+                            &lt;option value=&quot;2&quot;&gt;Hangar&lt;/option&gt;
+                            &lt;option value=&quot;3&quot;&gt;Office&lt;/option&gt;
+                            &lt;option value=&quot;4&quot;&gt;Admin&lt;/option&gt;
+                        &lt;/select&gt;
+                    &lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;text-align: right;&quot;&gt;
+                    &lt;label for=&quot;f_code&quot;&gt;Certification&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-4&quot;&gt;
+                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_code&quot;/&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 2%&quot;&gt;
+                &lt;div class=&quot;col-lg-12 clearfix&quot;&gt;
+                    &lt;button type=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='none'&quot; class=&quot;button cancelbtn&quot;&gt;Cancel&lt;/button&gt;
+                    &lt;button type=&quot;submit&quot; class=&quot;button signupbtn&quot;&gt;Create&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1 text-center center&quot;&gt;
+            &lt;h2&gt;Accounts&lt;/h2&gt;
+            &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(2)&quot; placeholder=&quot;Search for names..&quot; title=&quot;Type in a name&quot; /&gt;
+            &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                &lt;div class=&quot;tr header&quot;&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:35%;&quot;&gt;Login&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:11%;&quot;&gt;Lvl Access&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:21%;&quot;&gt;Password&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:31%;&quot;&gt;Certification&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:1%;&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;?php foreach($data_accounts as $account) { ?&gt;
+                    &lt;form id=&quot;delete_row-&lt;?php echo $account['U_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                        &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $account['U_ID'];?&gt;&quot; /&gt;
+                    &lt;/form&gt;
+                    &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $account['U_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $account['U_ID'];?&gt;', 'row-&lt;?php echo $account['U_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; method=&quot;post&quot;&gt;
+                        &lt;?php include('row/accountsAdmin.php');?&gt;
+                    &lt;/form&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+        &lt;div class=&quot;col-lg-2 col-lg-offset-5&quot;&gt;
+            &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='block'&quot; type=&quot;submit&quot;&gt;Add Account&lt;/button&gt;
+            &lt;script&gt;
+                // Get the modal
+                var modal = document.getElementById('id01');
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = &quot;none&quot;;
+                    }
+                }
+            &lt;/script&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

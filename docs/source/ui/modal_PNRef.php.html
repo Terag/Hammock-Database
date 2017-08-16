@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * File to describe the modal to get information about Part Number cross references.
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package UI
+ * @filesource
+ */
+?&gt;
+
+&lt;!-- Information Box --&gt;
+&lt;div id=&quot;pn_modal&quot; class=&quot;modal2&quot; style=&quot;z-index: 10;&quot;&gt;
+    &lt;div class=&quot;container modal-content animate form-style&quot;&gt;
+        &lt;span onclick=&quot;document.getElementById('pn_modal').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+        &lt;h2&gt;&lt;strong&gt;Part Number Cross References&lt;/strong&gt;&lt;/h2&gt;
+        &lt;div class=&quot;row&quot; style=&quot;margin-top: 15px;&quot;&gt;
+            &lt;div class=&quot;col-lg-12&quot; id=&quot;PN-REFERENCES&quot;&gt;
+
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    /**
+     * Javascript function to get NSN in an HTMLDocument object received from Part Logistic
+     *
+     * @param content HTMLDocument
+     * @returns string
+     */
+    function getNSN(content) {
+        console.log('try to get NSN');
+        console.log(content.getElementsByTagName('title')[0]);
+
+        var title = content.getElementsByTagName('title')[0];
+
+        if(title.innerHTML.indexOf('National Stock Number:'))
+            return title.innerHTML.match(/National Stock Number:(.*),/)[0] + '&lt;br/&gt;';
+
+        return 'National Stock Number: N/A&lt;br/&gt;';
+    }
+
+    /**
+     * Javascript function to get and display cross references from Part Logistic for a specific part number
+     *
+     * @param button HTMLElement
+     * @param content HTMLElement
+     */
+    function searchPNRef(button, content) {
+
+        var pn = (typeof content === 'undefined')? document.getElementById('PartFilterInput').value: content;
+        pn = pn.toUpperCase().replace(' ','').replace('-','');
+        var V=1;
+
+        var callback = function(content) {
+            var part_numbers = [];
+            var mcrd = content.getElementsByTagName('html')[0].querySelector('[name=mcrd]');
+            var i;
+            var tr_list, new_pn;
+            var div = document.getElementById('PN-REFERENCES');
+
+            if(mcrd === null &amp;&amp; V &lt; 2) {
+                V++;
+                xmlhttpGet(&lt;?php echo '\'http://' . $_SERVER['HTTP_HOST'] . '/project/PN_Info.php?V=\'';?&gt; + V + '&amp;PN=' + pn, callback);
+                return 0;
+
+            } else if(mcrd !== null) {
+                tr_list = mcrd.nextElementSibling.getElementsByTagName('table')[2].getElementsByTagName('tr');
+
+                for(i=3; i&lt;tr_list.length; i++) {
+                    new_pn = tr_list[i].getElementsByTagName('td')[0].innerHTML;
+                    if(part_numbers.indexOf(new_pn) === -1) {
+                        part_numbers.push(new_pn);
+                    }
+                }
+
+
+            div.innerHTML = '&lt;b&gt;' + getNSN(content) + '&lt;/b&gt;';
+
+            div.innerHTML += pn + ' : alt PN list for MCRD&lt;br/&gt;';
+            for(i=0; i&lt;part_numbers.length; i++) {
+                div.innerHTML += '- PN-' + i + ': ' + part_numbers[i] + '&lt;br/&gt;';
+            }
+
+            mcrd = content.getElementsByTagName('html')[0].querySelector('[name=pa]');
+
+            if(mcrd !== null) {
+                part_numbers = [];
+                tr_list = mcrd.nextElementSibling.getElementsByTagName('table')[1].getElementsByTagName('tr');
+                div = document.getElementById('PN-REFERENCES');
+
+                div.innerHTML += '&lt;br/&gt;&lt;br/&gt;';
+
+                for(i=3; i&lt;tr_list.length; i++) {
+                    var td = tr_list[i].getElementsByTagName('td')[0];
+                    var elements = td.getElementsByTagName('p');
+                    while (elements[0]) elements[0].parentNode.removeChild(elements[0]);
+
+                    new_pn = td.innerHTML;
+                    if(part_numbers.indexOf(new_pn) === -1) {
+                        part_numbers.push(new_pn);
+                    }
+                }
+
+                div.innerHTML += pn + ' : alt PN list&lt;br/&gt;';
+                for(i=0; i&lt;part_numbers.length; i++) {
+                    div.innerHTML += '- PN-' + i + ': ' + part_numbers[i] + '&lt;br/&gt;';
+                }
+            } else {
+                document.getElementById('PN-REFERENCES').innerHTML = 'N/A';
+            }
+
+            button.disabled = false;
+            }
+        };
+
+        try {
+            document.getElementById('PN-REFERENCES').innerHTML = '&lt;img src=\'/img/wait_rot.gif\'/&gt;';
+            document.getElementById('PN-REFERENCES').display = true;
+            xmlhttpGet(&lt;?php echo '\'http://'.$_SERVER['HTTP_HOST'].'/project/PN_Info.php?V=1&amp;PN=\'';?&gt; + pn, callback);
+
+        } catch (error) {
+            button.disabled = false;
+            document.getElementById('PN-REFERENCES').innerHTML = 'N/A';
+        }
+    }
+&lt;/script&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,71 @@
+<?php
+/**
+ * The Form file new_dailyTask
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Form
+ * @namespace Form
+ * @filesource
+ */
+
+global $bdd;
+$not_performed_sub_tasks = get_not_performed_sub_task_list($bdd);
+?>
+
+<div id="id01" class="modal">
+    <script>var count = 0;</script>
+    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+    <form class="modal-form" id="new_row" onsubmit="xmlhttpPost(document.location.href, 'new_row', 'table', '', true);
+                                                    count++;modal.style.display = 'none';return false;" method="post">
+        <div class="container modal-content animate form-style">
+            <h2><strong>New Daily Task</strong></h2>
+            <!-- Hidden Input -->
+
+            <!-- User Input -->
+            <div class="row" style="margin-top: 2%;">
+                <div class="col-lg-2" style="text-align: right">
+                    <label for="f_id_st">Sub Task Index</label>
+                </div>
+                <div class="col-lg-4">
+                    <span class="custom-dropdown custom-dropdown--white" style="margin-top: 1px">
+                        <select class="form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white" name="f_id_st" style="box-shadow: 2px 2px #999;padding: 8px;font-size: 16px;">
+                            <option value="0">DAILY</option>
+                            <?php $project = $not_performed_sub_tasks[0]['P_NAME'];
+                                echo '<optgroup label="'.$project.'">';
+                                foreach($not_performed_sub_tasks as $not_performed_sub_task) {
+                                    if($not_performed_sub_task['P_NAME']!=$project) {
+                                        $project = $not_performed_sub_task['P_NAME'];
+                                        echo '</optgroup><optgroup label="'.$project.'">';
+                                    }?>
+                                <option value="<?php echo $not_performed_sub_task['ST_ID'];?>"><?php echo $not_performed_sub_task['GST_NUMBER'].' &#9658 '.$not_performed_sub_task['ST_REFERENCE'];?></option>
+                            <?php } echo '</optgroup>'; ?>
+                        </select>
+                    </span>
+                </div>
+            </div>
+            <p style="margin-top: 2%;">If Daily Task</p>
+            <div class="row" style="border:1px dotted black;padding: 5px;">
+                <div class="col-lg-2" style="text-align: right;">
+                    <label for="f_description">Description</label>
+                </div>
+                <div class="col-lg-6" style="text-align: left;">
+                    <textarea class="form_input" rows="4" cols="20" name="f_description"></textarea>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 2%">
+                <div class="col-lg-12 clearfix">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="button cancelbtn">Cancel</button>
+                    <button type="submit" class="button signupbtn">Create</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+</script>

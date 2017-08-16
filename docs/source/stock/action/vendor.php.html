@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Vendor action for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Action
+ * @namespace Stock
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/file_manager.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+
+$fields = array(
+    /* CREATE VENDOR */
+    'f_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'f_address' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_city' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_country' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_phone' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_mail' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_contact' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+);
+$sql_request = 'CALL new_vendor(:f_name, :f_address, :f_city, :f_country, :f_phone, :f_mail, :f_contact);';
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_vendor.php';
+try {
+    $new_vendor_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_vendor_form-&gt;validateForm()) {
+        $new_vendor_form-&gt;sendForm();
+
+        $last_insert = $bdd-&gt;query('SELECT MAX(V_ID) AS ID FROM T_VENDOR;')-&gt;fetch()['ID'];
+        $req = $bdd-&gt;prepare('SELECT * FROM T_VENDOR WHERE V_ID=:id;');
+        $req-&gt;execute(array('id' =&gt; $last_insert));
+        $vendor = $req-&gt;fetch();?&gt;
+        &lt;form id=&quot;delete_row-&lt;?php echo $vendor['V_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $vendor['V_ID'];?&gt;&quot; /&gt;
+        &lt;/form&gt;
+        &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $vendor['V_ID'];?&gt;&quot; id=&quot;row-&lt;?php echo $vendor['V_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $vendor['V_ID'];?&gt;', 'row-&lt;?php echo $vendor['V_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; method=&quot;post&quot;&gt;
+            &lt;?php include('row/vendor.php');?&gt;
+        &lt;/form&gt;
+        &lt;?php exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+$fields = array(
+    /* UPDATE VENDOR */
+    'fe_v_id' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'fe_v_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'fe_v_address' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_v_city' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_v_country' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_v_phone' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_v_mail' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_v_contact' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE)
+);
+$sql_request = 'CALL update_vendor(:fe_v_id, :fe_v_name, :fe_v_address, :fe_v_city, :fe_v_country, :fe_v_phone, :fe_v_mail, :fe_v_contact);';
+try {
+    $update_vendor_form = new Form($bdd, $fields, $sql_request);
+
+    if($update_vendor_form-&gt;validateForm()) {
+        $update_vendor_form-&gt;sendForm();
+
+        $req = $bdd-&gt;prepare('SELECT * FROM T_VENDOR WHERE V_ID=:id');
+        $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_v_id']));
+        $vendor = $req-&gt;fetch();
+        include('row/vendor.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+$fields = array(
+    'f_delete' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE)
+);
+$sql_request = 'DELETE FROM T_VENDOR WHERE V_ID=:f_delete;';
+try {
+    $delete_vendor_form = new Form($bdd, $fields, $sql_request);
+
+    if($delete_vendor_form-&gt;validateForm()) {
+        $delete_vendor_form-&gt;sendForm();
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

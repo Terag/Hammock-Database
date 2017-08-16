@@ -1,0 +1,139 @@
+<?php
+/**
+ * WorkOrder content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+if($data_wo) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']->getMessage());
+    }
+    /*Get Sub Task List */
+    $data_sub_tasks = get_st_list_for_wo($bdd, $id_wo);
+    /*Get current user_work if exists*/
+    $data_current_user_work = get_current_user_work_for_user($bdd, $_SESSION['user_id']);
+    $current_work_st = ($data_current_user_work)? $data_current_user_work['ST_ID']: 0;
+
+    $excel_name = str_replace('/','.',$id_wo.'-'.$wo_name.'.xlsx');
+    $excel_path = '/files/wo/'.$excel_name;
+
+    ?>
+
+    <!-- Form Content -->
+    <?php if($lvl_access>2) {$new_subtask_wo_form->display_Form();}?>
+
+    <!-- Information Box -->
+    <div id="info_modal" class="modal">
+        <div class="container modal-content animate form-style">
+            <span onclick="document.getElementById('info_modal').style.display='none'" class="close" title="Close Modal">×</span>
+            <h2><strong>References helper</strong></h2>
+            <p>
+                To add references between the information of a row and information about a project you can use this references.<br/>
+                It will automatically update the row information in case of an update on one of this references.
+            </p>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-lg-6">
+                    <p>- <b>%R[n]%</b> - Reference P/S number 'n' (Cf references of subtask)</p>
+                    <p>- <b>%PI[n]%</b> - Part install number 'n' (Cf installed parts of subtask)</p>
+                    <p>- <b>%PR[n]%</b> - Part removed number 'n' (Cf removed parts of subtask)</p>
+                    <p>- <b>%DOC%</b> - Document Name</p>
+                    <p>- <b>%M%</b> - Reference Manual</p>
+                    <p>- <b>%H%</b> - Helicopter Serial</p>
+                    <p>- <b>%P%</b> - Project Name</p>
+                    <p>- <b>%E1%</b> - Engine 1 Serial</p>
+                    <p>- <b>%E2%</b> - Engine 2 Serial</p>
+                </div>
+                <div class="col-lg-6">
+                    <p>
+                        <b>Please use ;; to separate elements in :</b>
+                    </p>
+                    <p>- Secondary references</p>
+                    <p>- Removed Parts</p>
+                    <p>- Installed Parts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+<div class="container content">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 header-resume" style="margin-top: 8%; margin-bottom: 2%;">
+            <div class="col-lg-6">
+                <h2><strong>Work Order :</strong> <br/><?php echo str_replace('%DOC%', 'WO', $data_wo['WO_NAME']);?></h2>
+                <h3><strong>Project :</strong> <?php echo $data_project['P_NAME'];?></h3>
+                <h4><strong>Customer :</strong> <?php echo $data_project['C_NAME'];?></h4>
+            </div>
+            <div class="col-lg-6">
+                <h4><strong>Date opened :</strong> <?php echo $data_wo['WO_OPENED_DATE'];?></h4>
+                <h4><strong>Date closed :</strong> <?php echo $data_wo['WO_CLOSED_DATE'];?></h4>
+                <h4><strong>Aircraft :</strong> <?php echo $data_project['GA_NAME'];?></h4>
+                <h4><strong>Serial :</strong> <?php echo $data_project['H_SERIAL'];?></h4>
+                <button class="btn add" type="button" onclick="$('#info_modal').toggle();" style="float: right;"><i class="fa fa-question"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <input type="text" id="myFilterInput" onkeyup="filter(6, 'table')" placeholder="Search.." title="Type in a name" />
+            <div class="table myTable" id="table">
+                <div class="tr header">
+                    <span class="th" style="width:6%;">ID</span>
+                    <span class="th" style="width:7%;">Sub Task Index</span>
+                    <span class="th" style="width:13%;">Reference</span>
+                    <span class="th" style="width:26%;">Defect/Required Work</span>
+                    <span class="th" style="width:26%;">Rectification</span>
+                    <span class="th" style="width:10%;">Perform</span>
+                    <span class="th" style="width:10%;">Released</span>
+                    <span class="th" style="width: 1%;"></span>
+                    <span class="th" style="width: 1%;"></span>
+                </div>
+                <?php foreach($data_sub_tasks as $sub_task) {
+                    if($sub_task['ST_APPROVED_DATE']) {
+                        if($lvl_access > 2) { ?>
+                        <form id="delete_row-<?php echo $sub_task['ST_ID'];?>" method="post" style="display: none;">
+                            <input type="hidden" name="f_delete" value="<?php echo $sub_task['ST_ID'];?>" />
+                        </form>
+                        <?php } ?>
+                        <form id="toggle-work_row-<?php echo $sub_task['ST_ID'];?>" method="post" style="display: none;">
+                            <input type="hidden" name="fw_toggle_user" value="<?php echo $_SESSION['user_id'];?>" />
+                            <input type="hidden" name="fw_toggle_st_id" value="<?php echo $sub_task['ST_ID'];?>" />
+                        </form>
+                        <form class="tr" id="row-<?php echo $sub_task['ST_ID'];?>" onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $sub_task['ST_ID'];?>', 'row-<?php echo $sub_task['ST_ID'];?>', '<span class=\'td\'><img src=\'/img/wait_rot.gif\'/></span>');return false;" method="post">
+                            <?php include('row/workOrder.php');?>
+                        </form>
+                    <?php }
+                } ?>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 3%;">
+        <div class="col-lg-2 col-lg-offset-3">
+            <a href="./?page=specificProject&id=<?php echo $data_project['P_ID'];?>"><button class="button">Back</button></a>
+        </div>
+        <?php if($lvl_access>2) { ?>
+        <div class="col-lg-2" id="excel_file">
+            <button class="button" onclick="call_excel('<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/project/?page=workOrder&excel='.$id_wo;?>');">Excel</button>
+        </div>
+        <div class="col-lg-2">
+            <button class="button" onclick="document.getElementById('id01').style.display='block'" type="submit">New Task</button>
+        </div>
+        <?php } ?>
+    </div>
+</div>
+
+<?php } else {
+    header('Location: ./index.php');
+    exit();
+}

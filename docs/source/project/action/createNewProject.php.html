@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * createNewProject action for PROJECT part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Action
+ * @namespace Project
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+
+$fields = array(
+    /* Project Global */
+    'f_p_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'f_p_date' =&gt; array('type' =&gt; 'date', 'required' =&gt; TRUE, 'value' =&gt; date('Y-m-d')),
+    /* Customer */
+    'f_c_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'f_c_phone' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_c_mail' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    /* Helicopter */
+    'f_h_id_ga' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'f_h_log_book' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/log_book', 'file_name' =&gt; '%var%-helicopter-log_book', 'var' =&gt; 'f_p_name'),
+    'f_h_status_sheet' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/status_sheet', 'file_name' =&gt; '%var%-status_sheet', 'var' =&gt; 'f_p_name'),
+    'f_h_serial' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_h_total_time' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+    'f_h_landing' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; FALSE),
+    /* Engine 1 */
+    'f_e1_id_ga' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'f_e1_serial' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_e1_total_time' =&gt;  array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+    'f_e1_ng_cycle' =&gt; array('type' =&gt; 'float', 'required' =&gt; FALSE),
+    'f_e1_nf_cycle' =&gt; array('type' =&gt; 'float', 'required' =&gt; FALSE),
+    'f_e1_log_book' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/log_book', 'file_name' =&gt; '%var%-engine1-log_book', 'var' =&gt; 'f_p_name'),
+    /* Engine 2 */
+    'f_e2_id_ga' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; FALSE),
+    'f_e2_serial' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'f_e2_total_time' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+    'f_e2_ng_cycle' =&gt; array('type' =&gt; 'float', 'required' =&gt; FALSE),
+    'f_e2_nf_cycle' =&gt; array('type' =&gt; 'float', 'required' =&gt; FALSE),
+    'f_e2_log_book' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/log_book', 'file_name' =&gt; '%var%-engine2-log_book', 'var' =&gt; 'f_p_name')
+);
+$sql_request = 'CALL create_project(
+        :f_p_name, :f_p_date,
+        :f_c_name, :f_c_phone, :f_c_mail,
+        :f_h_id_ga, :f_h_log_book, :f_h_status_sheet, :f_h_serial, :f_h_total_time, :f_h_landing,
+        :f_e1_id_ga, :f_e1_serial, :f_e1_total_time, :f_e1_ng_cycle, :f_e1_nf_cycle, :f_e1_log_book,
+        :f_e2_id_ga, :f_e2_serial, :f_e2_total_time, :f_e2_ng_cycle, :f_e2_nf_cycle, :f_e2_log_book);';
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_genericAircraft.php';
+try {
+    $new_project_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_project_form-&gt;validateForm()) {
+        $new_project_form-&gt;sendForm();
+        header('Location: ./?page=projectHome');
+        exit();
+    }
+} catch (Exception $error) {
+    $_SESSION['error'] = $error;
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,207 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * createNewProject content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+if($UserConnected) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+
+    /*Get $projectList var from database*/
+    include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/data_getters.php');
+
+    ?&gt;
+        &lt;div class=&quot;container content&quot;&gt;
+            &lt;form action=&quot;./?page=createNewProject&quot; enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-lg-10 col-lg-offset-1 form-style&quot; style=&quot;margin-top: 5%;&quot;&gt;
+                        &lt;h2&gt;Project&lt;/h2&gt;
+                        &lt;!-- Hidden Input --&gt;
+                        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo date('Y-m-d');?&gt;&quot; name=&quot;f_p_date&quot;&gt;
+                        &lt;!-- User Input --&gt;
+                        &lt;div class=&quot;table myTable&quot;&gt;
+                            &lt;div class=&quot;tr header&quot;&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Name&lt;strong&gt; *&lt;/strong&gt;&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Log Book&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Status Sheet&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;tr fixTab&quot;&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_p_name&quot; placeholder=&quot;Name..&quot; required/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;file&quot;  name=&quot;f_h_log_book&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;file&quot; name=&quot;f_h_status_sheet&quot;/&gt;&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-lg-10 col-lg-offset-1 form-style&quot;&gt;
+                        &lt;h2&gt;Customer&lt;/h2&gt;
+                        &lt;div class=&quot;table myTable&quot;&gt;
+                            &lt;div class=&quot;tr header&quot;&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Name&lt;strong&gt; *&lt;/strong&gt;&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Phone&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:30%;&quot;&gt;Mail&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;tr fixTab&quot;&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_c_name&quot; placeholder=&quot;Name..&quot; required/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;tel&quot; name=&quot;f_c_phone&quot; placeholder=&quot;+60 1 00 00 00 00&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;email&quot; name=&quot;f_c_mail&quot; placeholder=&quot;name@mail.com&quot;/&gt;&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-lg-10 col-lg-offset-1 form-style&quot;&gt;
+                        &lt;h2&gt;Helicopter&lt;/h2&gt;
+                        &lt;div class=&quot;table myTable&quot;&gt;
+                            &lt;div class=&quot;tr header&quot;&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Serial&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Aircraft&lt;strong&gt; *&lt;/strong&gt;&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Total Time&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Landing&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;tr fixTab&quot;&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_h_serial&quot; placeholder=&quot;Serial..&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;
+                                    &lt;select class=&quot;form_input&quot; name=&quot;f_h_id_ga&quot; required&gt;
+                                        &lt;?php $data_generic_aircraft = get_generic_aircraft_list_by_type($bdd, 'helico');
+                                        foreach ($data_generic_aircraft as $generic_aircraft) { ?&gt;
+                                            &lt;option value=&quot;&lt;?php echo $generic_aircraft['GA_ID'];?&gt;&quot;&gt;&lt;?php echo $generic_aircraft['GA_NAME'];?&gt;&lt;/option&gt;
+                                        &lt;?php } ?&gt;
+                                    &lt;/select&gt;
+                                &lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.01&quot; name=&quot;f_h_total_time&quot; placeholder=&quot;Hours..&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;0&quot; name=&quot;f_h_landing&quot; placeholder=&quot;Landing..&quot;/&gt;&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-lg-10 col-lg-offset-1 form-style&quot;&gt;
+                        &lt;h2&gt;Engine 1&lt;/h2&gt;
+                        &lt;div class=&quot;table myTable&quot;&gt;
+                            &lt;div class=&quot;tr header&quot;&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Serial&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;Type&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;Total Time&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;NG Cycle&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;NF Cycle&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Log Book&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;tr fixTab&quot;&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_e1_serial&quot; placeholder=&quot;Serial..&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;
+                                    &lt;select class=&quot;form_input&quot; name=&quot;f_e1_id_ga&quot; required&gt;
+                                        &lt;?php $data_generic_aircraft = get_generic_aircraft_list_by_type($bdd, 'engine');
+                                        foreach ($data_generic_aircraft as $generic_aircraft) { ?&gt;
+                                            &lt;option value=&quot;&lt;?php echo $generic_aircraft['GA_ID'];?&gt;&quot;&gt;&lt;?php echo $generic_aircraft['GA_NAME'];?&gt;&lt;/option&gt;
+                                        &lt;?php } ?&gt;
+                                    &lt;/select&gt;
+                                &lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;0&quot; step=&quot;0.01&quot; name=&quot;f_e1_total_time&quot; placeholder=&quot;Hours..&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;0&quot; step=&quot;0.1&quot; name=&quot;f_e1_ng_cycle&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;0&quot; step=&quot;0.1&quot; name=&quot;f_e1_nf_cycle&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;file&quot; size=&quot;10000000&quot; name=&quot;f_e1_log_book&quot;/&gt;&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot;&gt;
+                    &lt;div class=&quot;col-lg-10 col-lg-offset-1 form-style&quot;&gt;
+                        &lt;h2&gt;Engine 2&lt;/h2&gt;
+                        &lt;div class=&quot;table myTable&quot;&gt;
+                            &lt;div class=&quot;tr header&quot;&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Serial&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;Type&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:15%;&quot;&gt;Total Time&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;NG Cycle&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;NF Cycle&lt;/span&gt;
+                                &lt;span class=&quot;th&quot; style=&quot;width:25%;&quot;&gt;Log Book&lt;/span&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;tr fixTab&quot;&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;text&quot; name=&quot;f_e2_serial&quot; placeholder=&quot;Serial..&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;
+                                    &lt;select class=&quot;form_input&quot; name=&quot;f_e2_id_ga&quot;&gt;
+                                        &lt;option value=&quot;0&quot;&gt;None&lt;/option&gt;
+                                        &lt;?php $data_generic_aircraft = get_generic_aircraft_list_by_type($bdd, 'engine');
+                                        foreach ($data_generic_aircraft as $generic_aircraft) { ?&gt;
+                                            &lt;option value=&quot;&lt;?php echo $generic_aircraft['GA_ID'];?&gt;&quot;&gt;&lt;?php echo $generic_aircraft['GA_NAME'];?&gt;&lt;/option&gt;
+                                        &lt;?php } ?&gt;
+                                    &lt;/select&gt;
+                                &lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;0&quot; step=&quot;0.01&quot; name=&quot;f_e2_total_time&quot; placeholder=&quot;Hours..&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;0&quot; step=&quot;0.1&quot; name=&quot;f_e2_ng_cycle&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; value=&quot;0&quot; step=&quot;0.1&quot; name=&quot;f_e2_nf_cycle&quot;/&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;input class=&quot;form_input&quot; type=&quot;file&quot; name=&quot;f_e2_log_book&quot;/&gt;&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;row&quot; style=&quot;margin-bottom: 8%; margin-top: 3%;&quot;&gt;
+                    &lt;div class=&quot;col-lg-2 col-lg-offset-5&quot;&gt;
+                        &lt;input class=&quot;button&quot; type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+&lt;?php } else {
+    header('Location: ../');
+    exit();
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

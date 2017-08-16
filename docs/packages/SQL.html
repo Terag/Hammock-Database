@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>     &raquo; \SQL
+</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+            <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+            <!--[if lt IE 9]>
+        <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+        <![endif]-->
+        <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+        <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+        <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap.js" type="text/javascript"></script>
+        <script src="../js/template.js" type="text/javascript"></script>
+        <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    
+            <link rel="shortcut icon" href="../img/favicon.ico"/>
+        <link rel="apple-touch-icon" href="../img/apple-touch-icon.png"/>
+        <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png"/>
+    </head>
+<body>
+
+        <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> </a>
+                <a class="brand" href="../index.html">Hammock Helicopter Database</a>
+
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                API Documentation <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                                                                            </ul>
+                        </li>
+                        <li class="dropdown" id="charts-menu">
+                            <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                Charts <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="../graph_class.html">
+                                        <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="reports-menu">
+                            <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                Reports <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="../errors.html">
+                                        <i class="icon-list-alt"></i>&#160;Errors
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../markers.html">
+                                        <i class="icon-list-alt"></i>&#160;Markers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../deprecated.html">
+                                        <i class="icon-list-alt"></i>&#160;Deprecated
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="go_to_top">
+            <a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>
+        </div>
+    </div>
+    
+    <div id="___" class="container">
+        <noscript>
+            <div class="alert alert-warning">
+                Javascript is disabled; several features are only available if Javascript is enabled.
+            </div>
+        </noscript>
+
+        
+            
+    <div class="row">
+
+        <div class="span4">
+            <div class="btn-group view pull-right" data-toggle="buttons-radio">
+                <button class="btn details" title="Show descriptions and method names">
+                    <i class="icon-list"></i></button><button class="btn simple" title="Show only method names">
+                    <i class="icon-align-justify"></i>
+                </button>
+            </div>
+            <ul class="side-nav nav nav-list">
+                <li class="nav-header">
+                    <i class="icon-map-marker"></i> Packages
+                </li>
+                <a href="../packages/SQL.html" title="SQL">
+                    <i class="icon-th"></i> SQL
+                </a>
+                <ul class="nav nav-list nav-packages">
+                        
+        <li>
+        <a href="../packages/SQL.Form.html" title="Form">
+            <i class="icon-th"></i> Form
+        </a>
+        <ul class="nav nav-list nav-packages">
+                
+        <li>
+        <a href="../packages/SQL.Form.Child.html" title="Child">
+            <i class="icon-th"></i> Child
+        </a>
+        <ul class="nav nav-list nav-packages">
+                
+    
+        </ul>
+    </li>
+    
+        </ul>
+    </li>
+    
+                </ul>
+            </ul>
+        </div>
+
+        <div class="span8 package-contents">
+                
+    <ul class="breadcrumb">
+        <li><a href="../index.html"><i class="icon-th"></i></a></li>
+            
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/SQL.html">SQL</a>
+    </li>
+
+    </ul>
+
+    
+                    <div class="package-indent">
+                <h3><i class="icon-custom icon-function"></i> Functions</h3>
+                                        <div id="str_link_references" class="element ajax clickable function">
+        <h1>str_link_references<a href="../namespaces/default.html#function_str_link_references">¶</a></h1>
+        <p class="short_description">Replace defined structure in str par defined references</p>
+        <div class="details collapse">Param1 : $ref_structure
+`array(
+     &#039;&lt;REF&gt;&#039; =&gt; array(&#039;VALUE&#039; =&gt; &lt;value&gt;, &#039;N&#039; =&gt; &lt;reference|number&gt;, &#039;array_name&#039; =&gt; &lt;array&gt;)
+);`
+
+Param2 : $ref_data
+`array(
+     &#039;&lt;data_name&gt;&#039; =&gt; array( &#039;array&#039; =&gt; &lt;array|string&gt;, &#039;separator&#039; =&gt; &lt;separator&gt;)
+);`</div>
+        <a href="../namespaces/default.html#function_str_link_references" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_project_info" class="element ajax clickable function">
+        <h1>get_project_info<a href="../namespaces/default.html#function_get_project_info">¶</a></h1>
+        <p class="short_description">get info from database about a specific project</p>
+        <div class="details collapse">SQL: `CALL project_specific(:id);`
+
+ARRAY:
+- P_ID id
+- P_NAME p_name
+- C_NAME c_name
+- GA_NAME ga_name
+- H_SERIAL h_serial</div>
+        <a href="../namespaces/default.html#function_get_project_info" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_project_info_from_helico" class="element ajax clickable function">
+        <h1>get_project_info_from_helico<a href="../namespaces/default.html#function_get_project_info_from_helico">¶</a></h1>
+        <p class="short_description">get info from database about a specific project from helico id</p>
+        <div class="details collapse">SQL: `CALL project_recapitulate_from_helicopter_ID(:id);`
+
+ARRAY:
+- P_ID
+- P_ID_C
+- P_ID_H
+- P_NAME
+- P_OPENED_DATE
+- P_CLOSED_DATE</div>
+        <a href="../namespaces/default.html#function_get_project_info_from_helico" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_project_list" class="element ajax clickable function">
+        <h1>get_project_list<a href="../namespaces/default.html#function_get_project_list">¶</a></h1>
+        <p class="short_description">get info from database about a all projects</p>
+        <div class="details collapse">SQL: `CALL project_list();`
+
+ARRAY OF ARRAY:
+- P_ID id
+- P_NAME p_name
+- C_NAME c_name
+- GA_NAME ga_name
+- H_SERIAL h_serial
+- H_ID h_id</div>
+        <a href="../namespaces/default.html#function_get_project_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_wo_info" class="element ajax clickable function">
+        <h1>get_wo_info<a href="../namespaces/default.html#function_get_wo_info">¶</a></h1>
+        <p class="short_description">get info from database about a specific work order</p>
+        <div class="details collapse">SQL: `SELECT * FROM T_WORK_ORDER WHERE WO_ID=:id_wo;`
+
+ARRAY:
+- WO_ID
+- WO_ID_H
+- WO_NAME
+- WO_OPENED_DATE
+- WO_CLOSED_DATE</div>
+        <a href="../namespaces/default.html#function_get_wo_info" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_wo_name_list_for_project" class="element ajax clickable function">
+        <h1>get_wo_name_list_for_project<a href="../namespaces/default.html#function_get_wo_name_list_for_project">¶</a></h1>
+        <p class="short_description">get info from database about all work order for a project</p>
+        <div class="details collapse">SQL: `CALL work_order_name_list_for_specific_project(:id);`
+
+ARRAY OF ARRAY:
+- WO_ID
+- WO_NAME</div>
+        <a href="../namespaces/default.html#function_get_wo_name_list_for_project" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_st_list_for_wo" class="element ajax clickable function">
+        <h1>get_st_list_for_wo<a href="../namespaces/default.html#function_get_st_list_for_wo">¶</a></h1>
+        <p class="short_description">get info from database about all sub tasks for a work order</p>
+        <div class="details collapse">SQL: `CALL sub_task_list_for_specific_work_order(:id_wo);`
+
+ARRAY OF ARRAY:
+- T_SUB_TASK.*
+- T_GENERIC_SUB_TASK.*
+- T_MANUAL.*</div>
+        <a href="../namespaces/default.html#function_get_st_list_for_wo" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_gst_list_for_manual" class="element ajax clickable function">
+        <h1>get_gst_list_for_manual<a href="../namespaces/default.html#function_get_gst_list_for_manual">¶</a></h1>
+        <p class="short_description">get info from database about all generic sub tasks for a manual</p>
+        <div class="details collapse">SQL: `SELECT * FROM T_GENERIC_SUB_TASK WHERE GST_ID_M=:id ORDER BY GST_NUMBER;`
+
+ARRAY OF ARRAY:
+- GST_ID
+- GST_ID_M
+- GST_NUMBER
+- GST_DESCRIPTION</div>
+        <a href="../namespaces/default.html#function_get_gst_list_for_manual" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_not_performed_sub_task_list" class="element ajax clickable function">
+        <h1>get_not_performed_sub_task_list<a href="../namespaces/default.html#function_get_not_performed_sub_task_list">¶</a></h1>
+        <p class="short_description">get info from database about all not performed sub tasks</p>
+        <div class="details collapse">SQL: `CALL not_performed_sub_task_list();`
+
+ARRAY OF ARRAY:
+- T_SUB_TASK.*
+- T_GENERIC_SUB_TASK.*
+- T_WORK_ORDER.*
+- T_PROJECT.*</div>
+        <a href="../namespaces/default.html#function_get_not_performed_sub_task_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_user_info" class="element ajax clickable function">
+        <h1>get_user_info<a href="../namespaces/default.html#function_get_user_info">¶</a></h1>
+        <p class="short_description">get info from database about an user</p>
+        <div class="details collapse">SQL: `SELECT * FROM T_USER WHERE U_ID=:id;`
+
+ARRAY:
+- U_ID
+- U_NAME
+- U_PASSWORD
+- U_STATUS
+- U_CODE</div>
+        <a href="../namespaces/default.html#function_get_user_info" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_user_list" class="element ajax clickable function">
+        <h1>get_user_list<a href="../namespaces/default.html#function_get_user_list">¶</a></h1>
+        <p class="short_description">get info from database about all users</p>
+        <div class="details collapse">SQL: `SELECT U_ID, U_NAME, U_CODE FROM T_USER;`
+
+ARRAY OF ARRAY
+- U_ID
+- U_NAME
+- U_CODE</div>
+        <a href="../namespaces/default.html#function_get_user_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_manual_list_for_aircraft" class="element ajax clickable function">
+        <h1>get_manual_list_for_aircraft<a href="../namespaces/default.html#function_get_manual_list_for_aircraft">¶</a></h1>
+        <p class="short_description">get info from database about all manuals for an aircraft</p>
+        <div class="details collapse">SQL: `SELECT M_ID, M_NAME, GA_NAME FROM T_MANUAL INNER JOIN T_GENERIC_AIRCRAFT ON M_ID_GA=GA_ID WHERE M_ID_GA=:id ORDER BY M_NAME;`
+
+ARRAY OF ARRAY:
+- M_ID
+- M_NAME
+- GA_NAME</div>
+        <a href="../namespaces/default.html#function_get_manual_list_for_aircraft" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_engine_info" class="element ajax clickable function">
+        <h1>get_engine_info<a href="../namespaces/default.html#function_get_engine_info">¶</a></h1>
+        <p class="short_description">get info from database about an engine</p>
+        <div class="details collapse">SQL: `SELECT * FROM T_ENGINE INNER JOIN T_GENERIC_AIRCRAFT ON E_ID_GA=GA_ID WHERE E_ID=:id`
+
+ARRAY:
+- E_ID
+- E_ID_GA
+- E_ID_LOG_BOOK
+- E_SERIAL
+- E_NAME
+- E_TYPE
+- E_TIME
+- E_NG_CYCLE
+- E_NF_CYCLE</div>
+        <a href="../namespaces/default.html#function_get_engine_info" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_pp_list_for_wo" class="element ajax clickable function">
+        <h1>get_pp_list_for_wo<a href="../namespaces/default.html#function_get_pp_list_for_wo">¶</a></h1>
+        <p class="short_description">get info from database about all project parts for a WO</p>
+        <div class="details collapse">Used for ERV
+
+SQL: `CALL project_part_list_for_specific_work_order(:id);`
+
+ARRAY OF ARRAY:
+- T_PROJECT_PART.*
+- T_GENERIC_PART.*
+- T_SUB_TASK.*
+- T_GENERIC_SUB_TASK.*</div>
+        <a href="../namespaces/default.html#function_get_pp_list_for_wo" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_pp_list_by_po_for_wo" class="element ajax clickable function">
+        <h1>get_pp_list_by_po_for_wo<a href="../namespaces/default.html#function_get_pp_list_by_po_for_wo">¶</a></h1>
+        <p class="short_description">get info from database about all project parts by po for work order</p>
+        <div class="details collapse">SQL: `CALL project_part_list_by_po_for_specific_work_order(:id);`
+
+ARRAY OF ARRAY:
+- T_LINK_PP_S.*
+- T_SUB_TASK.*
+- T_GENERIC_SUB_TASK.*
+- T_WORK_ORDER.*
+- T_STOCK.*
+- T_GENERIC_PART.*</div>
+        <a href="../namespaces/default.html#function_get_pp_list_by_po_for_wo" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_lps_for_pp_s_id" class="element ajax clickable function">
+        <h1>get_lps_for_pp_s_id<a href="../namespaces/default.html#function_get_lps_for_pp_s_id">¶</a></h1>
+        <p class="short_description">get info from database about link_pp_s for project part and stock</p>
+        <div class="details collapse">SQL: `CALL lps_for_pp_s_id(:pp_id, :s_id);`
+
+ARRAY OF ARRAY:
+- LPS_ID
+- LPS_ID_PP
+- LPS_ID_S
+- LPS_QUANTITY_NUMBER
+- LPS_DATE_OUT</div>
+        <a href="../namespaces/default.html#function_get_lps_for_pp_s_id" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_gp_list" class="element ajax clickable function">
+        <h1>get_gp_list<a href="../namespaces/default.html#function_get_gp_list">¶</a></h1>
+        <p class="short_description">get info from database about all generic parts</p>
+        <div class="details collapse">SQL: `CALL generic_part_list();`
+
+ARRAY OF ARRAY:
+- GP_ID
+- GP_NUMBER
+- GP_NAME
+- GP_TYPE
+- GP_LOCATION
+- GP_DESCRIPTION</div>
+        <a href="../namespaces/default.html#function_get_gp_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="is_pn_available" class="element ajax clickable function">
+        <h1>is_pn_available<a href="../namespaces/default.html#function_is_pn_available">¶</a></h1>
+        <p class="short_description">get info from database about if a part is available or not</p>
+        <div class="details collapse">SQL: `CALL generic_part_by_part_number(:number, :id);`
+
+ARRAY OF ARRAY:
+- GP_ID</div>
+        <a href="../namespaces/default.html#function_is_pn_available" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_stock_list" class="element ajax clickable function">
+        <h1>get_stock_list<a href="../namespaces/default.html#function_get_stock_list">¶</a></h1>
+        <p class="short_description">get info from database about all stock parts</p>
+        <div class="details collapse">SQL: `CALL stock_list();`
+
+ARRAY OF ARRAY:
+- T_STOCK.*
+- T_GENERIC_PART.*
+- T_FILE po.F_ID                         AS PO_ID
+- T_FILE po.F_DIRECTORY                  AS PO_DIRECTORY
+- T_FILE po.F_NAME                       AS PO_NAME
+- T_FILE po.F_FORMAT                     AS PO_FORMAT
+- T_FILE arc.F_ID                        AS ARC_ID
+- T_FILE arc.F_DIRECTORY                 AS ARC_DIRECTORY
+- T_FILE arc.F_NAME                      AS ARC_NAME
+- T_FILE arc.F_FORMAT                    AS ARC_FORMAT
+- SUM(COALESCE(LPS_QUANTITY_NUMBER,0))   AS S_QUANTITY_USED</div>
+        <a href="../namespaces/default.html#function_get_stock_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_available_stock_list" class="element ajax clickable function">
+        <h1>get_available_stock_list<a href="../namespaces/default.html#function_get_available_stock_list">¶</a></h1>
+        <p class="short_description">get info from database about all available stock parts</p>
+        <div class="details collapse">SQL: `CALL available_stock_list();`
+
+ARRAY OF ARRAY:
+- T_STOCK.*
+- T_GENERIC_PART.*
+- T_FILE po.F_ID                                             AS PO_ID
+- T_FILE po.F_DIRECTORY                                      AS PO_DIRECTORY
+- T_FILE po.F_NAME                                           AS PO_NAME
+- T_FILE po.F_FORMAT                                         AS PO_FORMAT
+- T_FILE arc.F_ID                                            AS ARC_ID
+- T_FILE arc.F_DIRECTORY                                     AS ARC_DIRECTORY
+- T_FILE arc.F_NAME                                          AS ARC_NAME
+- T_FILE arc.F_FORMAT                                        AS ARC_FORMAT
+- S_QUANTITY_NUMBER - SUM(COALESCE(LPS_QUANTITY_NUMBER,0))   AS S_QUANTITY_AVAILABLE</div>
+        <a href="../namespaces/default.html#function_get_available_stock_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_stock_available_list_by_po_from_gp_id" class="element ajax clickable function">
+        <h1>get_stock_available_list_by_po_from_gp_id<a href="../namespaces/default.html#function_get_stock_available_list_by_po_from_gp_id">¶</a></h1>
+        <p class="short_description">get info from database about all available stock parts by po from gp</p>
+        <div class="details collapse">SQL: `CALL available_stock_list_by_po_from_gp_id(:id);`
+
+ARRAY OF ARRAY:
+- T_STOCK.*
+- SUM(COALESCE(LPS_QUANTITY_NUMBER,0))                       AS S_QUANTITY_USED
+- S_QUANTITY_NUMBER - SUM(COALESCE(LPS_QUANTITY_NUMBER,0))   AS S_QUANTITY_AVAILABLE</div>
+        <a href="../namespaces/default.html#function_get_stock_available_list_by_po_from_gp_id" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_stock_used_list_by_po_from_pp_id" class="element ajax clickable function">
+        <h1>get_stock_used_list_by_po_from_pp_id<a href="../namespaces/default.html#function_get_stock_used_list_by_po_from_pp_id">¶</a></h1>
+        <p class="short_description">get info from database about all used stock parts by po for pp</p>
+        <div class="details collapse">SQL: `CALL used_stock_list_by_po_from_pp(:id);`
+
+ARRAY OF ARRAY:
+- LPS_ID
+- S_ID_GP
+- S_RECEIVED_DATE
+- S_RECEIVED
+- S_ID_PURCHASE_ORDER
+- S_PO_NAME
+- LPS_QUANTITY_NUMBER</div>
+        <a href="../namespaces/default.html#function_get_stock_used_list_by_po_from_pp_id" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_ordered_parts" class="element ajax clickable function">
+        <h1>get_ordered_parts<a href="../namespaces/default.html#function_get_ordered_parts">¶</a></h1>
+        <p class="short_description">get info from database about all ordered parts</p>
+        <div class="details collapse">SQL: `CALL ordered_part_list();`
+
+ARRAY OF ARRAY:
+- T_STOCK AS s.*
+- T_GP AS gp.*
+- T_FILE po.F_ID             AS PO_ID
+- T_FILE po.F_DIRECTORY      AS PO_DIRECTORY
+- T_FILE po.F_NAME           AS PO_NAME
+- T_FILE po.F_FORMAT         AS PO_FORMAT
+- T_FILE arc.F_ID            AS ARC_ID
+- T_FILE arc.F_DIRECTORY     AS ARC_DIRECTORY
+- T_FILE arc.F_NAME          AS ARC_NAME
+- T_FILE arc.F_FORMAT        AS ARC_FORMAT</div>
+        <a href="../namespaces/default.html#function_get_ordered_parts" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_generic_aircraft_list_by_type" class="element ajax clickable function">
+        <h1>get_generic_aircraft_list_by_type<a href="../namespaces/default.html#function_get_generic_aircraft_list_by_type">¶</a></h1>
+        <p class="short_description">get info from database about all generic aircraft by type</p>
+        <div class="details collapse">SQL: `CALL generic_aircraft_list_by_type(:type);`
+
+ARRAY OF ARRAY:
+- GA_ID
+- GA_NAME
+- GA_CONSTRUCTOR
+- GA_TYPE</div>
+        <a href="../namespaces/default.html#function_get_generic_aircraft_list_by_type" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_vendor_list" class="element ajax clickable function">
+        <h1>get_vendor_list<a href="../namespaces/default.html#function_get_vendor_list">¶</a></h1>
+        <p class="short_description">get info from database about all vendor</p>
+        <div class="details collapse">SQL: `SELECT * FROM T_VENDOR;`
+
+ARRAY OF ARRAY:
+- V_ID
+- V_NAME
+- V_ADDRESS
+- V_CITY
+- V_COUNTRY
+- V_PHONE
+- V_MAIL
+- V_CONTACT</div>
+        <a href="../namespaces/default.html#function_get_vendor_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_recorded_work_list" class="element ajax clickable function">
+        <h1>get_recorded_work_list<a href="../namespaces/default.html#function_get_recorded_work_list">¶</a></h1>
+        <p class="short_description">get info from database about all recorded work</p>
+        <div class="details collapse">SQL: `CALL recorded_work_list();`
+
+ARRAY OF ARRAY:
+- T_RECORDED_WORK.*
+- T_SUB_TASK.*
+- T_GENERIC_SUB_TASK.*
+- T_WORK_ORDER.*
+- T_PROJECT.*</div>
+        <a href="../namespaces/default.html#function_get_recorded_work_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_user_work_for_rw" class="element ajax clickable function">
+        <h1>get_user_work_for_rw<a href="../namespaces/default.html#function_get_user_work_for_rw">¶</a></h1>
+        <p class="short_description">get info from database about all user work for a recorded work</p>
+        <div class="details collapse">SQL: `CALL user_work_for_rw(:id_rw);`
+
+ARRAY OF ARRAY:
+- UW_ID
+- UW_ID_RW
+- UW_ID_U
+- UW_DATETIME_BEGIN
+- UW_DATETIME_END</div>
+        <a href="../namespaces/default.html#function_get_user_work_for_rw" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_user_work_for_rw_and_user" class="element ajax clickable function">
+        <h1>get_user_work_for_rw_and_user<a href="../namespaces/default.html#function_get_user_work_for_rw_and_user">¶</a></h1>
+        <p class="short_description">get info from database about all user work for a recorded work and user</p>
+        <div class="details collapse">SQL: `CALL user_work_for_rw_and_user(:id_rw, :id_u);`
+
+ARRAY OF ARRAY:
+- UW_ID
+- UW_ID_RW
+- UW_ID_U
+- UW_DATETIME_BEGIN
+- UW_DATETIME_END</div>
+        <a href="../namespaces/default.html#function_get_user_work_for_rw_and_user" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_current_user_work_for_user" class="element ajax clickable function">
+        <h1>get_current_user_work_for_user<a href="../namespaces/default.html#function_get_current_user_work_for_user">¶</a></h1>
+        <p class="short_description">get info from database about all user work for user</p>
+        <div class="details collapse">SQL: `CALL current_user_work_for_user(:id_user);`
+
+ARRAY OF ARRAY:
+- T_USER_WORK.*
+- T_RECORDED_WORK.*
+- T_SUB_TASK.*
+- T_GENERIC_SUB_TASK.*
+- T_WORK_ORDER.*
+- T_PROJECT.*</div>
+        <a href="../namespaces/default.html#function_get_current_user_work_for_user" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_current_user_work_list" class="element ajax clickable function">
+        <h1>get_current_user_work_list<a href="../namespaces/default.html#function_get_current_user_work_list">¶</a></h1>
+        <p class="short_description">get info from database about all user work</p>
+        <div class="details collapse">SQL: `CALL current_user_work_list();`
+
+ARRAY OF ARRAY:
+- T_USER_WORK.*
+- T_USER.*
+- T_RECORDED_WORK.*
+- T_SUB_TASK.*
+- T_GENERIC_SUB_TASK.*
+- T_WORK_ORDER.*
+- T_PROJECT.*</div>
+        <a href="../namespaces/default.html#function_get_current_user_work_list" class="more">« More »</a>
+    </div>
+
+                                        <div id="generate_token" class="element ajax clickable function">
+        <h1>generate_token<a href="../namespaces/default.html#function_generate_token">¶</a></h1>
+        <p class="short_description">Save and return a token</p>
+        <div class="details collapse"></div>
+        <a href="../namespaces/default.html#function_generate_token" class="more">« More »</a>
+    </div>
+
+                                        <div id="check_token" class="element ajax clickable function">
+        <h1>check_token<a href="../namespaces/default.html#function_check_token">¶</a></h1>
+        <p class="short_description">Check token validity</p>
+        <div class="details collapse"></div>
+        <a href="../namespaces/default.html#function_check_token" class="more">« More »</a>
+    </div>
+
+                                        <div id="get_ip" class="element ajax clickable function">
+        <h1>get_ip<a href="../namespaces/default.html#function_get_ip">¶</a></h1>
+        <p class="short_description">Get visitor IP address</p>
+        <div class="details collapse"></div>
+        <a href="../namespaces/default.html#function_get_ip" class="more">« More »</a>
+    </div>
+
+                            </div>
+        
+        
+            
+                
+    <ul class="breadcrumb">
+        <li><a href="../index.html"><i class="icon-th"></i></a></li>
+            
+                
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/SQL.html">SQL</a>
+    </li>
+
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/SQL.Form.html">Form</a>
+    </li>
+
+    </ul>
+
+    
+        
+        
+                    <div class="package-indent">
+                <h3><i class="icon-custom icon-class"></i> Classes, interfaces and traits</h3>
+                
+                
+                                        <div id="Form" class="element ajax clickable class">
+        <h1>Form<a href="../classes/Form.html">¶</a></h1>
+        <p class="short_description">Form class, used to check data before to sens to database</p>
+        <div class="details collapse">it&#039;s based on arrays $_POST and $_FILES global variables. Form uses file_manager&#039;s functions to manage files with database.
+You can find this class in files in action folders of each parts of website. Please use only in these part of website to keep a coherence between data and view</div>
+        <a href="../classes/Form.html" class="more">« More »</a>
+    </div>
+
+                            </div>
+            
+                
+    <ul class="breadcrumb">
+        <li><a href="../index.html"><i class="icon-th"></i></a></li>
+            
+                
+                
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/SQL.html">SQL</a>
+    </li>
+
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/SQL.Form.html">Form</a>
+    </li>
+
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/SQL.Form.Child.html">Child</a>
+    </li>
+
+    </ul>
+
+    
+        
+        
+                    <div class="package-indent">
+                <h3><i class="icon-custom icon-class"></i> Classes, interfaces and traits</h3>
+                
+                
+                                        <div id="Form_modal" class="element ajax clickable class">
+        <h1>Form_modal<a href="../classes/Form_modal.html">¶</a></h1>
+        <p class="short_description">Child of Form. Permit to display a modal form in add of define a form validator</p>
+        <div class="details collapse">In add of parameters for Form constructor, you have to provide the file path of the modal you want to display for the form</div>
+        <a href="../classes/Form_modal.html" class="more">« More »</a>
+    </div>
+
+                            </div>
+            
+    
+    
+    
+        </div>
+    </div>
+    </div>
+
+        <footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by
+            <a href="http://glyphicons.com/">Glyphicons</a>.<br/>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and<br/>
+            generated on Fri, 11 Aug 2017 01:56:11 +0000.<br/>
+    </footer>
+    </body>
+</html>

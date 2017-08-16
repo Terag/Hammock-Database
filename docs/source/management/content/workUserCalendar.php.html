@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * workUserCalendar content for MANAGEMENT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Management\Content
+ * @namespace Management
+ * @filesource
+ */
+
+$user_name = get_user_info($bdd, $id);
+
+if(isset($_SESSION['error'])) {
+    display_modal($_SESSION['error']-&gt;getMessage());
+}
+
+$previous_month = (($month-1)%12==0)? 'Y='.($year-1).'&amp;M=12': 'Y='.$year.'&amp;M='.($month-1);
+$next_month = (($month+1)%12==1)? 'Y='.($year+1).'&amp;M=1': 'Y='.$year.'&amp;M='.($month+1)
+
+?&gt;
+
+&lt;!-- Main Content --&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 5%;&quot;&gt;
+        &lt;h2 style=&quot;text-align: center;&quot;&gt;&lt;?php echo $user_name['U_NAME'];?&gt;&lt;/h2&gt;
+        &lt;h2 style=&quot;text-align: center;&quot;&gt;
+            &lt;a href=&quot;?page=workUserCalendar&amp;&lt;?php echo $previous_month;?&gt;&amp;D=15&amp;id=&lt;?php echo $id;?&gt;&quot;&gt;&amp;#9668;&lt;/a&gt;
+            &lt;?php echo _MONTH::toString($month).' - '.$year;?&gt;
+            &lt;a href=&quot;?page=workUserCalendar&amp;&lt;?php echo $next_month;?&gt;&amp;D=15&amp;id=&lt;?php echo $id;?&gt;&quot;&gt;&amp;#9658;&lt;/a&gt;
+        &lt;/h2&gt;
+        &lt;?php if(isset($calendar)) $calendar-&gt;display();?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

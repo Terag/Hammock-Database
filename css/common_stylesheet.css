@@ -1,0 +1,900 @@
+/*!
+ * Global stylesheet for website
+ */
+
+/* ------------------------------------- Global Style  ----------------------------------- */
+
+body {
+    font-family: "Lato", sans-serif;
+    background: url(/img/background.jpg) no-repeat center fixed;
+    background-size: 100% 100%;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+/*Enable for content to take all the page surface when is loaded*/
+.content {
+    display: table;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    padding-bottom: 3%;
+}
+
+.center {
+    margin-top: 10%;
+}
+
+.nopadding {
+    padding: 0 !important;
+}
+
+.nomargin {
+    margin: 0 !important;
+}
+
+
+
+/* ------------------------------------- Text Style --------------------------------------- */
+
+h1 {
+    font-size: 4.5em;
+    font-weight: 700;
+}
+
+/* ----------------------------------- Top Menu Style -------------------------------------- */
+
+#top-menu {
+    margin-left: 10%;
+    width: 80%;
+    min-width: 300px;
+    background-color: rgba(255, 255, 255, 0.9);
+    top:0;
+    position: fixed;
+    z-index: 4;
+    padding: 0px 16px 0px 16px;
+    float: left;
+    display: block;
+    text-decoration: none;
+}
+
+#top-menu ul {
+    padding: 0;
+}
+
+.top-menu-choice {
+    width: 20%;
+    height: 100%;
+    display: inline;
+    float: left;
+    text-align: center;
+}
+
+.top-menu-choice a {
+    text-decoration: none;
+    font-size: 25px;
+    color: #18093E;
+    display: block;
+    transition: 0.3s;
+}
+
+.top-menu-choice a:hover, .top-menu-choice a:focus{
+    background-color: #e1e1e1;
+}
+
+/* --- screen adaptation for top menu---*/
+
+@media screen and (max-width: 900px)
+{
+    #top-menu {
+        display: none !important;
+    }
+
+    #menu-toggle {
+        min-width: 25px;
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1100px)
+{
+    .top-menu-choice a h4 {
+        font-size: 10px;
+    }
+
+    .top-menu-choice a {
+        padding: 5px 20px 5px 20px;
+    }
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1500px)
+{
+    .top-menu-choice a h4{
+        font-size: 14px;
+    }
+
+    .top-menu-choice a {
+        padding: 5px 30px 5px 30px;
+    }
+}
+
+@media screen and (min-width: 1500px)
+{
+    .top-menu-choice a {
+        padding: 5px 40px 5px 40px;
+    }
+}
+
+/* ------------------------------------- Sidebar style  ----------------------------------- */
+
+@media screen and (min-width: 900px){
+    #menu-toggle {
+        display: none;
+    }
+}
+
+#logo_in_nav {
+    width: 100%;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    right: 0;
+    background-color: #77b5fe;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav .choice {
+    margin: 4px 8px;
+    background-color: #77b5fe;
+    box-shadow: 10px 0px #666;
+}
+
+.sidenav .choice:active, .sidenav .choice:hover, .sidenav .choice-current {
+    transform: translateX(32px);
+    background-color: white;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #18093E;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #DEDEDE;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+#menu-toggle {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    right: 5px;
+}
+
+#menu-back {
+    z-index: 1;
+    position: fixed;
+    top : 0;
+    left: 0;
+}
+
+#sidebar-wrapper.active {
+    right: 250px;
+    width: 250px;
+    -webkit-transition: all 0.4s ease 0s;
+    -moz-transition: all 0.4s ease 0s;
+    -ms-transition: all 0.4s ease 0s;
+    -o-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+}
+
+.toggle {
+    margin: 5px 5px 0 0;
+}
+/* ------------------------------------- Form Style -------------------------------- */
+
+/* Style for all form inputs */
+.form_input {
+    padding: 7px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+/* Style of Filter Bar */
+.formFilterInput {
+    background-image: url('../img/searchicon.png');
+    background-size: 25px;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+.form-style {
+    padding: 15px 25px;
+    font-size: 20px;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    /*color: #fff; /*if you want white font on blue background*/
+    background-color: #f1f1f1;
+    border: none;
+    box-shadow: 8px 8px #999;
+}
+
+/* --- Custom Drop Down for Forms --- */
+
+.custom-dropdown--large {
+    font-size: 1.5em;
+}
+
+.custom-dropdown--small {
+    font-size: .7em;
+}
+
+.custom-dropdown__select{
+    font-size: inherit; /* inherit size from .custom-dropdown */
+    padding: .5em; /* add some space*/
+    margin: 0; /* remove default margins */
+}
+
+.custom-dropdown__select--white {
+    background-color: #e1e1e1;
+    color: #444;
+}
+
+.custom-dropdown__select option {
+    background-color: white;
+}
+
+@supports (pointer-events: none) and
+      ((-webkit-appearance: none) or
+      (-moz-appearance: none) or
+      (appearance: none)) {
+
+    .custom-dropdown {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+    .custom-dropdown__select {
+        padding-right: 2.5em; /* accommodate with the pseudo elements for the dropdown arrow */
+        border: 0;
+        border-radius: 3px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .custom-dropdown::before,
+    .custom-dropdown::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .custom-dropdown::after { /*  Custom dropdown arrow */
+        content: "\25BC";
+        height: 1em;
+        font-size: .625em;
+        line-height: 1;
+        right: 1.2em;
+        top: 50%; margin-top: -.5em;
+    }
+
+    .custom-dropdown::before { /*  Custom dropdown arrow cover */
+        width: 2em;
+        right: 0; top: 0; bottom: 0;
+        border-radius: 0 3px 3px 0;
+    }
+
+    .custom-dropdown__select[disabled] {
+        color: rgba(0,0,0,.3);
+    }
+
+    .custom-dropdown.custom-dropdown--disabled::after {
+        color: rgba(0,0,0,.1);
+    }
+
+    /* White dropdown style */
+    .custom-dropdown--white::before {
+        top: .5em; bottom: .5em;
+        background-color: #e1e1e1;
+        border-left: 1px solid rgba(0,0,0,.1);
+    }
+
+    .custom-dropdown--white::after {
+        color: rgba(0,0,0,.9);
+    }
+
+    /* FF only temp fix */
+    @-moz-document url-prefix() {
+        .custom-dropdown__select              { padding-right: .9em }
+        .custom-dropdown--large .custom-dropdown__select { padding-right: 1.3em }
+        .custom-dropdown--small .custom-dropdown__select { padding-right: .5em }
+    }
+}
+
+/* ------------------------------------- Window style ----------------------------------- */
+
+.window_white {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #c1c1c1;
+}
+
+.window_grey {
+    background-color: #c1c1c1;
+}
+
+.window_font {
+    font-size: 20px;
+}
+
+.window_padding {
+    padding: 16px 0px;
+}
+
+/* ------------------------------------- Button  ----------------------------------- */
+
+/* Classic blue buttons */
+
+.button {
+    padding: 15px 25px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #77b5fe;
+    border: none;
+    box-shadow: 4px 4px #999;
+}
+
+.button:hover {background-color: #56638a
+}
+
+.button:active, .button:disabled{
+    background-color: #56638a;
+    box-shadow: 0 2px #666;
+    transform: translateY(2px);
+}
+
+.col-lg-2 .button {
+    width: 100%;
+}
+
+/* small button with radius*/
+.btn {
+    border: none;
+    color: white;
+    padding: 8px 8px;
+    text-align: center;
+    display: inline-block;
+    font-size: 8px;
+    cursor: pointer;
+}
+
+/* small button without radius */
+.btn2 {
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 2px 2px #999;
+}
+
+.btn2:active, .btn2:disabled{
+    border: none;
+    background-color: #56638a;
+    box-shadow: 0px 0px #999;
+    transform: translateY(2px);
+}
+
+.td-btn {
+    display: inline;
+}
+
+/* --- Colors for buttons --- */
+
+.danger {background-color: #f44336;} /* Red */
+.danger:hover, .danger:active, .danger:disabled {background: #da190b;}
+
+.edit {background-color: #2196F3;} /* Blue */
+.edit:hover, .edit:active, .edit:disabled {background: #0b7dda;}
+
+.add {background-color: #4cae4c;} /* Green */
+.add:hover, .add:active, .add:disabled {background-color: #3c763d;}
+
+.cancel {background-color: orange;} /* Orange */
+.cancel:hover, .cancel:active, .cancel:disabled {background-color: orangered;}
+
+.default {background-color: #e7e7e7; color: black;} /* Gray */
+.default:hover, .default:active, .default:disabled {background: #cccccc;}
+
+/* Dropdown button */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+
+/* --- Form Color Buttons --- */
+
+.cancelbtn {
+    background-color: #f44336;
+}
+
+.cancelbtn:hover,.cancelbtn:active{
+    background-color: #DA190B
+}
+
+.signupbtn {
+    background-color: #4cae4c;
+}
+
+.signupbtn:hover,.signupbtn:active{
+    background-color: #3c763d;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn,.signupbtn {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* ------------------------------------- TabFilter Style ----------------------------------- */
+
+/* Style for Filter Input on top of table */
+#myFilterInput {
+    background-image: url('../img/searchicon.png');
+    background-size: 25px;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+/* ----- Style classic table ----- */
+
+.myTable {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 16px;
+    border: 1.5px solid #e1e1e1;
+}
+
+.myTable th, .myTable td {
+    text-align: left !important;
+    padding: 6px !important;
+    border-right: 1.5px solid #e1e1e1;
+    border-left: 1.5px solid #e1e1e1;
+}
+
+.myTable tr.header, .myTable tr:hover {
+    background-color: #e1e1e1;
+}
+
+.myTable tr.fixTab:hover {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.myTable a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: #18093E;
+}
+
+.link {
+    display: inline !important;
+    width: auto !important;
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+.thin tr td {
+    padding: 2px !important;
+    font-size: 15px !important;
+}
+
+table tr td a {
+    display:block;
+    height:100%;
+    width:100%;
+}
+
+table tr td {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+table tr td a.btn {
+    display: inline;
+}
+
+/* ----- Style Custom Table (For Forms) ----- */
+
+.highlight {
+    background-color: #feef18;
+}
+
+.highlight:hover {
+    background-color: #ffcf25 !important;
+}
+
+DIV.table
+{
+    display:table;
+}
+FORM.tr, DIV.tr
+{
+    display:table-row;
+}
+SPAN.td, SPAN.th
+{
+    display: table-cell;
+}
+
+.myTable SPAN.th, .myTable SPAN.td {
+    text-align: left;
+    padding: 6px !important;
+    border-right: 1.5px solid #e1e1e1;
+    border-left: 1.5px solid #e1e1e1;
+}
+
+.myTable DIV.tr.header, .myTable DIV.tr:hover, .myTable FORM.tr:hover {
+    background-color: #e1e1e1;
+}
+
+.myTable a {
+    text-decoration: none;
+    color: #18093E;
+}
+
+.thin DIV.tr SPAN.td, .thin FORM.tr SPAN.td {
+    padding: 2px !important;
+    font-size: 15px !important;
+}
+
+DIV.tr SPAN.td a, FORM.tr SPAN.td a {
+    height:100%;
+    width:100%;
+}
+
+DIV.tr SPAN.td, FORM.tr SPAN.td {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ------------------------------------- Header resume ----------------------------------- */
+
+/* Style for header at the head of any tabs */
+.header-resume {
+    margin-top: 1%;
+    padding: 15px 25px;
+    font-size: 24px;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    /*color: #fff; if you want white font on blue background*/
+    background-color: #77b5fe;
+    border: none;
+    box-shadow: 8px 8px #999;
+}
+
+/* ------------------------------------ Modal Box style ------------------------------- */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal2 {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    margin: 5% auto 5% auto; /* 5% from the top, 15% from the bottom and centered */
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-form {
+    background-color: rgba(0,0,0,0);
+}
+
+/* Warning Modal Content */
+.modal-warning-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #f44336;
+    color: white;
+}
+
+.modal-body {
+    padding: 2px 16px;
+    background-color: white;
+}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #f44336;
+    color: white;
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: #000;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* ------------------------------------ Calendar ------------------------------- */
+
+.calendar {
+    margin: 4rem;
+    padding: 0;
+    list-style: none;
+    font-size: 1.4rem;
+    align-items: stretch;
+}
+
+.calendar-day {
+    color: #fff;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.calendar-day:nth-child(7n+1)::before {
+    content: attr(data-week);
+    position: absolute;
+    color: #555;
+}
+
+.calendar-day::after {
+    content: attr(data-weekday);
+    position: absolute;
+    color: #555;
+}
+
+.calendar-day__content {
+    background: #56638a;
+}
+
+.calendar-day--not-month .calendar-day__content {
+    opacity: .6;
+}
+
+.calendar-day--today .calendar-day__content {
+    background-color: #70a9a1 !important;
+}
+
+.calendar-day--entry .calendar-day__content {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.calendar-day--entry, .calendar-day--today {
+    color: black;
+}
+
+.calendar-day__number {
+    background-color: white;
+    color: #555;
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+    padding: 4px;
+    border-radius: 100%;
+}
+
+.calendar-day:hover .calendar-day__number{
+    display: none;
+}
+
+.calendar-day__content:hover {
+    max-height: none;
+}
+
+.calendar-day__content .myTable {
+    display: none;
+}
+
+.calendar-day__content:hover .myTable {
+    display: block;
+}
+
+/* --- Responsive Part --- */
+
+@media screen and (max-width: 40rem) {
+    .calendar-day {
+        margin: 0 0 2px;
+    }
+
+    .calendar-day:nth-child(7n+1)::before {
+        left: 0;
+        right: 0;
+        bottom: calc(100% + .5rem);
+        display: block;
+        text-align: center;
+    }
+
+    .calendar-day::after {
+        right: calc(100% + .5rem);
+        top: .5rem;
+    }
+
+    .calendar-day--not-month {
+        display: none;
+    }
+
+    .calendar-day--begin-week {
+        margin-top: 3rem;
+    }
+
+    .calendar-day__content {
+        min-height: 40px;
+        max-height: 40px;
+    }
+}
+
+@media screen and (min-width: 40rem) {
+    .calendar {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .calendar-day {
+        flex-basis: calc(14.28571% - 2px);
+        margin: 1px;
+    }
+
+    .calendar-day:nth-child(7n+1)::before {
+        right: calc(100% + .5rem);
+        top: .5rem;
+    }
+
+    .calendar-day::after {
+        display: none;
+    }
+
+    .calendar-day:nth-child(-n+7)::after {
+        display: inline;
+        bottom: calc(100% + .2rem);
+        left: .5rem;
+    }
+
+    .calendar-day--not-month {
+        display: block;
+    }
+
+    .calendar-day--past .calendar-day__number {
+        opacity: .9;
+    }
+
+    .calendar-day__content {
+        min-height: 200px;
+        max-height: 200px;
+    }
+
+    .calendar-day__content-global {
+        position: absolute;
+        top: 30px;
+        left: 5px;
+    }
+
+    .calendar-day:hover .calendar-day__content .calendar-day__content-global {
+        position: relative;
+        top: auto;
+    }
+}

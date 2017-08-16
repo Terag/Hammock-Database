@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * accountsAdmin row for HOME part
+ *
+ * row displaying
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Home\Row
+ * @namespace Home
+ * @filesource
+ */
+?&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $account['U_ID'];?&gt;&quot; name=&quot;fe_u_id&quot; required/&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $account['U_NAME'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $account['U_STATUS'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+            &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; name=&quot;fe_u_status&quot;&gt;
+                &lt;?php
+                    $access_array = array('', '', '', '');
+                    $access_array[$account['U_STATUS']-1] = 'selected=&quot;selected&quot;';
+                ?&gt;
+                &lt;option value=&quot;1&quot; &lt;?php echo $access_array[0];?&gt;&gt;View&lt;/option&gt;
+                &lt;option value=&quot;2&quot; &lt;?php echo $access_array[1];?&gt;&gt;Hangar&lt;/option&gt;
+                &lt;option value=&quot;3&quot; &lt;?php echo $access_array[2];?&gt;&gt;Office&lt;/option&gt;
+                &lt;option value=&quot;4&quot; &lt;?php echo $access_array[3];?&gt;&gt;Admin&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/span&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        *****
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        New Password
+        &lt;input class=&quot;form_input&quot; type=&quot;password&quot; name=&quot;fe_u_password&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $account['U_CODE'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $account['U_CODE'];?&gt;&quot; name=&quot;fe_u_code&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $account['U_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $account['U_ID'];?&gt;', 'row-&lt;?php echo $account['U_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $account['U_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

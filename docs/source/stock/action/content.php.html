@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * content action for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Action
+ * @namespace Stock
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/data_getters.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/file_manager.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+
+$fields = array(
+    /* MODIFY STOCK */
+    'fe_s_id' =&gt; array('type' =&gt; 'hidden-int', 'required' =&gt; TRUE),
+    'fe_s_serial' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_s_qty' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'fe_arc_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'fe_f_arc' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/arc', 'file_name' =&gt; '%var%', 'var' =&gt; 'fe_arc_name'),
+    'fe_po_name' =&gt; array('type' =&gt; 'text', 'required' =&gt; TRUE),
+    'fe_s_index_pn' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'fe_f_po' =&gt; array('type' =&gt; 'file', 'required' =&gt; FALSE, 'file_destination' =&gt; '/files/po', 'file_name' =&gt; '%var%', 'var' =&gt; 'fe_po_name'),
+    'fe_s_rcvd_date' =&gt; array('type' =&gt; 'date', 'required' =&gt; TRUE),
+    'fe_s_expi_date' =&gt; array('type' =&gt; 'date', 'required' =&gt; FALSE),
+    'fe_s_price' =&gt; array('type' =&gt; 'number-float', 'required' =&gt; FALSE),
+    'fe_s_accurency' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+    'fe_s_vendor' =&gt; array('type' =&gt; 'text', 'required' =&gt; FALSE),
+);
+$sql_request = 'CALL update_stock_part(:fe_s_id, :fe_s_serial, :fe_arc_name, :fe_f_arc, :fe_po_name, :fe_f_po, :fe_s_index_pn,
+                                   :fe_s_qty, :fe_s_price, :fe_s_accurency, :fe_s_vendor,
+                                   \'yes\', :fe_s_rcvd_date, :fe_s_expi_date);';
+try {
+    $receive_part = new Form($bdd, $fields, $sql_request);
+
+    if($receive_part-&gt;validateForm()) {
+        $receive_part-&gt;sendForm();
+
+        $req = $bdd-&gt;prepare('	SELECT s.*, gp.*, po.F_ID AS PO_ID, po.F_DIRECTORY AS PO_DIRECTORY, po.F_NAME AS PO_NAME, po.F_FORMAT AS PO_FORMAT, arc.F_ID AS ARC_ID,
+                                arc.F_DIRECTORY AS ARC_DIRECTORY, arc.F_NAME AS ARC_NAME, arc.F_FORMAT AS ARC_FORMAT, SUM(COALESCE(LPS_QUANTITY_NUMBER,0)) AS S_QUANTITY_USED
+                                FROM T_STOCK s
+                                LEFT JOIN T_FILE po ON (S_ID_PURCHASE_ORDER=po.F_ID)
+                                LEFT JOIN T_FILE arc ON (S_ID_ARC=arc.F_ID)
+                                LEFT JOIN T_GENERIC_PART gp ON (S_ID_GP=GP_ID)
+                                LEFT JOIN T_LINK_PP_S ON (LPS_ID_S=S_ID)
+                                WHERE S_ID=:id;');
+        $req-&gt;execute(array('id' =&gt; (int)$_POST['fe_s_id']));
+        $stock_part = $req-&gt;fetch();
+        include('row/content.php');
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}
+
+$fields = array(
+    'f_delete' =&gt; array('type' =&gt; 'number-int', 'required' =&gt; TRUE),
+    'f_delete_po' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE),
+    'f_delete_arc' =&gt; array('type' =&gt; 'hidden-delete-file', 'required' =&gt; FALSE)
+);
+$sql_request = 'DELETE FROM T_STOCK WHERE S_ID=:f_delete';
+try {
+    $delete_part = new Form($bdd, $fields, $sql_request);
+
+    if($delete_part-&gt;validateForm()) {
+        $delete_part-&gt;sendForm();
+        exit();
+    }
+} catch (Exception $error) {
+    display_modal($error-&gt;getMessage());
+    exit();
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

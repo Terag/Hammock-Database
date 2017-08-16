@@ -1,0 +1,184 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * close content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+if($id_project &gt; 0) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+
+    /*  Get other data from database */
+    /*  Get Project information */
+    $data_project = get_project_info_from_helico($bdd, $id_project);
+    if(!$data_project) {
+        header('Location: ./');
+        exit();
+    }
+
+    $data_engine1 = null;
+    if($data_project['H_ID_E1'] != null) {
+        $data_engine1 = get_engine_info($bdd, $data_project['H_ID_E1']);
+    }
+    $data_engine2 = null;
+    if($data_project['H_ID_E2'] != null) {
+        $data_engine2 = get_engine_info($bdd, $data_project['H_ID_E2']);
+    }
+
+    $data_wos = get_wo_name_list_for_project($bdd, $id_project);
+    ?&gt;
+
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot; style=&quot;margin-top: 8%; margin-bottom: 2%;&quot;&gt;
+            &lt;div class=&quot;col-lg-6&quot;&gt;
+                &lt;h2&gt;&lt;strong&gt;Project :&lt;/strong&gt; &lt;br/&gt;&lt;?php echo $data_project['P_NAME'];?&gt;&lt;/h2&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-6&quot;&gt;
+                &lt;h4&gt;&lt;strong&gt;Customer :&lt;/strong&gt; &lt;?php echo $data_project['C_NAME'];?&gt;&lt;/h4&gt;
+                &lt;h4&gt;&lt;strong&gt;Aircraft :&lt;/strong&gt; &lt;?php echo $data_project['GA_NAME'];?&gt;&lt;/h4&gt;
+                &lt;h4&gt;&lt;strong&gt;Serial :&lt;/strong&gt; &lt;?php echo $data_project['H_SERIAL'];?&gt;&lt;/h4&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1&quot;&gt;
+            &lt;div class=&quot;col-lg-6&quot;&gt;
+                &lt;h2&gt;Word Order List&lt;/h2&gt;
+                &lt;div class=&quot;table myTable&quot;&gt;
+                    &lt;div class=&quot;tr header&quot;&gt;
+                        &lt;span class=&quot;td&quot; style=&quot;width:5%;&quot;&gt;ID&lt;/span&gt;
+                        &lt;span class=&quot;td&quot; style=&quot;width:85%;&quot;&gt;NAME&lt;/span&gt;
+                        &lt;span class=&quot;td&quot; style=&quot;width:10%;&quot;&gt;&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;script&gt;
+                        var rows = [];
+
+                        function selectrow(id) {
+                            var selected = $('#' + id);
+                            if(selected.hasClass('header')) {
+                                return false;
+                            } else {
+                                rows.forEach(function(row) {
+                                    row.removeClass('header');
+                                    $('button', row).prop('disabled', true);
+                                });
+                                selected.addClass('header');
+                                $('#zip-' + id + ' &gt; button', selected).prop('disabled', false);
+                                return true;
+                            }
+                        }
+                    &lt;/script&gt;
+                    &lt;?php $i=0; foreach ($data_wos as $wo) { $i++;?&gt;
+                        &lt;div class=&quot;tr&quot; onclick=&quot;if(selectrow('row-&lt;?php echo $wo['WO_ID'];?&gt;')) {
+                                                    xmlhttpPost('http://&lt;?php echo $_SERVER['HTTP_HOST'];?&gt;/project/?page=close&amp;wo=&lt;?php echo $wo['WO_ID'];?&gt;', '', 'result', '&lt;span&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;')
+                                                 }&quot; id=&quot;row-&lt;?php echo $wo['WO_ID'];?&gt;&quot;&gt;
+                            &lt;script&gt;rows.push($('#row-&lt;?php echo $wo['WO_ID'];?&gt;'));&lt;/script&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo $wo['WO_ID'];?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot;&gt;&lt;?php echo str_replace('%DOC%','SOW', $wo['WO_NAME']);?&gt;&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; id=&quot;zip-row-&lt;?php echo $wo['WO_ID'];?&gt;&quot;&gt;&lt;button type=&quot;button&quot; onclick=&quot;xmlhttpPost(document.location.origin + '/project/?page=close&amp;id=&lt;?php echo $id_project;?&gt;&amp;excel=&lt;?php echo $wo['WO_ID'];?&gt;', '', 'result', '&lt;button class=\'button\'&gt;Wait..&lt;/button&gt;');&quot; class=&quot;button edit&quot; disabled&gt;Files&lt;/button&gt;&lt;/span&gt;
+                        &lt;/div&gt;
+                    &lt;?php } ?&gt;
+                &lt;/div&gt;
+                &lt;?php if($i==0) { ?&gt;
+                    &lt;div class=&quot;col-lg-4 col-lg-offset-4&quot;&gt;
+                        &lt;form id=&quot;close-project-form&quot; onsubmit=&quot;return confirm('Delete Project &lt;?php echo $data_project['P_NAME'];?&gt; ?')&quot; action=&quot;/project/?page=close&amp;id=&lt;?php echo $id_project;?&gt;&amp;delete_project=&lt;?php echo $id_project;?&gt;&quot; method=&quot;post&quot;&gt;
+                            &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo generate_token('close-project-'.$id_project);?&gt;&quot; name=&quot;token&quot; required/&gt;
+                            &lt;button type=&quot;submit&quot; class=&quot;button danger&quot;&gt;Delete Project&lt;/button&gt;
+                        &lt;/form&gt;
+                    &lt;/div&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-6&quot; id=&quot;result&quot;&gt;
+                &lt;?php if(isset($succeed) AND $succeed == true AND isset($data_project_parts)) { ?&gt;
+                    &lt;h2&gt;Delete WO : &lt;?php echo $wo_name;?&gt;&lt;/h2&gt;
+                    &lt;div class=&quot;table myTable&quot;&gt;
+                        &lt;div class=&quot;tr header&quot;&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:5%;&quot;&gt;ID&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:15%;&quot;&gt;ST Index&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:20%;&quot;&gt;DESCRIPTION&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:20%;&quot;&gt;PN&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:30%;&quot;&gt;PO&lt;/span&gt;
+                            &lt;span class=&quot;td&quot; style=&quot;width:10%;&quot;&gt;QTY&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;?php foreach ($data_project_parts as $project_part) { ?&gt;
+                            &lt;div class=&quot;tr&quot;&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['LPS_ID'];?&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['GST_NUMBER'];?&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['GP_NAME'];?&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['GP_NUMBER'];?&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['S_PO_NAME'];?&gt;&lt;/span&gt;
+                                &lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['LPS_QUANTITY_NUMBER'];?&gt;&lt;/span&gt;
+                            &lt;/div&gt;
+                        &lt;?php } ?&gt;
+                    &lt;/div&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+            &lt;div class=&quot;col-lg-2 col-lg-offset-5&quot;&gt;
+                &lt;a href=&quot;./?page=specificProject&amp;id=&lt;?php echo $data_project['P_ID'];?&gt;&quot;&gt;&lt;button class=&quot;button&quot;&gt;Back&lt;/button&gt;&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;?php } else {
+    display_modal('Error to load Project information, are you on the good page ?');
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<?php
+/**
+ * documentationHome action for DOCUMENTATION part
+ *
+ * action file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Documentation\Action
+ * @namespace Documentation
+ * @filesource
+ */
+
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/connection.php');
+include($_SERVER['DOCUMENT_ROOT'].'/ui/modal_warning.php');
+include($_SERVER['DOCUMENT_ROOT'].'/SQL_management/form.php');
+
+if($lvl_access > 2) {
+    $fields = array(
+        'f_name' => array('type' => 'text', 'required' => TRUE),
+        'f_constructor' => array('type' => 'text', 'required' => TRUE),
+        'f_type' => array('type' => 'text', 'required' => TRUE)
+    );
+    $sql_request = 'CALL new_generic_aircraft(:f_name, :f_constructor, :f_type);';
+    $form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/new_genericAircraft.php';
+    try {
+
+        $new_aircraft_form = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+        if ($new_aircraft_form->validateForm()) {
+            $new_aircraft_form->sendForm();
+
+            $last_insert = $bdd->query('SELECT MAX(GA_ID) AS ID FROM T_GENERIC_AIRCRAFT;')->fetch()['ID'];
+            $req = $bdd->prepare('SELECT * FROM T_GENERIC_AIRCRAFT WHERE GA_ID=:id;');
+            $req->execute(array('id' => $last_insert));
+            $aircraft = $req->fetch(); ?>
+            <form id="delete_row-<?php echo $aircraft['GA_ID'] ?>" method="post" style="display: none;">
+                <input type="hidden" name="f_delete" value="<?php echo $aircraft['GA_ID']; ?>"/>
+            </form>
+            <form class="tr" id="row-<?php echo $aircraft['GA_ID'] ?>"
+                  onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $aircraft['GA_ID']; ?>', 'row-<?php echo $aircraft['GA_ID']; ?>', '<span class=\'td\'><img src=\'/img/wait_rot.gif\'/></span>');return false;"
+                  method="post">
+                <?php include('row/documentationHome.php'); ?>
+            </form>
+            <?php exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error->getMessage());
+        exit();
+    }
+
+    $fields = array(
+        'fe_ga_id' => array('type' => 'hidden-int', 'required' => TRUE),
+        'fe_ga_name' => array('type' => 'text', 'required' => TRUE),
+        'fe_ga_constructor' => array('type' => 'text', 'required' => TRUE)
+    );
+    $sql_request = 'CALL update_generic_aircraft(:fe_ga_id, :fe_ga_name, :fe_ga_constructor);';
+    try {
+        $modify_aircraft_form = new Form($bdd, $fields, $sql_request);
+
+        if ($modify_aircraft_form->validateForm()) {
+            $modify_aircraft_form->sendForm();
+
+            $req = $bdd->prepare('SELECT * FROM T_GENERIC_AIRCRAFT WHERE GA_ID=:id');
+            $req->execute(array('id' => (int)$_POST['fe_ga_id']));
+            $aircraft = $req->fetch();
+            include('row/documentationHome.php');
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error->getMessage());
+        exit();
+    }
+
+    $fields = array('f_delete' => array('type' => 'number', 'required' => TRUE));
+    $sql_request = 'DELETE FROM T_GENERIC_AIRCRAFT WHERE GA_ID = :f_delete';
+    try {
+        $delete_aircraft_form = new Form($bdd, $fields, $sql_request);
+
+        if ($delete_aircraft_form->validateForm()) {
+            $delete_aircraft_form->sendForm();
+            exit();
+        }
+    } catch (Exception $error) {
+        display_modal($error->getMessage());
+        exit();
+    }
+}

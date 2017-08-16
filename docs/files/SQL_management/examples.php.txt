@@ -1,0 +1,142 @@
+<?php
+/**
+ * File of examples
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ */
+
+/* -------------------------------------------------------------------------------*/
+/* ----- This file is just a collection of examples used for documentation ------ */
+/* ------------------------------------------------------------------------------ */
+
+/* ---------- Form Class Example ---------- */
+
+$fields = array(
+    /* MODIFY STOCK */
+    'fe_s_id' => array('type' => 'hidden-int', 'required' => TRUE),
+    'fe_s_serial' => array('type' => 'text', 'required' => FALSE),
+    'fe_s_index_pn' => array('type' => 'number-int', 'required' => TRUE),
+    'fe_s_qty' => array('type' => 'text', 'required' => TRUE),
+    'fe_arc_name' => array('type' => 'text', 'required' => $require),
+    'fe_f_arc' => array('type' => 'file', 'required' => FALSE, 'file_destination' => '/files/arc', 'file_name' => '%var%', 'var' => 'fe_arc_name'),
+    'fe_po_name' => array('type' => 'text', 'required' => TRUE),
+    'fe_f_po' => array('type' => 'file', 'required' => FALSE, 'file_destination' => '/files/po', 'file_name' => '%var%', 'var' => 'fe_po_name'),
+    'fe_s_rcvd' => array('type' => 'text', 'required' => TRUE),
+    'fe_s_rcvd_date' => array('type' => 'date', 'required' => $require),
+    'fe_s_price' => array('type' => 'number-float', 'required' => FALSE),
+    'fe_s_accurency' => array('type' => 'text', 'required' => FALSE),
+    'fe_s_vendor' => array('type' => 'text', 'required' => FALSE),
+);
+$sql_request = 'CALL update_stock_part(:fe_s_id, :fe_s_serial, :fe_arc_name, :fe_f_arc, :fe_po_name, :fe_f_po, :fe_s_index_pn,
+                                   :fe_s_qty, :fe_s_price, :fe_s_accurency, :fe_s_vendor,
+                                   :fe_s_rcvd, :fe_s_rcvd_date, NULL);';
+try {
+    $receive_part = new Form($bdd, $fields, $sql_request);
+
+    if($receive_part->validateForm()) {
+        $receive_part->sendForm();
+    }
+
+} catch (Exception $error) {
+    /* Error action */
+}
+
+/* ---------- Form_modal Class Example ---------- */
+
+$fields = array(
+    /* ADD STOCK */
+    'f_gp_id' => array('type' => 'number-int', 'required' => TRUE),
+    'f_arc_name' => array('type' => 'text', 'required' => TRUE),
+    'f_po_name' => array('type' => 'text', 'required' => TRUE),
+    'f_arc' => array('type' => 'file', 'required' => FALSE, 'file_destination' => '/files/arc', 'file_name' => '%var%', 'var' => 'f_arc_name'),
+    'f_po' => array('type' => 'file', 'required' => FALSE, 'file_destination' => '/files/po', 'file_name' => '%var%', 'var' => 'f_po_name'),
+    'f_qty_number' => array('type' => 'number-int', 'required' => TRUE),
+    'f_index_pn' => array('type' => 'number-int', 'required' => TRUE),
+    'f_serial' => array('type' => 'text', 'required' => FALSE),
+    'f_u_price' => array('type' => 'number-float', 'required' => FALSE),
+    'f_currency' => array('type' => 'text', 'required' => FALSE),
+    'f_vendor' => array('type' => 'text', 'required' => FALSE),
+    /* CREATE GP */
+    'f_name' => array('type' => 'text', 'required' => TRUE),
+    'f_number' => array('type' => 'text', 'required' => FALSE),
+    'f_location' => array('type' => 'text', 'required' => FALSE),
+    'f_description' => array('type' => 'text', 'required' => FALSE)
+);
+$sql_request = 'CALL add_part_stock(:f_gp_id, :f_arc_name, :f_po_name, :f_arc, :f_po, :f_index_pn,
+                                    :f_qty_number, :f_serial, :f_u_price, :f_currency, :f_vendor, NULL, NULL,
+                                    :f_name, :f_number, NULL, :f_location, :f_description);';
+
+$form_path = $_SERVER['DOCUMENT_ROOT'] . '/form/stock_receive.php';
+
+try {
+    $new_received_part = new Form_modal($bdd, $fields, $sql_request, $form_path);
+
+    if($new_received_part->validateForm()) {
+        $new_received_part->sendForm();
+    }
+
+} catch (Exception $error) {
+    /* Error action */
+}
+
+/* ---------- Calendar Class Exemple (Action) ---------- */
+
+$year = '2017';
+$month = '08';
+$day = '02';
+
+try {
+    $calendar = new Calendar($year, $month, $day);
+} catch (Exception $error) {
+    $_SESSION['error'] = $error;
+}
+
+/* ..... */
+
+$calendar->SetContentOnDate('2017-08-06', 'My Content');
+
+?>
+/* ---------- Calendar Class Exemple (Content) ---------- */
+
+<!-- Main Content -->
+<div class="container content">
+    <div class="row" style="margin-top: 5%;">
+        <h2 style="text-align: center;"><?php echo $user_name['U_NAME'];?></h2>
+        <h2 style="text-align: center;">
+            <a href="?page=workUserCalendar&<?php echo $previous_month;?>&D=15&id=<?php echo $id;?>">&#9668;</a>
+            <?php echo _MONTH::toString($month).' - '.$year;?>
+            <a href="?page=workUserCalendar&<?php echo $next_month;?>&D=15&id=<?php echo $id;?>">&#9658;</a>
+        </h2>
+        <?php if(isset($calendar)) $calendar->display();?>
+    </div>
+</div>
+
+<?php
+
+/* ---------- References Helper Example ---------- */
+
+/* Prepare data for str_link_reference function */
+$structure = array(
+    'DOC' => array('VALUE' => $wo_name),
+    'P' => array('VALUE' => $data_project['P_NAME']),
+    'M' => array('VALUE' => NULL),
+    'H' => array('N' => 'H_SERIAL', 'array_name' => 'project'),
+    'E1' => array('N' => 'E_SERIAL', 'array_name' => 'engine1'),
+    'E2' => array('N' => 'E_SERIAL', 'array_name' => 'engine2'),
+    'R' => array('N' => 'number', 'array_name' => 'references'),
+    'PI' => array('N' => 'number', 'array_name' => 'installed'),
+    'PR' => array('N' => 'number', 'array_name' => 'removed')
+);
+$data = array(
+    'project' => array( 'array' => $data_project),
+    'engine1' => array( 'array' => $data_engine1),
+    'engine2' => array( 'array' => $data_engine2),
+    'references' => array( 'array' => NULL, 'separator' => ';;'),
+    'installed' => array( 'array' => NULL, 'separator' => ';;'),
+    'removed' => array( 'array' => NULL, 'separator' => ';;'),
+);
+
+echo str_link_references($sub_task['ST_WORK_REQUIRED'], $structure, $data);

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>Hammock Helicopter Database</title>
+    <parser>
+        <target>docs</target>
+    </parser>
+    <transformations>
+        <template name="clean"/>
+    </transformations>
+    <transformer>
+        <target>docs</target>
+    </transformer>
+    <files>
+        <ignore>excel*</ignore>
+        <ignore>js\bootstrap.js</ignore>
+        <ignore>js\jquery*</ignore>
+        <ignore>js\tableExport*</ignore>
+        <ignore>protect*</ignore>
+        <ignore>font-awesome*</ignore>
+        <ignore>files*</ignore>
+        <ignore>css\bootstrap.css</ignore>
+        <directory>.</directory>
+    </files>
+</phpdoc>

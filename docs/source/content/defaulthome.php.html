@@ -1,0 +1,494 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * defaultHome content for HOME part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Home\Content
+ * @namespace Home
+ * @filesource
+ */
+
+$data_project_list = get_project_list($bdd);
+
+$data_users_list = get_user_list($bdd);
+
+?&gt;
+
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 8%;&quot;&gt;
+        &lt;!-- clouds --&gt;
+        &lt;img id=&quot;cloud_1&quot; class=&quot;cloud&quot; src=&quot;/img/clouds.png&quot; style=&quot;z-index: 2;&quot;&gt;
+        &lt;img id=&quot;cloud_2&quot; class=&quot;cloud&quot; src=&quot;/img/clouds.png&quot; style=&quot;Z-index: 2;&quot;&gt;
+        &lt;!-- Text --&gt;
+        &lt;img id=&quot;hammock-helicopter&quot; class=&quot;title_txt&quot; src=&quot;/img/hammock-helicopter.png&quot; style=&quot;z-index: 1;&quot;/&gt;
+        &lt;img id=&quot;hammock&quot; class=&quot;title_txt&quot; src=&quot;/img/hammock.png&quot; style=&quot;z-index: 1;&quot;/&gt;
+        &lt;img id=&quot;helicopter&quot; class=&quot;title_txt&quot; src=&quot;/img/helicopter.png&quot; style=&quot;z-index: 1;&quot;/&gt;
+        &lt;!-- Logo --&gt;
+        &lt;img id=&quot;planet&quot; class=&quot;title_img&quot; src=&quot;/img/planet.png&quot; style=&quot;z-index: 1;&quot;/&gt;
+        &lt;img id=&quot;helico&quot; class=&quot;title_img&quot; src=&quot;/img/helico.png&quot; style=&quot;z-index: 3;&quot;/&gt;
+
+        &lt;style type=&quot;text/css&quot;&gt;
+
+            @keyframes helicopter-arrival {
+                from {
+                    left: 100%;
+                    -ms-transform: rotate(-40deg); /* IE 9 */
+                    -webkit-transform: rotate(-40deg); /* Chrome, Safari, Opera */
+                    transform: rotate(-40deg);
+                }
+
+                60% {
+                    -ms-transform: rotate(20deg); /* IE 9 */
+                    -webkit-transform: rotate(20deg); /* Chrome, Safari, Opera */
+                    transform: rotate(20deg);
+                }
+            }
+
+            @keyframes text-apparition {
+                from { opacity: 0; }
+
+                10% { opacity: 0; }
+
+                to { opacity: 1; }
+            }
+
+            /* LARGE SCREEN */
+            @media screen and (min-width: 1200px) {
+
+                .title_img, .title_txt, .cloud {
+                    position: absolute;
+                }
+
+                #hammock ,#helicopter {
+                    display: none;
+                }
+
+                #hammock-helicopter {
+                    left: 30%;
+                    animation-duration: 8s;
+                    animation-name: text-apparition;
+                }
+
+                .title_txt{
+                    margin-top: 60px;
+                    max-height: 60px;
+                }
+
+                #cloud_1 {
+                    left: 27%;
+                    animation-duration: 6s;
+                    animation-name: cloud-left;
+                }
+
+                #cloud_2 {
+                    left: 47%;
+                    transform: scaleX(-1);
+                    animation-duration: 6s;
+                    animation-name: cloud-right;
+                }
+
+                .cloud {
+                    opacity: 0;
+                    margin-top: 10px;
+                    min-height: 30px;
+                    max-height: 140px;
+                }
+
+                #helico, #planet {
+                    max-width: 350px;
+                    left: 3%
+                }
+
+                #helico {
+                    animation-duration: 6s;
+                    animation-name: helicopter-arrival;
+                }
+
+                @keyframes cloud-right {
+                    from {
+                        left: 50%;
+                        margin-top: 10px;
+                        opacity: 1;
+                        max-height: 140px;
+                    }
+
+                    to {
+                        left: 60%;
+                        margin-top: 20px;
+                        opacity: 0;
+                        max-height: 100px;
+                    }
+                }
+
+                @keyframes cloud-left {
+                    from {
+                        left: 33%;
+                        margin-top: 40px;
+                        opacity: 1;
+                        max-height: 140px;
+                    }
+
+                    to {
+                        left: 23%;
+                        margin-top: 40px;
+                        opacity: 0;
+                        max-height: 100px;
+                    }
+                }
+            }
+
+            @media screen and (min-width: 600px) and (max-width: 1200px) {
+
+                #home-options {
+                    margin-top: 15% !important;
+                }
+
+                .title_img, .title_txt, .cloud {
+                    position: absolute;
+                    margin-top: 50px;
+                }
+
+                #hammock ,#helicopter {
+                    display: none;
+                }
+
+                #hammock-helicopter {
+                    left: 27%;
+                    animation-duration: 8s;
+                    animation-name: text-apparition;
+                }
+
+                .title_txt{
+                    margin-top: 60px;
+                    max-height: 30px;
+                }
+
+                #cloud_1 {
+                    left: 23%;
+                    animation-duration: 6s;
+                    animation-name: cloud-left;
+                }
+
+                #cloud_2 {
+                    left: 30%;
+                    transform: scaleX(-1);
+                    animation-duration: 6s;
+                    animation-name: cloud-right;
+                }
+
+                .cloud {
+                    opacity: 0;
+                    margin-top: 10px;
+                    min-height: 60px;
+                    max-height: 60px;
+                }
+
+                #helico, #planet {
+                    max-width: 150px;
+                    left: 3%
+                }
+
+                #helico {
+                    animation-duration: 6s;
+                    animation-name: helicopter-arrival;
+                }
+
+                @keyframes cloud-right {
+                    from {
+                        left: 45%;
+                        margin-top: 35px;
+                        opacity: 1;
+                        max-height: 60px;
+                    }
+
+                    to {
+                        left: 55%;
+                        margin-top: 40px;
+                        opacity: 0;
+                        max-height: 20px;
+                    }
+                }
+
+                @keyframes cloud-left {
+                    from {
+                        left: 25%;
+                        margin-top: 45px;
+                        opacity: 1;
+                        max-height: 60px;
+                    }
+
+                    to {
+                        left: 17%;
+                        margin-top: 50px;
+                        opacity: 0;
+                        max-height: 20px;
+                    }
+                }
+            }
+
+            @media screen and (max-width: 600px) {
+
+                #home-options {
+                    margin-top: 150px !important;
+                }
+
+                .title_img, .title_txt, .cloud {
+                    position: absolute;
+                    margin-top: 30px;
+                }
+
+                #hammock-helicopter {
+                    display: none;
+                }
+
+                #hammock ,#helicopter {
+                    animation-duration: 8s;
+                    animation-name: text-apparition;
+                }
+
+                #hammock {
+                    left: 40%;
+                    margin-top: 37px;
+                }
+
+                #helicopter {
+                    left: 45%;
+                    margin-top: 65px;
+                }
+
+                .title_txt {
+                    max-height: 20px;
+                }
+
+                #cloud_1 {
+                    left: 23%;
+                    animation-duration: 6s;
+                    animation-name: cloud-left;
+                }
+
+                #cloud_2 {
+                    left: 30%;
+                    transform: scaleX(-1);
+                    animation-duration: 6s;
+                    animation-name: cloud-right;
+                }
+
+                .cloud {
+                    opacity: 0;
+                    margin-top: 10px;
+                    min-height: 20px;
+                    max-height: 30px;
+                }
+
+                #helico, #planet {
+                    max-width: 100px;
+                    left: 3%
+                }
+
+                #helico {
+                    animation-duration: 6s;
+                    animation-name: helicopter-arrival;
+                }
+
+                @keyframes cloud-right {
+                    from {
+                        left: 45%;
+                        margin-top: 63px;
+                        opacity: 1;
+                        max-height: 35px;
+                    }
+
+                    to {
+                        left: 55%;
+                        margin-top: 75px;
+                        opacity: 0;
+                        max-height: 20px;
+                    }
+                }
+
+                @keyframes cloud-left {
+                    from {
+                        left: 40%;
+                        margin-top: 35px;
+                        opacity: 1;
+                        max-height: 35px;
+                    }
+
+                    to {
+                        left: 30%;
+                        margin-top: 45px;
+                        opacity: 0;
+                        max-height: 20px;
+                    }
+                }
+            }
+        &lt;/style&gt;
+
+        &lt;script&gt;
+            function goto_calendar(id_select) {
+                var select = document.getElementById(id_select);
+                var value = select.value;
+                var calendar = select.options[select.selectedIndex].parentNode.label;
+
+                if(calendar === 'users')
+                    window.location.href = window.location.origin + '/management/?page=workUserCalendar&amp;id=' + value;
+                else if (calendar === 'projects')
+                    window.location.href = window.location.origin + '/management/?page=workProjectCalendar&amp;id=' + value;
+            }
+        &lt;/script&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Modal PN Cross References --&gt;
+    &lt;?php include $_SERVER['DOCUMENT_ROOT'].'/ui/modal_PNRef.php'; ?&gt;
+
+    &lt;div class=&quot;row center&quot; id=&quot;home-options&quot;&gt;
+        &lt;div class=&quot;col-lg-offset-3 col-lg-2&quot;&gt;
+            &lt;div class=&quot;dropdown&quot;&gt;
+                &lt;button onclick=&quot;dropdown('ACCOUNT')&quot; class=&quot;dropbtn button&quot;&gt;Account&lt;/button&gt;
+                &lt;div id=&quot;myDropdown-ACCOUNT&quot; class=&quot;dropdown-content&quot;&gt;
+                    &lt;?php echo ($lvl_access &gt; 3)? '&lt;a href=&quot;/home.php?page=accountsAdmin&quot;&gt;Account Admin&lt;/a&gt;':'';?&gt;
+                    &lt;a href=&quot;/home.php?page=changepassword&quot;&gt;Change Password&lt;/a&gt;
+                    &lt;a href=&quot;/account/logout.php&quot;&gt;Logout&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;button class=&quot;button&quot; id=&quot;PN-SEARCH&quot; type=&quot;button&quot; onclick=&quot;this.disabled = true;$('#pn_modal').toggle();searchPNRef(this);&quot;&gt;PN References&lt;/button&gt;
+            &lt;input type=&quot;text&quot; id=&quot;PartFilterInput&quot; class=&quot;form_input&quot; style=&quot;margin-top: 5px;&quot;/&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;?php if($lvl_access &gt; 2) { ?&gt;
+                &lt;button class=&quot;button&quot; type=&quot;button&quot; onclick=&quot;goto_calendar('select_calendar');&quot;&gt;Calendar&lt;/button&gt;
+                &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot; style=&quot;margin-top: 5px;&quot;&gt;
+                    &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; id=&quot;select_calendar&quot;&gt;
+                        &lt;optgroup label=&quot;projects&quot;&gt;
+                            &lt;option value=&quot;0&quot;&gt;Daily&lt;/option&gt;
+                            &lt;?php foreach ($data_project_list as $project) { ?&gt;
+                                &lt;option value=&quot;&lt;?php echo $project['id'];?&gt;&quot;&gt;&lt;?php echo $project['p_name'];?&gt;&lt;/option&gt;
+                            &lt;?php } ?&gt;
+                        &lt;/optgroup&gt;
+                        &lt;optgroup label=&quot;users&quot;&gt;
+                            &lt;?php foreach ($data_users_list as $user) { ?&gt;
+                                &lt;option value=&quot;&lt;?php echo $user['U_ID'];?&gt;&quot;&gt;&lt;?php echo $user['U_NAME'];?&gt;&lt;/option&gt;
+                            &lt;?php } ?&gt;
+                        &lt;/optgroup&gt;
+                    &lt;/select&gt;
+                &lt;/span&gt;
+            &lt;?php } else { ?&gt;
+                &lt;a href=&quot;/management/?page=workUserCalendar&amp;id=&lt;?php echo $_SESSION['user_id'];?&gt;&quot;&gt;&lt;button class=&quot;button&quot; type=&quot;button&quot;&gt;Calendar&lt;/button&gt;&lt;/a&gt;
+            &lt;?php } ?&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;form id=&quot;personal_work&quot; class=&quot;row&quot; style=&quot;margin-top: 50px;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'personal_work', 'personal_work', '');return false;&quot; method=&quot;post&quot;&gt;
+        &lt;?php
+        $data_current_work = get_current_user_work_for_user($bdd, $_SESSION['user_id']);
+        if($data_current_work) { ?&gt;
+            &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data_current_work['UW_ID'];?&gt;&quot; name=&quot;f_uw_id&quot; /&gt;
+            &lt;div class=&quot;col-lg-10 col-lg-offset-1 edit&quot; style=&quot;background-color: #77b5fe;color: white;padding: 8px;text-align: center;font-size: 16px;box-shadow: 2px 2px #999;&quot;&gt;
+                &lt;h2&gt;Your current Job&lt;/h2&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;border: solid 1px;&quot;&gt;
+                    &lt;h3&gt;Project&lt;/h3&gt;
+                    &lt;p&gt;&lt;?php echo (($data_current_work['RW_ID_ST']!=NULL)? $data_current_work['P_NAME'] : 'DAILY');?&gt;&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;border: solid 1px;&quot;&gt;
+                    &lt;h3&gt;SubTask Number&lt;/h3&gt;
+                    &lt;p&gt;&lt;?php echo (($data_current_work['RW_ID_ST']!=NULL)? $data_current_work['GST_NUMBER'] : 'DAILY');?&gt;&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-3&quot; style=&quot;border: solid 1px;&quot;&gt;
+                    &lt;h3&gt;Description&lt;/h3&gt;
+                    &lt;p&gt;&lt;?php echo (($data_current_work['RW_ID_ST']!=NULL)? $data_current_work['GST_DESCRIPTION'] : $data_current_work['RW_DESCRIPTION']);?&gt;&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-3&quot; style=&quot;border: solid 1px;&quot;&gt;
+                    &lt;h3&gt;Begin Time&lt;/h3&gt;
+                    &lt;p&gt;&lt;?php echo $data_current_work['UW_DATETIME_BEGIN'];?&gt;&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot; style=&quot;height: 100%;&quot;&gt;
+                    &lt;button class=&quot;button danger&quot; style=&quot;font-size: 20px;&quot; type=&quot;submit&quot;&gt;Close Work&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;?php } ?&gt;
+    &lt;/form&gt;
+    &lt;?php if($lvl_access &gt; 2) {
+        echo '&lt;h2 style=&quot;margin-top: 50px;margin-left: 5%;&quot;&gt;Work In Progress list&lt;/h2&gt;';
+        $data_current_work_list = get_current_user_work_list($bdd);
+        foreach ($data_current_work_list as $current_work) {
+            if ($current_work['U_ID'] != $_SESSION['user_id']) { ?&gt;
+                &lt;form class=&quot;row&quot; id=&quot;current-&lt;?php echo $current_work['UW_ID'];?&gt;&quot; style=&quot;margin-top: 50px;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'current-&lt;?php echo $current_work['UW_ID'];?&gt;', 'current-&lt;?php echo $current_work['UW_ID'];?&gt;', '');return false;&quot;&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $current_work['UW_ID'];?&gt;&quot; name=&quot;f_uw_id&quot; /&gt;
+                    &lt;div class=&quot;col-lg-10 col-lg-offset-1&quot; style=&quot;background-color: #77b5fe;color: white;padding: 8px;text-align: center;font-size: 16px;box-shadow: 2px 2px #999;&quot;&gt;
+                        &lt;h2&gt;&lt;?php echo $current_work['U_NAME']; ?&gt;&lt;/h2&gt;
+                        &lt;div class=&quot;col-lg-2&quot; style=&quot;border: solid 1px;&quot;&gt;
+                            &lt;h3&gt;Project&lt;/h3&gt;
+                            &lt;p&gt;&lt;?php echo(($current_work['RW_ID_ST'] != NULL) ? $current_work['P_NAME'] : 'DAILY'); ?&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-2&quot; style=&quot;border: solid 1px;&quot;&gt;
+                            &lt;h3&gt;SubTask Number&lt;/h3&gt;
+                            &lt;p&gt;&lt;?php echo(($current_work['RW_ID_ST'] != NULL) ? $current_work['GST_NUMBER'] : 'DAILY'); ?&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-3&quot; style=&quot;border: solid 1px;&quot;&gt;
+                            &lt;h3&gt;Description&lt;/h3&gt;
+                            &lt;p&gt;&lt;?php echo(($current_work['RW_ID_ST'] != NULL) ? $current_work['GST_DESCRIPTION'] : $current_work['RW_DESCRIPTION']); ?&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-3&quot; style=&quot;border: solid 1px;&quot;&gt;
+                            &lt;h3&gt;Begin Time&lt;/h3&gt;
+                            &lt;p&gt;&lt;?php echo $current_work['UW_DATETIME_BEGIN']; ?&gt;&lt;/p&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;col-lg-2&quot; style=&quot;height: 100%;&quot;&gt;
+                            &lt;button class=&quot;button danger&quot; style=&quot;font-size: 20px;&quot; type=&quot;submit&quot;&gt;Close Work&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/form&gt;
+            &lt;?php }
+        }
+    } ?&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

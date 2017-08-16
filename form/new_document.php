@@ -1,0 +1,55 @@
+<?php
+/**
+ * The Form file new_document
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Form
+ * @namespace Form
+ * @filesource
+ */
+
+global $data_project;
+global $id_project;
+?>
+
+<div id="id01" class="modal">
+    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+    <form class="modal-form" action="index.php?page=specificProject&id=<?php echo $id_project;?>" method="post">
+        <div class="container form-style modal-content animate">
+            <h2><strong>New Work Order</strong></h2>
+            <!-- Hidden Input -->
+            <input type="hidden" value="<?php echo $id_project;?>" name="f_id_p">
+            <!-- User Input -->
+            <div class="row" style="margin-top: 2%;">
+                <div class="col-lg-2 col-lg-offset-4" style="text-align: right;">
+                    <label for="f_date"><b>Date</b> *</label>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-lg-4" style="text-align: right;">
+                    <?php echo $data_project['p_name'].'-WO-';?>
+                </div>
+                <div class="col-lg-2">
+                    <input class="form_input" type="text" value="<?php echo date('Y-m-d');?>" name="f_date"/>
+                </div>
+                <div class="col-lg-4">
+                    <?php echo $data_project['c_name'].'-'.$data_project['h_serial'];?>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 2%">
+                <div class="col-lg-12 clearfix">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="button cancelbtn">Cancel</button>
+                    <button type="submit" class="button signupbtn">Create</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    // Get the modal
+    var modal = document.getElementById('id01');
+</script>

@@ -1,0 +1,131 @@
+<?php
+/**
+ * File to describe the modal to get information about Part Number cross references.
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package UI
+ * @filesource
+ */
+?>
+
+<!-- Information Box -->
+<div id="pn_modal" class="modal2" style="z-index: 10;">
+    <div class="container modal-content animate form-style">
+        <span onclick="document.getElementById('pn_modal').style.display='none'" class="close" title="Close Modal">×</span>
+        <h2><strong>Part Number Cross References</strong></h2>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-lg-12" id="PN-REFERENCES">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * Javascript function to get NSN in an HTMLDocument object received from Part Logistic
+     *
+     * @param content HTMLDocument
+     * @returns string
+     */
+    function getNSN(content) {
+        console.log('try to get NSN');
+        console.log(content.getElementsByTagName('title')[0]);
+
+        var title = content.getElementsByTagName('title')[0];
+
+        if(title.innerHTML.indexOf('National Stock Number:'))
+            return title.innerHTML.match(/National Stock Number:(.*),/)[0] + '<br/>';
+
+        return 'National Stock Number: N/A<br/>';
+    }
+
+    /**
+     * Javascript function to get and display cross references from Part Logistic for a specific part number
+     *
+     * @param button HTMLElement
+     * @param content HTMLElement
+     */
+    function searchPNRef(button, content) {
+
+        var pn = (typeof content === 'undefined')? document.getElementById('PartFilterInput').value: content;
+        pn = pn.toUpperCase().replace(' ','').replace('-','');
+        var V=1;
+
+        var callback = function(content) {
+            var part_numbers = [];
+            var mcrd = content.getElementsByTagName('html')[0].querySelector('[name=mcrd]');
+            var i;
+            var tr_list, new_pn;
+            var div = document.getElementById('PN-REFERENCES');
+
+            if(mcrd === null && V < 2) {
+                V++;
+                xmlhttpGet(<?php echo '\'http://' . $_SERVER['HTTP_HOST'] . '/project/PN_Info.php?V=\'';?> + V + '&PN=' + pn, callback);
+                return 0;
+
+            } else if(mcrd !== null) {
+                tr_list = mcrd.nextElementSibling.getElementsByTagName('table')[2].getElementsByTagName('tr');
+
+                for(i=3; i<tr_list.length; i++) {
+                    new_pn = tr_list[i].getElementsByTagName('td')[0].innerHTML;
+                    if(part_numbers.indexOf(new_pn) === -1) {
+                        part_numbers.push(new_pn);
+                    }
+                }
+
+
+            div.innerHTML = '<b>' + getNSN(content) + '</b>';
+
+            div.innerHTML += pn + ' : alt PN list for MCRD<br/>';
+            for(i=0; i<part_numbers.length; i++) {
+                div.innerHTML += '- PN-' + i + ': ' + part_numbers[i] + '<br/>';
+            }
+
+            mcrd = content.getElementsByTagName('html')[0].querySelector('[name=pa]');
+
+            if(mcrd !== null) {
+                part_numbers = [];
+                tr_list = mcrd.nextElementSibling.getElementsByTagName('table')[1].getElementsByTagName('tr');
+                div = document.getElementById('PN-REFERENCES');
+
+                div.innerHTML += '<br/><br/>';
+
+                for(i=3; i<tr_list.length; i++) {
+                    var td = tr_list[i].getElementsByTagName('td')[0];
+                    var elements = td.getElementsByTagName('p');
+                    while (elements[0]) elements[0].parentNode.removeChild(elements[0]);
+
+                    new_pn = td.innerHTML;
+                    if(part_numbers.indexOf(new_pn) === -1) {
+                        part_numbers.push(new_pn);
+                    }
+                }
+
+                div.innerHTML += pn + ' : alt PN list<br/>';
+                for(i=0; i<part_numbers.length; i++) {
+                    div.innerHTML += '- PN-' + i + ': ' + part_numbers[i] + '<br/>';
+                }
+            } else {
+                document.getElementById('PN-REFERENCES').innerHTML = 'N/A';
+            }
+
+            button.disabled = false;
+            }
+        };
+
+        try {
+            document.getElementById('PN-REFERENCES').innerHTML = '<img src=\'/img/wait_rot.gif\'/>';
+            document.getElementById('PN-REFERENCES').display = true;
+            xmlhttpGet(<?php echo '\'http://'.$_SERVER['HTTP_HOST'].'/project/PN_Info.php?V=1&PN=\'';?> + pn, callback);
+
+        } catch (error) {
+            button.disabled = false;
+            document.getElementById('PN-REFERENCES').innerHTML = 'N/A';
+        }
+    }
+</script>

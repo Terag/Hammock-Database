@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * The Form file new_document
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Form
+ * @namespace Form
+ * @filesource
+ */
+
+global $data_project;
+global $id_project;
+?&gt;
+
+&lt;div id=&quot;id01&quot; class=&quot;modal&quot;&gt;
+    &lt;span onclick=&quot;document.getElementById('id01').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+    &lt;form class=&quot;modal-form&quot; action=&quot;index.php?page=specificProject&amp;id=&lt;?php echo $id_project;?&gt;&quot; method=&quot;post&quot;&gt;
+        &lt;div class=&quot;container form-style modal-content animate&quot;&gt;
+            &lt;h2&gt;&lt;strong&gt;New Work Order&lt;/strong&gt;&lt;/h2&gt;
+            &lt;!-- Hidden Input --&gt;
+            &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $id_project;?&gt;&quot; name=&quot;f_id_p&quot;&gt;
+            &lt;!-- User Input --&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 2%;&quot;&gt;
+                &lt;div class=&quot;col-lg-2 col-lg-offset-4&quot; style=&quot;text-align: right;&quot;&gt;
+                    &lt;label for=&quot;f_date&quot;&gt;&lt;b&gt;Date&lt;/b&gt; *&lt;/label&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 15px;&quot;&gt;
+                &lt;div class=&quot;col-lg-4&quot; style=&quot;text-align: right;&quot;&gt;
+                    &lt;?php echo $data_project['p_name'].'-WO-';?&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-2&quot;&gt;
+                    &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo date('Y-m-d');?&gt;&quot; name=&quot;f_date&quot;/&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-4&quot;&gt;
+                    &lt;?php echo $data_project['c_name'].'-'.$data_project['h_serial'];?&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 2%&quot;&gt;
+                &lt;div class=&quot;col-lg-12 clearfix&quot;&gt;
+                    &lt;button type=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='none'&quot; class=&quot;button cancelbtn&quot;&gt;Cancel&lt;/button&gt;
+                    &lt;button type=&quot;submit&quot; class=&quot;button signupbtn&quot;&gt;Create&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    // Get the modal
+    var modal = document.getElementById('id01');
+&lt;/script&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

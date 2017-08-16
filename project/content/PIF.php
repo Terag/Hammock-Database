@@ -1,0 +1,88 @@
+<?php
+/**
+ * PIF content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+/*Get $project_info var from database*/
+
+/*Get Data about Work Order*/
+$data_wo = get_wo_info($bdd, $id_wo);
+if($data_wo) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']->getMessage());
+    }
+
+    /*  Get other data from database */
+    /*  Get Project information */
+    $data_project = get_project_info_from_helico($bdd, $data_wo['WO_ID_H']);
+    /*Get Project Part List */
+    $data_project_parts = get_pp_list_by_po_for_wo($bdd, $id_wo);
+    ?>
+
+    <!-- Main Content -->
+    <div class="container content">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 header-resume" style="margin-top: 8%; margin-bottom: 2%;">
+                <div class="col-lg-6">
+                    <h2><strong>PIF :</strong> <?php echo str_replace('%DOC%', 'PIF', $data_wo['WO_NAME']);?></h2>
+                    <h3><strong>Project :</strong> <?php echo $data_project['P_NAME'];?></h3>
+                </div>
+                <div class="col-lg-6">
+                    <h4><strong>Customer :</strong> <?php echo $data_project['C_NAME'];?></h4>
+                    <h4><strong>Aircraft :</strong> <?php echo $data_project['GA_NAME'];?></h4>
+                    <h4><strong>Serial :</strong> <?php echo $data_project['H_SERIAL'];?></h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-lg-offset">
+                <input type="text" id="myFilterInput" onkeyup="filter(8, 'table')" placeholder="Search.." title="Type in a name" />
+                <div class="table myTable" id="table">
+                    <div class="tr header">
+                        <span class="th" style="width:5%;">ID</span>
+                        <span class="th" style="width:8%;">Sub Task<br/>Index</span>
+                        <span class="th" style="width:8%;">Description</span>
+                        <span class="th" style="width:12%;">Part Number</span>
+                        <span class="th" style="width:13%;">IPC</span>
+                        <span class="th" style="width:15%;">ARC</span>
+                        <span class="th" style="width:15%;">PO</span>
+                        <span class="th" style="width:5%;">QTY<br/>Rq'D</span>
+                        <span class="th" style="width:5%;">QTY<br/>Out</span>
+                        <span class="th" style="width:5%;">Unit<br/>Price</span>
+                        <span class="th" style="width:5%;">Currency</span>
+                        <span class="th" style="width:1%;"></span>
+                        <span class="th" style="width:1%;"></span>
+                    </div>
+                    <?php foreach($data_project_parts as &$project_part) { ?>
+                        <form class="tr" id="row-<?php echo $project_part['LPS_ID'];?>" onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $project_part['LPS_ID'];?>', 'row-<?php echo $project_part['LPS_ID'];?>', '<span class=\'td\'><img src=\'/img/wait_rot.gif\'/></span>');return false;" method="post">
+                            <?php include('row/PIF.php');?>
+                        </form>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 3%;">
+            <div class="col-lg-2 col-lg-offset-4">
+                <a href="./?page=specificProject&id=<?php echo $data_project['P_ID'];?>"><button class="button">Back</button></a>
+            </div>
+            <div class="col-lg-2" id="excel_file">
+                <button class="button" onclick="call_excel('<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/project/?page=PIF&excel='.$id_wo;?>');">Excel</button>
+            </div>
+        </div>
+    </div>
+<?php } else {
+    $req->closeCursor();
+    header('Location: ../');
+    exit();
+}

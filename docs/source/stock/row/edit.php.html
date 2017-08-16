@@ -1,0 +1,114 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Edit row for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Row
+ * @namespace Stock
+ * @filesource
+ */
+?&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $generic_part['GP_ID'];?&gt;&quot; name=&quot;fe_gp_id&quot;/&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $generic_part['GP_ID'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php
+            $pn_list = explode(';;',$generic_part['GP_NUMBER']);
+            foreach ($pn_list as $pn) {
+                echo '&lt;span class=&quot;link&quot; onclick=&quot;this.disabled = true;$(\'#pn_modal\').toggle();searchPNRef(this, \''.$pn.'\');&quot;&gt;'.$pn.'&lt;/span&gt;&lt;br/&gt;';
+            }
+        ?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $generic_part['GP_NUMBER'];?&gt;&quot; name=&quot;fe_gp_number&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo str_replace(';;','&lt;br/&gt;',$generic_part['GP_LOCATION']);?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $generic_part['GP_LOCATION'];?&gt;&quot; name=&quot;fe_gp_location&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $generic_part['GP_NAME'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $generic_part['GP_NAME'];?&gt;&quot; name=&quot;fe_gp_name&quot; required/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $generic_part['GP_DESCRIPTION'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $generic_part['GP_DESCRIPTION'];?&gt;&quot; name=&quot;fe_gp_description&quot;&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $generic_part['GP_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $generic_part['GP_ID'];?&gt;', 'row-&lt;?php echo $generic_part['GP_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $generic_part['GP_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

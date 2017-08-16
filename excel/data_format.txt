@@ -1,0 +1,89 @@
+---------- SOW ----------
+
+<Customer>
+	- Name (C_NAME) - C2
+</Customer>
+
+<Aircraft>
+	- Type (GA_NAME) - A5
+	- S/N  (H_SERIAL) - B5
+	- Reg () - C5
+	- TT (H_TIME) - E5
+	- Landing (H_LANDING) - G5
+</Aircraft>
+
+<Engine> X 2
+		- Type (GA_NAME) - A8/A9
+		- Serial (E_SERIAL) - B8/B9
+		- TT (E_TIME) - C8/C9
+		- Ng Cycle (E_NG) - E8/E9
+		- Nf Cycle (E_NF) - G8/G9
+</Engine>
+
+<Task> X +oo
+	- Index (GST_NUMBER) - A13/A42
+	- Description (GST_DESCRIPTION), <b>(M_REFERENCE), (ST_REFERENCE)</b> - B13/B42
+	- Next Due - |* TO DO : ask what is it *|
+	- Date Completed (ST_RELEASE_DATE) - H13-H42
+</Task>
+
+<Footer>
+	- Totale Price - L48
+	- Currency - N48
+</Footer>
+
+---------- WO ----------
+
+<WorkOrder>
+	- Name ($wo_name) F1
+	- Opened ($data_project[WO_OPENED_DATE]) F2
+	- Closed ($data_project[WO_CLOSED_DATE]) F3
+</WorkOrder>
+
+<Aircraft>
+	- TT ($data_project[H_TIME]) C2
+	- Landing ($data_project[H_LANDING]) C3
+</Aircraft>
+
+<Engine1>
+	- TT 
+	- NG
+	- NF
+</Engine1>
+
+<Engine2>
+	- TT
+	- NG
+	- NF
+</Engine2>
+
+<Header_Text>
+
+</Header_Text>
+
+<Task> X +oo
+
+</Task>
+
+<Footer>
+
+</Footer>
+
+---------- Project References Code ----------
+
+In Required / Defect boxs
+
+- %R[n]% - Reference P/S number 'n' (Cf references of subtask)
+- %PI[n]% - Part install number 'n' (Cf insalled parts of subtask)
+- %PR[n]% - Part removed number 'n' (Cf removed parts of subtask)
+- %DOC% - Nom Document Complet
+- %M% - Reference Manual
+- %H% - Helicopter Serial
+- %P% - Project Name
+- %E1% - Engine 1 Serial
+- %E2% - Engine 2 Serial
+
+http://www.php.net/index.html
+
+DAVE : certif : 3985230
+MARK : certif : 2523065

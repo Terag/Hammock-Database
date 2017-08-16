@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * Top menu for html pages of website. Medium and Large screen
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package UI
+ * @filesource
+ */
+?&gt;
+
+&lt;div id=&quot;top-menu&quot;&gt;
+    &lt;ul&gt;
+        &lt;!-- Home --&gt;
+        &lt;li class=&quot;top-menu-choice&quot;&gt;
+            &lt;a href=&quot;/home.php&quot;&gt;&lt;h4&gt;HOME &lt;/h4&gt;&lt;/a&gt;
+        &lt;/li&gt;
+
+        &lt;!-- Management --&gt;
+        &lt;li class=&quot;top-menu-choice&quot;&gt;
+            &lt;a href=&quot;/management&quot;&gt;&lt;h4&gt;MANAGEMENT&lt;/h4&gt;&lt;/a&gt;
+        &lt;/li&gt;
+
+        &lt;!-- Project --&gt;
+        &lt;li class=&quot;top-menu-choice&quot;&gt;
+            &lt;a href=&quot;/project&quot;&gt;&lt;h4&gt;PROJECT &lt;/h4&gt;&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;?php if($_SESSION['access'] &gt; 2) { ?&gt;
+        &lt;!-- Stock --&gt;
+        &lt;li class=&quot;top-menu-choice&quot;&gt;
+            &lt;a href=&quot;/stock&quot;&gt;&lt;h4&gt;STOCK&lt;/h4&gt;&lt;/a&gt;
+        &lt;/li&gt;
+
+        &lt;?php } else { ?&gt;
+        &lt;!-- Stock --&gt;
+        &lt;li class=&quot;top-menu-choice&quot;&gt;
+            &lt;a href=&quot;/stock?page=available&quot;&gt;&lt;h4&gt;STOCK&lt;/h4&gt;&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;?php } ?&gt;
+        &lt;!-- Documentation --&gt;
+        &lt;li class=&quot;top-menu-choice&quot;&gt;
+            &lt;a href=&quot;/documentation&quot;&gt;&lt;h4&gt;DOCUMENTATION&lt;/h4&gt;&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

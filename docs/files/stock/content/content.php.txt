@@ -1,0 +1,68 @@
+<?php
+/**
+ * Content content for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Content
+ * @namespace Stock
+ * @filesource
+ */
+
+if(isset($_SESSION['error'])) {
+    display_modal($_SESSION['error']->getMessage());
+}
+
+/*Get $data_stock_parts var from database*/
+$data_stock_parts = get_stock_list($bdd);
+
+?>
+
+<!-- Main Content -->
+<div class="container content">
+    <div class="row" style="margin-top: 8%;">
+        <div class="col-lg-2 col-lg-offset-4">
+            <a href="./"><button class="button">Back</button></a>
+        </div>
+        <div class="col-lg-2" id="excel_file">
+            <button class="button" onclick="call_excel('<?php echo 'http://'.$_SERVER['SERVER_NAME'].'/stock/?page=stock&excel=1';?>');">Excel</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1%;">
+        <div class="col-lg-12 text-center">
+            <h2>Stock Content</h2>
+            <input type="text" id="myFilterInput" onkeyup="filter(15, 'table')" placeholder="Search.." title="Type in a name" />
+            <div class="table myTable" id="table" class="thin">
+                <div class="tr header">
+                    <span class="th" style="width:3%;">ID</span>
+                    <span class="th" style="width:10%;">PART NUMBER</span>
+                    <span class="th" style="width:5%;">LOCATION</span>
+                    <span class="th" style="width:5%;">SERIAL</span>
+                    <span class="th" style="width:10%;">DESCRIPTION</span>
+                    <span class="th" style="width:6%;">QTY</span>
+                    <span class="th" style="width:17%;">ARC</span>
+                    <span class="th" style="width:17%;">PO</span>
+                    <span class="th" style="width:8%;">DATE<br/>RCV'd</span>
+                    <span class="th" style="width:6%;">EXP<br/>Date</span>
+                    <span class="th" style="width:5%;">UNIT<br/>Price</span>
+                    <span class="th" style="width:6%;">CURRENCY</span>
+                    <span class="th" style="width:1%;"></span>
+                    <span class="th" style="width:1%;"></span>
+                </div>
+                <?php foreach($data_stock_parts as &$stock_part) { ?>
+                    <form id="delete_row-<?php echo $stock_part['S_ID'];?>" name="delete_row-<?php echo $stock_part['S_ID'];?>" enctype="multipart/form-data" method="post" style="display: none;">
+                        <input type="hidden" value="<?php echo $stock_part['S_ID'];?>" name="f_delete" />
+                        <input type="hidden" value="<?php echo $stock_part['S_ID_PURCHASE_ORDER'];?>" name="f_delete_po"/>
+                        <input type="hidden" value="<?php echo $stock_part['S_ID_ARC'];?>" name="f_delete_arc"/>
+                    </form>
+                    <form class="tr" id="row-<?php echo $stock_part['S_ID'];?>" name="row-<?php echo $stock_part['S_ID'];?>" onsubmit="xmlhttpPost(document.location.href, 'row-<?php echo $stock_part['S_ID'];?>', 'row-<?php echo $stock_part['S_ID'];?>', '<td><img src=\'/img/wait_rot.gif\'/></td>');return false;" enctype="multipart/form-data" method="post">
+                        <?php include('row/content.php');?>
+                    </form>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>

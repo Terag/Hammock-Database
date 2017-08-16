@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * scopeOfWork row for PROJECT part
+ *
+ * row displaying
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Row
+ * @namespace Project
+ * @filesource
+ */
+?&gt;
+
+&lt;input name=&quot;fe_st_id&quot; value=&quot;&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; hidden/&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $sub_task['ST_ID'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;a href=&quot;/documentation/?page=documentationSubTask&amp;id=&lt;?php echo $sub_task['GST_ID'];?&gt;&quot; class=&quot;link&quot;&gt;
+        &lt;?php echo $sub_task['GST_NUMBER'];?&gt;
+    &lt;/a&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;a href=&quot;/documentation/?page=documentationManual&amp;id=&lt;?php echo $sub_task['M_ID'];?&gt;&quot; class=&quot;link&quot;&gt;
+            &lt;?php echo $sub_task['M_REFERENCE']?&gt;
+        &lt;/a&gt;
+        &lt;?php echo ', '.$sub_task['ST_REFERENCE'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['ST_REFERENCE'];?&gt;&quot; name=&quot;fe_st_reference&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $sub_task['GST_DESCRIPTION'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $sub_task['GST_ID'];?&gt;&quot; name=&quot;fe_gst_id&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $sub_task['GST_DESCRIPTION'];?&gt;&quot; name=&quot;fe_st_description&quot; /&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $sub_task['ST_APPROVED_DATE'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;date&quot; placeholder=&quot;yyyy/mm/jj&quot; value=&quot;&lt;?php if($sub_task['ST_APPROVED_DATE']) {echo $sub_task['ST_APPROVED_DATE'];} else {echo date('Y-m-d');};?&gt;&quot; name=&quot;fe_st_approved&quot;/&gt;
+        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $sub_task['ST_APPROVED_DATE'];?&gt;&quot; name=&quot;fe_st_old_approved&quot; /&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $sub_task['ST_RELEASE_DATE'];?&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $sub_task['ST_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $sub_task['ST_ID'];?&gt;', 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $sub_task['ST_ID'];?&gt;)&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

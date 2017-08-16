@@ -1,0 +1,208 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * ERV row for PROJECT part
+ *
+ * row displaying
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Row
+ * @namespace Project
+ * @filesource
+ */
+?&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $project_part['PP_ID'];?&gt;&quot; name=&quot;fe_pp_id&quot;/&gt;
+&lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $project_part['PP_ID_GP'];?&gt;&quot; name=&quot;fe_pp_id_gp&quot;/&gt;
+&lt;span class=&quot;td&quot; &lt;?php echo ($project_part['PP_DEFECT']=='yes')? 'style=&quot;background-color: pink;&quot;': '';?&gt;&gt;&lt;?php echo $project_part['PP_ID'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot; &lt;?php echo ($project_part['PP_DEFECT']=='yes')? 'style=&quot;background-color: pink;&quot;': '';?&gt;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;a href=&quot;/documentation/?page=documentationSubTask&amp;id=&lt;?php echo $project_part['GST_ID'];?&gt;&quot; class=&quot;link&quot;&gt;
+            &lt;?php echo $project_part['GST_NUMBER'];?&gt;
+        &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;select class=&quot;form_input&quot; name=&quot;fe_pp_st_id&quot;&gt;
+            &lt;option value=&quot;&lt;?php echo $project_part['ST_ID']?&gt;&quot; title=&quot;&lt;?php echo $project_part['GST_DESCRIPTION']?&gt;&quot;&gt;&lt;?php echo $project_part['GST_NUMBER'].' - '.substr($project_part['GST_DESCRIPTION'],0,40).' ..';?&gt;&lt;/option&gt;
+            &lt;?php foreach ($data_sub_tasks as $sub_task) {
+                if(isset($sub_task['ST_APPROVED_DATE'])) { ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $sub_task['ST_ID']?&gt;&quot; title=&quot;&lt;?php echo $sub_task['GST_DESCRIPTION']?&gt;&quot;&gt;&lt;?php echo $sub_task['GST_NUMBER'].' - '.substr($sub_task['GST_DESCRIPTION'],0,40).' ..';?&gt;&lt;/option&gt;
+                &lt;?php }
+            } ?&gt;
+            &lt;br/&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;checkbox&quot; value=&quot;yes&quot; style=&quot;width: 20px;&quot; name=&quot;fe_pp_is_defect&quot; &lt;?php echo ($project_part['PP_DEFECT']=='yes')? 'checked=&quot;checked&quot;': '';?&gt;/&gt; Is Discrepency
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo str_replace(';;','&lt;br/&gt;',$project_part['GP_NUMBER']);?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $project_part['GP_NUMBER'];?&gt;&quot; name=&quot;fe_pp_gp_number&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php echo str_replace(';;','&lt;br/&gt;',$project_part['GP_LOCATION']);?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php echo $project_part['GP_NAME'];?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $project_part['PP_IPC'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $project_part['PP_IPC'];?&gt;&quot; name=&quot;fe_pp_ipc&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php $data_user = get_user_info($bdd, $project_part['PP_ID_USER']);
+    if(isset($data_user)) { ?&gt;
+        &lt;div &lt;?php if($lvl_access&gt;2) { echo 'class=&quot;element&quot;';}?&gt;&gt;
+            &lt;?php echo $data_user['U_NAME'];?&gt;
+        &lt;/div&gt;
+    &lt;?php } ?&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+        &lt;?php if($lvl_access&gt;2) { ?&gt;
+            &lt;select class=&quot;form_input&quot; name=&quot;fe_pp_user&quot;&gt;
+                &lt;?php if(isset($data_user)); { ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $data_user['U_ID'];?&gt;&quot;&gt;&lt;?php echo $data_user['U_NAME'];?&gt;&lt;/option&gt;
+                &lt;?php }
+                $data_users = get_user_list($bdd);
+                foreach ($data_users as $user) { ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $user['U_ID'];?&gt;&quot;&gt;&lt;?php echo $user['U_NAME'];?&gt;&lt;/option&gt;
+                &lt;?php } ?&gt;
+            &lt;/select&gt;
+        &lt;?php } else { ?&gt;
+            &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $data_user['U_ID'];?&gt;&quot; name=&quot;fe_pp_user&quot;/&gt;
+        &lt;?php } ?&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div &lt;?php if($lvl_access&gt;2) { echo 'class=&quot;element&quot;';}?&gt;&gt;
+        &lt;?php echo $project_part['PP_REQUESTED_DATE'];?&gt;
+    &lt;/div&gt;
+    &lt;?php if($lvl_access&gt;2) { ?&gt;
+        &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;date&quot; placeholder=&quot;aaaa/mm/jj&quot; value=&quot;&lt;?php echo $project_part['PP_REQUESTED_DATE'];?&gt;&quot; name=&quot;fe_pp_requested_date&quot;/&gt;
+        &lt;/div&gt;
+    &lt;?php } else { ?&gt;
+        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $project_part['PP_REQUESTED_DATE'];?&gt;&quot; name=&quot;fe_pp_requested_date&quot; /&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;div class=&quot;element&quot;&gt;
+        &lt;?php echo $project_part['PP_QUANTITY_REQUESTED'];?&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;element&quot; style=&quot;display:none;&quot;&gt;
+        &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;1&quot; max=&quot;1000&quot; value=&quot;&lt;?php echo $project_part['PP_QUANTITY_REQUESTED'];?&gt;&quot; name=&quot;fe_pp_quantity_requested&quot;/&gt;
+    &lt;/div&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;&lt;?php echo $project_part['LPS_QUANTITY_USED'];?&gt;&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php $i = 0;
+    $data_stock_available = get_stock_available_list_by_po_from_gp_id($bdd, $project_part['GP_ID']);
+    $part_number_list = explode(';;', $project_part['GP_NUMBER']);
+    $part_locations = explode(';;', $project_part['GP_LOCATION']);
+    foreach ($data_stock_available as $available_part) {
+        $index = ($available_part['S_INDEX_PN'] &gt; 0 AND $available_part['S_INDEX_PN'] &lt; count($part_number_list) AND $available_part['S_INDEX_PN'] &lt; count($part_locations))? $available_part['S_INDEX_PN'] : 0;
+
+        $link_stock_pp = get_lps_for_pp_s_id($bdd, $project_part['PP_ID'], $available_part['S_ID']);
+
+        if (($available_part['S_QUANTITY_AVAILABLE'] &gt; 0 OR $link_stock_pp['LPS_QUANTITY_NUMBER'] &gt; 0) AND $available_part['S_RECEIVED'] == 'yes') {
+            $i++;?&gt;
+            &lt;p style=&quot;margin: 1px;&quot;&gt;
+                &lt;?php echo $link_stock_pp['LPS_QUANTITY_NUMBER'].' ['.$available_part['S_QUANTITY_AVAILABLE'] . '] &amp;#8592; &lt;b&gt;' . $available_part['S_PO_NAME'].'&lt;/b&gt; ('.$part_number_list[$index].' &lt;i&gt;['.$part_locations[$index].'&lt;/i&gt;])';
+                if($lvl_access&gt;2) { ?&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $available_part['S_ID']?&gt;&quot; name=&quot;fe_pp_s_id_&lt;?php echo $i;?&gt;&quot;&gt;
+                    &lt;input class=&quot;form_input element&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;&lt;?php echo $project_part['PP_QUANTITY_REQUESTED'];?&gt;&quot; value=&quot;&lt;?php echo max(0, $link_stock_pp['LPS_QUANTITY_NUMBER']);?&gt;&quot; style=&quot;display:none;&quot; name=&quot;fe_pp_qty_dlv_&lt;?php echo $i?&gt;&quot;/&gt;
+                &lt;?php } ?&gt;
+            &lt;/p&gt;
+            &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+        &lt;?php } else if($available_part['S_QUANTITY_AVAILABLE'] &gt; 0 AND $available_part['S_RECEIVED'] == 'no') { ?&gt;
+            &lt;p style=&quot;margin: 1px;color: gray;&quot;&gt;
+                &lt;?php echo $available_part['S_QUANTITY_AVAILABLE'] . ' &amp;#8592; &lt;b&gt;' . $available_part['S_PO_NAME'].'&lt;/b&gt; ('.$part_number_list[$index].')'; ?&gt;
+            &lt;/p&gt;
+            &lt;hr style=&quot;margin: 1px;&quot;/&gt;
+        &lt;?php } ?&gt;
+    &lt;?php } ?&gt;
+    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $i;?&gt;&quot; name=&quot;fe_pp_i&quot;&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if($lvl_access&gt;2) { ?&gt;
+        &lt;div class=&quot;element&quot;&gt;
+            &lt;button class=&quot;btn add&quot; type=&quot;button&quot; onclick=&quot;console.log('PUSH');$('#creator').show();creator.add_row_GP(&lt;?php echo $project_part['GP_ID'].',\''.$project_part['PP_IPC'].'\','.$project_part['PP_QUANTITY_REQUESTED'].',\''.$project_part['GST_NUMBER'].'\'';?&gt;);&quot;&gt;&lt;i class=&quot;fa fa-shopping-cart&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+            &lt;input&lt;?php if($project_part['PP_VALIDATED']=='yes'){echo ' checked=&quot;checked&quot;';}?&gt; class=&quot;form_input&quot; style=&quot;width: 20%;&quot; type=&quot;checkbox&quot; value=&quot;yes&quot; name=&quot;fe_pp_validated&quot; /&gt; Validated
+        &lt;/div&gt;
+    &lt;?php } else { ?&gt;
+        &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php $project_part['PP_VALIDATED'];?&gt;&quot; name=&quot;fe_pp_validated&quot;&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if($lvl_access&gt;2 OR $project_part['PP_VALIDATED'] != 'yes') { ?&gt;
+        &lt;div class=&quot;element&quot;&gt;
+            &lt;button class=&quot;btn edit&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $project_part['PP_ID'];?&gt;);&quot;&gt;&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+            &lt;button class=&quot;btn add&quot; type=&quot;submit&quot;&gt;&lt;i class='fa fa-check-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;
+&lt;span class=&quot;td&quot;&gt;
+    &lt;?php if($lvl_access&gt;2 OR $project_part['PP_VALIDATED'] != 'yes') { ?&gt;
+        &lt;div class=&quot;element&quot;&gt;
+            &lt;button class=&quot;btn danger&quot; onclick=&quot;xmlhttpPost(document.location.href, 'delete_row-&lt;?php echo $project_part['PP_ID'];?&gt;', 'row-&lt;?php echo $project_part['PP_ID'];?&gt;', '');return false;&quot; type=&quot;button&quot;&gt;&lt;i class=&quot;fa fa-close&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;element&quot; style=&quot;display: none;&quot;&gt;
+            &lt;button class=&quot;btn cancel&quot; type=&quot;button&quot; onclick=&quot;edit_row(&lt;?php echo $project_part['PP_ID'];?&gt;);&quot;&gt;&lt;i class=&quot;fa fa-arrow-circle-left&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;/span&gt;</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

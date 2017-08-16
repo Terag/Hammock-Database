@@ -1,0 +1,8 @@
+AddType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet .xlsx
+AddType application/zip .zip
+AddType application/msword .docx
+
+RewriteOptions inherit
+
+RewriteBase /files/
+RewriteRule (.*) index.php?file=$1 [QSA]

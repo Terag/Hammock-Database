@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<checkstyle version="1.3.0">
+  <file name="home.php"/>
+  <file name="account\login.php"/>
+  <file name="stock\action\edit.php"/>
+  <file name="stock\action\vendor.php"/>
+  <file name="documentation\index.php"/>
+  <file name="stock\content\edit.php"/>
+  <file name="SQL_management\file_manager.php"/>
+  <file name="documentation\row\documentationAircraft.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="documentation\content\documentationManual.php"/>
+  <file name="SQL_management\examples.php"/>
+  <file name="project\content\recapitulate.php"/>
+  <file name="stock\action\stockHome.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\action\close.php"/>
+  <file name="form\new_genericSubTask.php"/>
+  <file name="action\changepassword.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="form\new_GPinGST.php"/>
+  <file name="docs\ajax_search.php"/>
+  <file name="stock\content\receive.php"/>
+  <file name="project\content\createNewProject.php"/>
+  <file name="project\content\specificProject.php"/>
+  <file name="management\action\workUserCalendar.php"/>
+  <file name="project\content\scopeOfWork.php"/>
+  <file name="documentation\content\documentationHome.php"/>
+  <file name="stock\row\vendor.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="ui\modal_PNRef.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="js\file_creator\content\PO-RFQ_getter.php"/>
+  <file name="management\action\workProjectCalendar.php"/>
+  <file name="row\accountsAdmin.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\action\PIF.php"/>
+  <file name="stock\row\available.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="form\new_subtask_WO.php"/>
+  <file name="stock\index.php"/>
+  <file name="SQL_management\reference_helper.php"/>
+  <file name="project\content\close.php"/>
+  <file name="stock\row\edit.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="error\404.php"/>
+  <file name="project\index.php"/>
+  <file name="documentation\row\documentationHome.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="form\new_manual.php"/>
+  <file name="management\content\workUserCalendar.php"/>
+  <file name="ui\sidebar.php"/>
+  <file name="SQL_management\data_getters.php"/>
+  <file name="project\content\projectHome.php"/>
+  <file name="stock\action\order.php"/>
+  <file name="documentation\action\documentationAircraft.php"/>
+  <file name="account\checkConnection.php"/>
+  <file name="form\new_vendor.php"/>
+  <file name="form\new_dailyTask.php"/>
+  <file name="documentation\action\documentationHome.php"/>
+  <file name="management\index.php"/>
+  <file name="project\row\workOrder.php"/>
+  <file name="project\row\scopeOfWork.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\content\ERV.php"/>
+  <file name="project\PN_Info.php"/>
+  <file name="documentation\action\documentationManual.php"/>
+  <file name="form\new_genericAircraft.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="stock\content\content.php"/>
+  <file name="form\new_document.php"/>
+  <file name="documentation\content\documentationSubTask.php"/>
+  <file name="documentation\content\documentationAircraft.php"/>
+  <file name="SQL_management\form.php"/>
+  <file name="project\action\projectHome.php"/>
+  <file name="ui\modal_warning.php"/>
+  <file name="content\defaulthome.php"/>
+  <file name="account\changePassword.php"/>
+  <file name="stock\content\stockHome.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\action\ERV.php"/>
+  <file name="ui\topmenu.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\row\PIF.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="action\defaulthome.php"/>
+  <file name="SQL_management\connection.php"/>
+  <file name="stock\action\receive.php"/>
+  <file name="info.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\content\PIF.php"/>
+  <file name="management\content\workProjectCalendar.php"/>
+  <file name="stock\action\available.php"/>
+  <file name="management\action\managementHome.php"/>
+  <file name="stock\action\content.php"/>
+  <file name="documentation\row\documentationManual.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\action\workOrder.php"/>
+  <file name="content\changepassword.php"/>
+  <file name="content\accountsAdmin.php"/>
+  <file name="index.php"/>
+  <file name="account\logout.php"/>
+  <file name="form\addPartERV.php"/>
+  <file name="management\content\managementHome.php"/>
+  <file name="project\action\specificProject.php"/>
+  <file name="stock\row\content.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="stock\content\order.php"/>
+  <file name="project\action\recapitulate.php"/>
+  <file name="project\content\workOrder.php"/>
+  <file name="form\new_genericPart.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\action\createNewProject.php"/>
+  <file name="stock\content\vendor.php"/>
+  <file name="form\new_subtask_SOW.php"/>
+  <file name="project\row\ERV.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="ui\head_default.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="management\row\managementHome.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="project\action\scopeOfWork.php"/>
+  <file name="documentation\row\documentationSubTask.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="form\stock_receive.php"/>
+  <file name="stock\row\receive.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+  <file name="SQL_management\calendar.php"/>
+  <file name="stock\content\available.php"/>
+  <file name="action\accountsAdmin.php"/>
+  <file name="form\merge_genericParts.php"/>
+  <file name="documentation\action\documentationSubTask.php"/>
+  <file name="ui\footer.php">
+    <error line="0" severity="error" message="No summary was found for this file" source="phpDocumentor.file.PPC:ERR-50000"/>
+  </file>
+</checkstyle>

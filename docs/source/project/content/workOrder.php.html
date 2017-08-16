@@ -1,0 +1,183 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * WorkOrder content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+if($data_wo) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+    /*Get Sub Task List */
+    $data_sub_tasks = get_st_list_for_wo($bdd, $id_wo);
+    /*Get current user_work if exists*/
+    $data_current_user_work = get_current_user_work_for_user($bdd, $_SESSION['user_id']);
+    $current_work_st = ($data_current_user_work)? $data_current_user_work['ST_ID']: 0;
+
+    $excel_name = str_replace('/','.',$id_wo.'-'.$wo_name.'.xlsx');
+    $excel_path = '/files/wo/'.$excel_name;
+
+    ?&gt;
+
+    &lt;!-- Form Content --&gt;
+    &lt;?php if($lvl_access&gt;2) {$new_subtask_wo_form-&gt;display_Form();}?&gt;
+
+    &lt;!-- Information Box --&gt;
+    &lt;div id=&quot;info_modal&quot; class=&quot;modal&quot;&gt;
+        &lt;div class=&quot;container modal-content animate form-style&quot;&gt;
+            &lt;span onclick=&quot;document.getElementById('info_modal').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+            &lt;h2&gt;&lt;strong&gt;References helper&lt;/strong&gt;&lt;/h2&gt;
+            &lt;p&gt;
+                To add references between the information of a row and information about a project you can use this references.&lt;br/&gt;
+                It will automatically update the row information in case of an update on one of this references.
+            &lt;/p&gt;
+            &lt;div class=&quot;row&quot; style=&quot;margin-top: 15px;&quot;&gt;
+                &lt;div class=&quot;col-lg-6&quot;&gt;
+                    &lt;p&gt;- &lt;b&gt;%R[n]%&lt;/b&gt; - Reference P/S number 'n' (Cf references of subtask)&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%PI[n]%&lt;/b&gt; - Part install number 'n' (Cf installed parts of subtask)&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%PR[n]%&lt;/b&gt; - Part removed number 'n' (Cf removed parts of subtask)&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%DOC%&lt;/b&gt; - Document Name&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%M%&lt;/b&gt; - Reference Manual&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%H%&lt;/b&gt; - Helicopter Serial&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%P%&lt;/b&gt; - Project Name&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%E1%&lt;/b&gt; - Engine 1 Serial&lt;/p&gt;
+                    &lt;p&gt;- &lt;b&gt;%E2%&lt;/b&gt; - Engine 2 Serial&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-lg-6&quot;&gt;
+                    &lt;p&gt;
+                        &lt;b&gt;Please use ;; to separate elements in :&lt;/b&gt;
+                    &lt;/p&gt;
+                    &lt;p&gt;- Secondary references&lt;/p&gt;
+                    &lt;p&gt;- Removed Parts&lt;/p&gt;
+                    &lt;p&gt;- Installed Parts&lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Main Content --&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot; style=&quot;margin-top: 8%; margin-bottom: 2%;&quot;&gt;
+            &lt;div class=&quot;col-lg-6&quot;&gt;
+                &lt;h2&gt;&lt;strong&gt;Work Order :&lt;/strong&gt; &lt;br/&gt;&lt;?php echo str_replace('%DOC%', 'WO', $data_wo['WO_NAME']);?&gt;&lt;/h2&gt;
+                &lt;h3&gt;&lt;strong&gt;Project :&lt;/strong&gt; &lt;?php echo $data_project['P_NAME'];?&gt;&lt;/h3&gt;
+                &lt;h4&gt;&lt;strong&gt;Customer :&lt;/strong&gt; &lt;?php echo $data_project['C_NAME'];?&gt;&lt;/h4&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-6&quot;&gt;
+                &lt;h4&gt;&lt;strong&gt;Date opened :&lt;/strong&gt; &lt;?php echo $data_wo['WO_OPENED_DATE'];?&gt;&lt;/h4&gt;
+                &lt;h4&gt;&lt;strong&gt;Date closed :&lt;/strong&gt; &lt;?php echo $data_wo['WO_CLOSED_DATE'];?&gt;&lt;/h4&gt;
+                &lt;h4&gt;&lt;strong&gt;Aircraft :&lt;/strong&gt; &lt;?php echo $data_project['GA_NAME'];?&gt;&lt;/h4&gt;
+                &lt;h4&gt;&lt;strong&gt;Serial :&lt;/strong&gt; &lt;?php echo $data_project['H_SERIAL'];?&gt;&lt;/h4&gt;
+                &lt;button class=&quot;btn add&quot; type=&quot;button&quot; onclick=&quot;$('#info_modal').toggle();&quot; style=&quot;float: right;&quot;&gt;&lt;i class=&quot;fa fa-question&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(6, 'table')&quot; placeholder=&quot;Search..&quot; title=&quot;Type in a name&quot; /&gt;
+            &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                &lt;div class=&quot;tr header&quot;&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:6%;&quot;&gt;ID&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:7%;&quot;&gt;Sub Task Index&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:13%;&quot;&gt;Reference&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:26%;&quot;&gt;Defect/Required Work&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:26%;&quot;&gt;Rectification&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;Perform&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width:10%;&quot;&gt;Released&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width: 1%;&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;th&quot; style=&quot;width: 1%;&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;?php foreach($data_sub_tasks as $sub_task) {
+                    if($sub_task['ST_APPROVED_DATE']) {
+                        if($lvl_access &gt; 2) { ?&gt;
+                        &lt;form id=&quot;delete_row-&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                            &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; /&gt;
+                        &lt;/form&gt;
+                        &lt;form id=&quot;toggle-work_row-&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; method=&quot;post&quot; style=&quot;display: none;&quot;&gt;
+                            &lt;input type=&quot;hidden&quot; name=&quot;fw_toggle_user&quot; value=&quot;&lt;?php echo $_SESSION['user_id'];?&gt;&quot; /&gt;
+                            &lt;input type=&quot;hidden&quot; name=&quot;fw_toggle_st_id&quot; value=&quot;&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; /&gt;
+                        &lt;/form&gt;
+                        &lt;?php } ?&gt;
+                        &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; method=&quot;post&quot;&gt;
+                            &lt;?php include('row/workOrder.php');?&gt;
+                        &lt;/form&gt;
+                    &lt;?php }
+                } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+        &lt;div class=&quot;col-lg-2 col-lg-offset-3&quot;&gt;
+            &lt;a href=&quot;./?page=specificProject&amp;id=&lt;?php echo $data_project['P_ID'];?&gt;&quot;&gt;&lt;button class=&quot;button&quot;&gt;Back&lt;/button&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;?php if($lvl_access&gt;2) { ?&gt;
+        &lt;div class=&quot;col-lg-2&quot; id=&quot;excel_file&quot;&gt;
+            &lt;button class=&quot;button&quot; onclick=&quot;call_excel('&lt;?php echo 'http://'.$_SERVER['SERVER_NAME'].'/project/?page=workOrder&amp;excel='.$id_wo;?&gt;');&quot;&gt;Excel&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='block'&quot; type=&quot;submit&quot;&gt;New Task&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;?php } ?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;?php } else {
+    header('Location: ./index.php');
+    exit();
+}</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

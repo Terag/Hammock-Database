@@ -1,0 +1,190 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * PO-RFQ_getter file for PO/RFQ Creator
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Modules
+ * @package Creator
+ * @namespace Creator
+ * @filesource
+ */
+
+/* Get Vendor Information */
+
+if(isset($_GET['VENDOR'])) {
+    $id_vendor = (int)$_GET['VENDOR'];
+
+    $req = $bdd-&gt;prepare('SELECT * FROM T_VENDOR WHERE V_ID=:id;');
+    $req-&gt;execute(array('id' =&gt; $id_vendor));
+    if($vendor_data = $req-&gt;fetch()) {
+        $vendor_json = array(
+            'name' =&gt; $vendor_data['V_NAME'],
+            'address' =&gt; $vendor_data['V_ADDRESS'],
+            'city' =&gt; $vendor_data['V_CITY'],
+            'country' =&gt; $vendor_data['V_COUNTRY'],
+            'phone' =&gt; $vendor_data['V_PHONE'],
+            'mail' =&gt; $vendor_data['V_MAIL'],
+            'contact' =&gt; $vendor_data['V_CONTACT']
+        );
+    } else {
+        $vendor_json = array(
+            'name' =&gt; null,
+            'address' =&gt; null,
+            'city' =&gt; null,
+            'country' =&gt; null,
+            'phone' =&gt; null,
+            'mail' =&gt; null,
+            'contact' =&gt; null
+        );
+    }
+    echo json_encode($vendor_json, JSON_FORCE_OBJECT);
+    exit();
+}
+
+/* Get ROW */
+
+if(isset($_GET['GP']) AND isset($_GET['ROW'])) {
+    $id_gp = (int)$_GET['GP'];
+    $id_row = (int)$_GET['ROW'];
+
+    if(isset($_GET['IPC'])) {
+        $ipc = htmlspecialchars(urldecode($_GET['IPC']));
+    }
+    if(isset($_GET['QTY'])) {
+        $qty = (int)$_GET['QTY'];
+    }
+
+    /* HTML */ ?&gt;
+    &lt;div class=&quot;row window_white window_padding&quot; id=&quot;row-%ROW%&quot;&gt;
+        &lt;!-- User Input --&gt;
+        &lt;?php if($id_gp &lt; 1) { ?&gt;
+            &lt;div class=&quot;col-lg-2&quot;&gt;
+                &lt;input type=&quot;text&quot; id=&quot;%ROW%-PartFilterInput&quot; class=&quot;formFilterInput&quot; onkeyup=&quot;filter_select('%ROW%-PartFilterInput','%ROW%-select_part','%ROW%-select_part_element')&quot; placeholder=&quot;Search for part..&quot; title=&quot;Type in a part&quot; /&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-1&quot;&gt;
+                &lt;input type=&quot;number&quot; class=&quot;form_input&quot; placeholder=&quot;Index PN&quot; value=&quot;0&quot; name=&quot;%ROW%-f_gp_index&quot; required&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-3&quot;&gt;
+                &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                    &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; onclick=&quot;creator.switch_new_gp(%ROW%);&quot; id=&quot;%ROW%-select_part&quot; name=&quot;%ROW%-f_gp_id&quot; required&gt;
+                        &lt;option value=&quot;0&quot;&gt;New&lt;/option&gt;
+                        &lt;?php /* Get all generic parts */
+                        $req_parts = $bdd-&gt;query('SELECT GP_ID, GP_NAME, GP_NUMBER FROM T_GENERIC_PART');
+                        while ($data_parts = $req_parts-&gt;fetch()) {
+                            ?&gt;
+                            &lt;option class=&quot;%ROW%-select_part_element&quot; value=&quot;&lt;?php echo $data_parts['GP_ID'];?&gt;&quot;&gt;&lt;?php echo $data_parts['GP_NAME'].&quot; - &quot;.str_replace(';;',' - ',$data_parts['GP_NUMBER']);?&gt;&lt;/option&gt;
+                        &lt;?php } ?&gt;
+                    &lt;/select&gt;
+                &lt;/span&gt;
+            &lt;/div&gt;
+        &lt;?php } else { ?&gt;
+            &lt;div class=&quot;col-lg-2&quot;&gt;
+                &lt;?php /* Get Specific generic part */
+                $req_part = $bdd-&gt;prepare('SELECT GP_ID, GP_NAME, GP_NUMBER FROM T_GENERIC_PART WHERE GP_ID=:id_gp');
+                $req_part-&gt;execute(array('id_gp' =&gt; $id_gp));
+                $part = $req_part-&gt;fetch();
+                $STI = (isset($_GET['STI']))? htmlspecialchars(urldecode($_GET['STI'])): '';
+                echo $part['GP_NAME'].'&lt;br/&gt;'.$STI;
+
+                $part_numbers = explode(';;', $part['GP_NUMBER']);
+                ?&gt;
+                &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $part['GP_ID'];?&gt;&quot; name=&quot;%ROW%-f_gp_id&quot;/&gt;
+                &lt;?php if(isset($_GET['STI'])) { ?&gt;
+                    &lt;input type=&quot;hidden&quot; value=&quot;&lt;?php echo $STI;?&gt;&quot; name=&quot;%ROW%-f_sti&quot;/&gt;
+                &lt;?php } ?&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-4&quot;&gt;
+                &lt;span class=&quot;custom-dropdown custom-dropdown--white&quot;&gt;
+                    &lt;select class=&quot;form_input custom-dropdown__select custom-dropdown--large custom-dropdown__select--white&quot; name=&quot;%ROW%-f_gp_number&quot; required&gt;
+                        &lt;?php foreach ($part_numbers as $key =&gt; $pn) { ?&gt;
+                            &lt;option value=&quot;&lt;?php echo $pn;?&gt;|&lt;?php echo $key;?&gt;&quot;&gt;&lt;?php echo $pn;?&gt;&lt;/option&gt;
+                        &lt;?php } ?&gt;
+                    &lt;/select&gt;
+                &lt;/span&gt;
+            &lt;/div&gt;
+        &lt;?php } ?&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;text&quot; placeholder=&quot;IPC&quot; &lt;?php if(isset($ipc)){echo 'value=&quot;'.$ipc.'&quot;';}?&gt; name=&quot;%ROW%-f_p_ipc&quot;/&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;1&quot; placeholder=&quot;Qty&quot; &lt;?php if(isset($qty)){echo 'value=&quot;'.$qty.'&quot;';}?&gt; name=&quot;%ROW%-f_p_qty&quot; required/&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;input class=&quot;form_input&quot; type=&quot;number&quot; min=&quot;0&quot; step=&quot;0.01&quot; placeholder=&quot;Price&quot; name=&quot;%ROW%-f_p_price&quot;/&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;?php if($id_gp &lt; 1) { ?&gt;
+        &lt;div class=&quot;row window_white window_padding&quot; id=&quot;row-%ROW%-bis&quot; style=&quot;margin: 0px 20px 10px 20px;&quot;&gt;
+            &lt;div class=&quot;col-lg-3&quot;&gt;
+                &lt;input class=&quot;form_input&quot; type=&quot;text&quot; placeholder=&quot;Description&quot; name=&quot;%ROW%-f_new_gp_name&quot; required/&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-3&quot;&gt;
+                &lt;input class=&quot;form_input&quot; type=&quot;text&quot; placeholder=&quot;Part Number&quot; name=&quot;%ROW%-f_new_gp_number&quot; required/&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-3&quot;&gt;
+                &lt;input class=&quot;form_input&quot; type=&quot;text&quot; placeholder=&quot;Location&quot; name=&quot;%ROW%-f_new_gp_location&quot;/&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;?php } ?&gt;
+&lt;?php exit(); }
+
+/* Get Editor */
+
+if(isset($_GET['EDITOR'])) { ?&gt;
+    &lt;div class=&quot;row window_grey window_padding number_editor&quot;&gt;
+        &lt;div class=&quot;col-lg-1 col-lg-offset-5&quot;&gt;
+            &lt;button class=&quot;button add&quot; onclick=&quot;creator.add_row_blank();&quot; type=&quot;button&quot;&gt;&lt;i class='fa fa-plus-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-1&quot;&gt;
+            &lt;button class=&quot;button danger&quot; onclick=&quot;creator.delete_row();&quot; type=&quot;button&quot;&gt;&lt;i class='fa fa-minus-square-o'&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;input id=&quot;f_count&quot; type=&quot;hidden&quot; value=&quot;0&quot; name=&quot;f_count&quot; /&gt;
+&lt;?php exit(); }</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

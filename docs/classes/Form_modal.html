@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>Hammock Helicopter Database</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">Hammock Helicopter Database</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">24</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1101914403"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1101914403" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/_MONTH.html">_MONTH</a></li>
+                                                    <li class="class"><a href="../classes/_WEEKDAY.html">_WEEKDAY</a></li>
+                                                    <li class="class"><a href="../classes/Calendar.html">Calendar</a></li>
+                                                    <li class="class"><a href="../classes/Form.html">Form</a></li>
+                                                    <li class="class"><a href="../classes/Form_modal.html">Form_modal</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>Form_modal</h1>
+                    <p><em>Child of Form. Permit to display a modal form in add of define a form validator</em></p>
+                    <p>In add of parameters for Form constructor, you have to provide the file path of the modal you want to display for the form</p>
+                    
+                                                                        <h3>Examples</h3>
+                                                                            <h4>&quot;Form example of use&quot;</h4>
+                            <pre class="pre-scrollable">                                   :fe_s_rcvd, :fe_s_rcvd_date, NULL);&#039;;
+try {
+    $receive_part = new Form($bdd, $fields, $sql_request);
+
+    if($receive_part-&gt;validateForm()) {
+        $receive_part-&gt;sendForm();
+    }
+
+} catch (Exception $error) {
+    /* Error action */
+}
+
+/* ---------- Form_modal Class Example ---------- */
+
+$fields = array(
+    /* ADD STOCK */
+    &#039;f_gp_id&#039; =&gt; array(&#039;type&#039; =&gt; &#039;number-int&#039;, &#039;required&#039; =&gt; TRUE),
+    &#039;f_arc_name&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; TRUE),
+    &#039;f_po_name&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; TRUE),
+    &#039;f_arc&#039; =&gt; array(&#039;type&#039; =&gt; &#039;file&#039;, &#039;required&#039; =&gt; FALSE, &#039;file_destination&#039; =&gt; &#039;/files/arc&#039;, &#039;file_name&#039; =&gt; &#039;%var%&#039;, &#039;var&#039; =&gt; &#039;f_arc_name&#039;),
+    &#039;f_po&#039; =&gt; array(&#039;type&#039; =&gt; &#039;file&#039;, &#039;required&#039; =&gt; FALSE, &#039;file_destination&#039; =&gt; &#039;/files/po&#039;, &#039;file_name&#039; =&gt; &#039;%var%&#039;, &#039;var&#039; =&gt; &#039;f_po_name&#039;),
+    &#039;f_qty_number&#039; =&gt; array(&#039;type&#039; =&gt; &#039;number-int&#039;, &#039;required&#039; =&gt; TRUE),
+    &#039;f_index_pn&#039; =&gt; array(&#039;type&#039; =&gt; &#039;number-int&#039;, &#039;required&#039; =&gt; TRUE),
+    &#039;f_serial&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; FALSE),
+    &#039;f_u_price&#039; =&gt; array(&#039;type&#039; =&gt; &#039;number-float&#039;, &#039;required&#039; =&gt; FALSE),
+    &#039;f_currency&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; FALSE),
+    &#039;f_vendor&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; FALSE),
+    /* CREATE GP */
+    &#039;f_name&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; TRUE),
+    &#039;f_number&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; FALSE),
+    &#039;f_location&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; FALSE),
+    &#039;f_description&#039; =&gt; array(&#039;type&#039; =&gt; &#039;text&#039;, &#039;required&#039; =&gt; FALSE)
+);
+$sql_request = &#039;CALL add_part_stock(:f_gp_id, :f_arc_name, :f_po_name, :f_arc, :f_po, :f_index_pn,
+                                    :f_qty_number, :f_serial, :f_u_price, :f_currency, :f_vendor, NULL, NULL,
+                                    :f_name, :f_number, NULL, :f_location, :f_description);&#039;;
+
+</pre>
+                                                                
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/Form_modal.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/Form.html#method_validateForm" class="">validateForm()</a><br />
+                                                                    <a href="../classes/Form.html#method_sendForm" class="">sendForm()</a><br />
+                                                                    <a href="../classes/Form.html#method___get" class="">__get()</a><br />
+                                                                    <a href="../classes/Form.html#method___isset" class="">__isset()</a><br />
+                                                                    <a href="../classes/Form.html#method_getValues" class="">getValues()</a><br />
+                                                                    <a href="../classes/Form_modal.html#method_display_Form" class="">display_Form()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Form.html#property_database" class="">$database</a><br />
+                                                                    <a href="../classes/Form.html#property_fields" class="">$fields</a><br />
+                                                                    <a href="../classes/Form.html#property_values" class="">$values</a><br />
+                                                                    <a href="../classes/Form.html#property_sql" class="">$sql</a><br />
+                                                                    <a href="../classes/Form.html#property_delete_files" class="">$delete_files</a><br />
+                                                                    <a href="../classes/Form.html#property_var_values" class="">$var_values</a><br />
+                                                                    <a href="../classes/Form.html#property_valide" class="">$valide</a><br />
+                                                                    <a href="../classes/Form.html#property_check" class="">$check</a><br />
+                                                                    <a href="../classes/Form_modal.html#property_form_html" class="">$form_html</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/SQL_management.form.html"><div class="path-wrapper">SQL_management\form.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Form\Child</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper"><a href="../classes/Form.html">\Form</a></div>
+                                                                                                    <div class="namespace-wrapper">\Form_modal</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                tags
+                            </th>
+                            <td>
+                                                                    <p>Form Modal</p>
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_database" name="property_database" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$database</h3>
+                <pre class="signature">$database : \PDO</pre>
+                <p><em>uses to communicate with database</em></p>
+                
+
+                                <h4>Type</h4>
+                \PDO
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_fields" name="property_fields" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$fields</h3>
+                <pre class="signature">$fields : array&lt;mixed,array&gt;</pre>
+                <p><em>form&#039;s fields definition and use</em></p>
+                
+
+                                <h4>Type</h4>
+                array&lt;mixed,array&gt;
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_values" name="property_values" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$values</h3>
+                <pre class="signature">$values : array&lt;mixed,array&gt;</pre>
+                <p><em>fields&#039; values</em></p>
+                
+
+                                <h4>Type</h4>
+                array&lt;mixed,array&gt;
+                &mdash; string|int|float $values                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sql" name="property_sql" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$sql</h3>
+                <pre class="signature">$sql : string</pre>
+                <p><em>sql procedure to send form</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_delete_files" name="property_delete_files" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$delete_files</h3>
+                <pre class="signature">$delete_files : string</pre>
+                <p><em>list of id of file to delete</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_var_values" name="property_var_values" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$var_values</h3>
+                <pre class="signature">$var_values : </pre>
+                <p><em>array to stock &#039;var&#039;</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_valide" name="property_valide" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$valide</h3>
+                <pre class="signature">$valide : </pre>
+                <p><em>validation of Form</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_check" name="property_check" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$check</h3>
+                <pre class="signature">$check : </pre>
+                <p><em>is validation done ?</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_form_html" name="property_form_html" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$form_html</h3>
+                <pre class="signature">$form_html : null|string</pre>
+                <p><em>file path for modal form to display</em></p>
+                
+
+                                <h4>Type</h4>
+                null|string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\PDO  <span class="argument">$bdd</span>, array  <span class="argument">$fields_array</span>, string  <span class="argument">$sql_procedure</span>,   <span class="argument">$htmlFile_path</span>) </pre>
+                <p><em>Form_modal constructor.</em></p>
+                <p>Keys of fields have to be similar as the parameters names in sql_procedure.<br/>
+Fields parameters is an array of array. sub_array have to respect a certain structure :<br/>
+<br/>
+'KEY' =&gt; array(<br/>
+-----NEEDED <br/>
+'type' =&gt; '&lt;number-&lt;int|float&gt;|text|file|date|hidden&lt;int|float&gt;&gt;',<br/>
+'required' =&gt; &lt;TRUE|FALSE&gt;,<br/>
+-----IF TYPE = 'file' <br/>
+'var' =&gt; string (key in $_FILE) <br/>
+'file_destination' =&gt; string <br/>
+'file_name' =&gt; string <br/>
+-----OPTIONAL <br/>
+'value' =&gt; string (check value of field) <br/></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\PDO</td>
+                                <td>$bdd </td>
+                                <td><p>&quot;Database PDO to communicate with database&quot;</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$fields_array </td>
+                                <td><p>&quot;Usage in example&quot;</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$sql_procedure </td>
+                                <td><p>&quot;SQL request to send with fields&quot;</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$htmlFile_path </td>
+                                <td><p>&quot;path of file for modal form to display&quot;</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>htmlFile_path bad input</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>htmlFile_path file does not exist</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_validateForm" name="method_validateForm" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">validateForm()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">validateForm() : boolean</pre>
+                <p><em>validate form and check all fields depending on array provided to the constructor</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>Error, on of form field value is incorrect</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>Invalid Date Format, format : YYYY-MM-DD</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_sendForm" name="method_sendForm" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">sendForm()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">sendForm() : boolean</pre>
+                <p><em>Send form with constructor parameters to database and execute query. Add files from $_FILES if needed. Form needs to be validated before to send</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>is not a valid field</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>%var% is not define</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>Error during file uploading, please try again (Can be an Error from File module)</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___get" name="method___get" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__get()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__get(string  <span class="argument">$key</span>) : array|boolean</pre>
+                <p><em>magic method surcharge. Return value of $key</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array|boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___isset" name="method___isset" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__isset()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__isset(string  <span class="argument">$key</span>) : boolean</pre>
+                <p><em>magic method surcharge. Check if $key field exists</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$key </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getValues" name="method_getValues" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getValues()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getValues() : array&lt;mixed,array&gt;|boolean</pre>
+                <p><em>Return the values array</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,array&gt;|boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Form.html"><div class="path-wrapper">\Form</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_display_Form" name="method_display_Form" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">display_Form()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">display_Form() </pre>
+                <p><em>Calls include of $form_html</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">form.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/SQL_management\form.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on August 15th, 2017 at 07:15.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

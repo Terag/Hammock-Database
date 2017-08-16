@@ -1,0 +1,89 @@
+<?php
+/**
+ * Vendor row for STOCK part
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Stock\Row
+ * @namespace Stock
+ * @filesource
+ */
+?>
+
+<input type="hidden" value="<?php echo $vendor['V_ID'];?>" name="fe_v_id"/>
+<span class="td"><?php echo $vendor['V_ID'];?></span>
+<span class="td">
+    <div class="element">
+        <?php echo $vendor['V_NAME'];?>
+    </div>
+    <div class="element" style="display:none;">
+        <input class="form_input" type="text" value="<?php echo $vendor['V_NAME'];?>" name="fe_v_name" required/>
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php echo $vendor['V_ADDRESS'];?>
+    </div>
+    <div class="element" style="display:none;">
+        <input class="form_input" type="text" value="<?php echo $vendor['V_ADDRESS'];?>" name="fe_v_address"/>
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php echo $vendor['V_CITY'];?>
+    </div>
+    <div class="element" style="display:none;">
+        <input class="form_input" type="text" value="<?php echo $vendor['V_CITY'];?>" name="fe_v_city" />
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php echo $vendor['V_COUNTRY'];?>
+    </div>
+    <div class="element" style="display:none;">
+        <input class="form_input" type="text" value="<?php echo $vendor['V_COUNTRY'];?>" name="fe_v_country"/>
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php echo $vendor['V_PHONE'];?>
+    </div>
+    <div class="element" style="display:none;">
+        <input class="form_input" type="text" value="<?php echo $vendor['V_PHONE'];?>" name="fe_v_phone">
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php echo $vendor['V_MAIL'];?>
+    </div>
+    <div class="element" style="display:none;">
+        <input class="form_input" type="text" value="<?php echo $vendor['V_MAIL'];?>" name="fe_v_mail">
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <?php echo $vendor['V_CONTACT'];?>
+    </div>
+    <div class="element" style="display:none;">
+        <input class="form_input" type="text" value="<?php echo $vendor['V_CONTACT'];?>" name="fe_v_contact">
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <button class="btn edit" type="button" onclick="edit_row(<?php echo $vendor['V_ID'];?>)"><i class="fa fa-pencil"></i></button>
+    </div>
+    <div class="element" style="display: none;">
+        <button class="btn add" type="submit"><i class='fa fa-check-square-o'></i></button>
+    </div>
+</span>
+<span class="td">
+    <div class="element">
+        <button class="btn danger" onclick="xmlhttpPost(document.location.href, 'delete_row-<?php echo $vendor['V_ID'];?>', 'row-<?php echo $vendor['V_ID'];?>', '');return false;" type="button"><i class="fa fa-close"></i></button>
+    </div>
+    <div class="element" style="display: none;">
+        <button class="btn cancel" type="button" onclick="edit_row(<?php echo $vendor['V_ID'];?>)"><i class="fa fa-arrow-circle-left"></i></button>
+    </div>
+</span>

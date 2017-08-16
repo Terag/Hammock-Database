@@ -1,0 +1,151 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * scopeOfWork content for PROJECT part
+ *
+ * content file
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category Part
+ * @package Project\Content
+ * @namespace Project
+ * @filesource
+ */
+
+/*Get Data about Work Order*/
+$data_wo = get_wo_info($bdd, $id_wo);
+
+if($data_wo) {
+
+    if(isset($_SESSION['error'])) {
+        display_modal($_SESSION['error']-&gt;getMessage());
+    }
+
+    /*  Get other data from database */
+    /*  Get Project information */
+    $data_project = get_project_info_from_helico($bdd, $data_wo['WO_ID_H']);
+    /*Get Sub Task List */
+    $data_sub_tasks = get_st_list_for_wo($bdd, $id_wo);
+
+    $data_engine1 = null;
+    if($data_project['H_ID_E1'] != null) {
+        $data_engine1 = get_engine_info($bdd, $data_project['H_ID_E1']);
+    }
+    $data_engine2 = null;
+    if($data_project['H_ID_E2'] != null) {
+        $data_engine2 = get_engine_info($bdd, $data_project['H_ID_E2']);
+    }
+
+    $excel_name = str_replace('/','.',$id_wo.'-'.str_replace('%DOC%','SOW',$data_wo['WO_NAME']).'.xlsx');
+    $excel_path = '/files/sow/'.$excel_name;
+    ?&gt;
+
+    &lt;!-- Form Content --&gt;
+    &lt;?php $new_subtask_sow_form-&gt;display_Form();?&gt;
+
+&lt;!-- Main Content --&gt;
+&lt;div class=&quot;container content&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1 header-resume&quot; style=&quot;margin-top: 8%; margin-bottom: 2%;&quot;&gt;
+            &lt;div class=&quot;col-lg-6&quot;&gt;
+                &lt;h2&gt;&lt;strong&gt;Scope Of Work :&lt;/strong&gt; &lt;br/&gt;&lt;?php echo str_replace('%DOC%','SOW',$data_wo['WO_NAME']);?&gt;&lt;/h2&gt;
+                &lt;h3&gt;&lt;strong&gt;Project :&lt;/strong&gt; &lt;?php echo $data_project['P_NAME'];?&gt;&lt;/h3&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-lg-6&quot;&gt;
+                &lt;h4&gt;&lt;strong&gt;Customer :&lt;/strong&gt; &lt;?php echo $data_project['C_NAME'];?&gt;&lt;/h4&gt;
+                &lt;h4&gt;&lt;strong&gt;Aircraft :&lt;/strong&gt; &lt;?php echo $data_project['GA_NAME'];?&gt;&lt;/h4&gt;
+                &lt;h4&gt;&lt;strong&gt;Serial :&lt;/strong&gt; &lt;?php echo $data_project['H_SERIAL'];?&gt;&lt;/h4&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-lg-10 col-lg-offset-1&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;myFilterInput&quot; onkeyup=&quot;filter(5, 'table')&quot; placeholder=&quot;Search..&quot; title=&quot;Type in a name&quot; /&gt;
+            &lt;div class=&quot;table myTable&quot; id=&quot;table&quot;&gt;
+                &lt;div class=&quot;tr header&quot;&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width:10%;&quot;&gt;ID&lt;/span&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width:10%;&quot;&gt;Sub Task Index&lt;/span&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width:23%;&quot;&gt;Reference&lt;/span&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width:35%;&quot;&gt;Description&lt;/span&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width:10%;&quot;&gt;Date Approved&lt;/span&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width:10%;&quot;&gt;Date Completed&lt;/span&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width: 1%;&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;td&quot; style=&quot;width: 1%;&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;?php foreach($data_sub_tasks as &amp;$sub_task) {
+                    if($sub_task['ST_IN_SOW']=='yes') { ?&gt;
+                        &lt;form id=&quot;delete_row-&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; method=&quot;post&quot;&gt;
+                            &lt;input type=&quot;hidden&quot; name=&quot;f_delete&quot; value=&quot;&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; /&gt;
+                        &lt;/form&gt;
+                        &lt;form class=&quot;tr&quot; id=&quot;row-&lt;?php echo $sub_task['ST_ID'];?&gt;&quot; onsubmit=&quot;xmlhttpPost(document.location.href, 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', 'row-&lt;?php echo $sub_task['ST_ID'];?&gt;', '&lt;span class=\'td\'&gt;&lt;img src=\'/img/wait_rot.gif\'/&gt;&lt;/span&gt;');return false;&quot; method=&quot;post&quot;&gt;
+                            &lt;?php include('row/scopeOfWork.php');?&gt;
+                        &lt;/form&gt;
+                    &lt;?php }
+                } ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row&quot; style=&quot;margin-top: 3%;&quot;&gt;
+        &lt;div class=&quot;col-lg-2 col-lg-offset-3&quot;&gt;
+            &lt;a href=&quot;./?page=specificProject&amp;id=&lt;?php echo $data_project['P_ID'];?&gt;&quot;&gt;&lt;button class=&quot;button&quot;&gt;Back&lt;/button&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot; id=&quot;excel_file&quot;&gt;
+            &lt;button class=&quot;button&quot; onclick=&quot;call_excel('&lt;?php echo 'http://'.$_SERVER['SERVER_NAME'].'/project/?page=scopeOfWork&amp;excel='.$id_wo;?&gt;');&quot;&gt;Excel&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;col-lg-2&quot;&gt;
+            &lt;button class=&quot;button&quot; onclick=&quot;document.getElementById('id01').style.display='block'&quot; type=&quot;submit&quot;&gt;New Task&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;?php } else {
+    $req-&gt;closeCursor();
+    display_modal('Error to load WO information, are you on the good page ?');
+}
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

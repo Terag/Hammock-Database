@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+/**
+ * File to provide display_modal function. Permits to display an error modal with a specific content.
+ *
+ * @author Victor ROUQUETTE
+ * @copyright Hammock Helicopter Database by Victor ROUQUETTE
+ * @license GPL
+ * @license https://www.gnu.org/licenses/gpl-3.0.fr.html
+ * @category modules
+ * @package UI
+ * @filesource
+ */
+
+/**
+ * Function to display a modal warning window
+ *
+ * Display a modal warning window on screen with specified text. the system to hide modal is to change display style to &quot;none&quot;.
+ *
+ * @param string $text_content text to display
+ *
+ * @tags Modal Display
+ * @source ui\modal_warning.php
+ */
+function display_modal($text_content) {
+?&gt;
+    &lt;!-- The Warning Modal --&gt;
+    &lt;div id=&quot;modal-warning&quot; class=&quot;modal&quot; style=&quot;display: block;&quot;&gt;
+        &lt;!-- Modal content --&gt;
+        &lt;span onclick=&quot;document.getElementById('modal-warning').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+        &lt;div class=&quot;container&quot; style=&quot;margin-top: 10%;&quot;&gt;
+            &lt;div class=&quot;modal-content modal-warning-content animate&quot;&gt;
+                &lt;div class=&quot;modal-header row&quot;&gt;
+                    &lt;div class=&quot;col-lg-12&quot;&gt;
+                        &lt;span onclick=&quot;document.getElementById('modal-warning').style.display='none'&quot; class=&quot;close&quot; title=&quot;Close Modal&quot;&gt;&times;&lt;/span&gt;
+                        &lt;h2&gt;! Warning !&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;modal-body row&quot;&gt;
+                    &lt;div class=&quot;col-lg-12&quot;&gt;
+                        &lt;h2&gt;&lt;?php echo $text_content;?&gt;&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;modal-footer row&quot;&gt;
+                    &lt;div class=&quot;col-lg-12&quot;&gt;
+                        &lt;h2&gt;&lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+        //Get the warning_modal
+        var warning_modal = document.getElementById('modal-warning');
+    &lt;/script&gt;
+&lt;?php }
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>
