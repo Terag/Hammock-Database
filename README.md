@@ -4,13 +4,17 @@
   <img src="https://raw.githubusercontent.com/Terag/Hammock-Database/master/img/HammockHelicopter.PNG" alt="Hammock Logo" height="150">
 </p>
 
+## Release
+
+First release of Hammock Database V1 on 16/08/2017, released for Hammock Helicopter Sdn. Bhd. and public users.
+
 ## Synopsis
 
 Is it too difficult for you to manage all your projects of maintenance around aircraft ? You have too much information on paper and are afraid to lose it ?
 
-You could like to centralise your information, and simplify you process with a simple tool.
+You could like to centralize your information, and simplify you process with a simple tool.
 
-So .. this tool could be helpfull for you and your team !
+So .. this tool could be helpful for you and your team !
 
 ## Motivation
 
@@ -32,13 +36,13 @@ A simple tool to record all the work hours on your project.
 
 ### DOCUMENTATION
 
-As an intelligent system, it will retains the previous jobs and keeps these basic information to provide you help in your futur projects.
+As an intelligent system, it will retains the previous jobs and keeps these basic information to provide you help in your future projects.
 
 ## Installation
 
 The installation is very simple. It works on a basic Apache server with PHP 5.6 and a mySQL 5.7 database.
 
-### Configurate database
+### Configure database
 
 You just need to execute in your database the scripts contain in files :
   * sql.sql
@@ -71,12 +75,6 @@ Connect you database in /SQL_MANAGEMENT/connection.php file.
 
 edit htaccess. You should check every htaccess of the project to check if the contained information are true or false.
 Some problems could come from these files.
-
-## Documentation
-
-Please refer to the file : https://github.com/Terag/Hammock-Database/blob/master/docs/HANDBOOK.pdf
-
-For code refer to docs part and comments in files.
 
 ## Contributors
 
