@@ -6,7 +6,7 @@
 
 ## Synopsis
 
-Is it too difficult for you too manage all your projects of maintenance around aircraft ? You have too much information on paper and are afraid to lose it ?
+Is it too difficult for you to manage all your projects of maintenance around aircraft ? You have too much information on paper and are afraid to lose it ?
 
 You could like to centralise your information, and simplify you process with a simple tool.
 
