@@ -72,6 +72,12 @@ Connect you database in /SQL_MANAGEMENT/connection.php file.
 edit htaccess. You should check every htaccess of the project to check if the contained information are true or false.
 Some problems could come from these files.
 
+## Documentation
+
+Please refer to the file : https://github.com/Terag/Hammock-Database/blob/master/docs/HANDBOOK.pdf
+
+For code refer to docs part and comments in files.
+
 ## Contributors
 
 ### Code
