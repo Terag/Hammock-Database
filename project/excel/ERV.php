@@ -64,22 +64,22 @@ $sheet->setCellValue('H2', $data_wo['WO_OPENED_DATE']);
 $sheet->setCellValue('H3', $data_wo['WO_CLOSED_DATE']);
 
 /* Aircraft Info */
-$sheet->setCellValue('D2', $data_project['H_TIME']);
+$sheet->setCellValue('C2', $data_project['H_TIME']);
 
-$sheet->setCellValue('D3', $data_project['H_LANDING']);
+$sheet->setCellValue('C3', $data_project['H_LANDING']);
 
 /* Engine1 */
 if (isset($data_engine1)) {
-    $sheet->setCellValue('F2', $data_engine1['E_TIME']);
+    $sheet->setCellValue('E2', $data_engine1['E_TIME']);
 
-    $sheet->setCellValue('F3', $data_engine1['E_NG_CYCLE'] . ' / ' . $data_engine1['E_NF_CYCLE']);
+    $sheet->setCellValue('E3', $data_engine1['E_NG_CYCLE'] . ' / ' . $data_engine1['E_NF_CYCLE']);
 }
 
 /* Engine2 */
 if (isset($data_engine2)) {
-    $sheet->setCellValue('F4', $data_engine2['E_TIME']);
+    $sheet->setCellValue('E4', $data_engine2['E_TIME']);
 
-    $sheet->setCellValue('F5', $data_engine2['E_NG_CYCLE']);
+    $sheet->setCellValue('E5', $data_engine2['E_NG_CYCLE']);
 }
 
 /* Header_Text */
