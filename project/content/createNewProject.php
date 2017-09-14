@@ -105,6 +105,7 @@ if($UserConnected) {
                                 <span class="td"><input class="form_input" type="text" name="f_e1_serial" placeholder="Serial.."/></span>
                                 <span class="td">
                                     <select class="form_input" name="f_e1_id_ga" required>
+                                        <option value="NULL">Engine</option>
                                         <?php $data_generic_aircraft = get_generic_aircraft_list_by_type($bdd, 'engine');
                                         foreach ($data_generic_aircraft as $generic_aircraft) { ?>
                                             <option value="<?php echo $generic_aircraft['GA_ID'];?>"><?php echo $generic_aircraft['GA_NAME'];?></option>
