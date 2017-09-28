@@ -151,16 +151,24 @@ foreach ($data_project_parts as &$project_part) {
     foreach ($data_stock_available as $available_part) {
         $index = ($available_part['S_INDEX_PN'] > 0 AND $available_part['S_INDEX_PN'] < count($part_numbers))? $available_part['S_INDEX_PN'] : 0;
 
+        $link_stock_pp = [];
         $link_stock_pp = get_lps_for_pp_s_id($bdd, $project_part['PP_ID'], $available_part['S_ID']);
-        if ($link_stock_pp['LPS_QUANTITY_NUMBER'] > 0) {
 
-            $delivered += $link_stock_pp['LPS_QUANTITY_NUMBER'];
-            $html_text .= '<b>' . $link_stock_pp['LPS_QUANTITY_NUMBER'] . '</b> - ' . $available_part['S_PO_NAME'] . ' (' . $part_numbers[$index] . ')<br/>';
 
-            $html_text_price .= '- '.$available_part['S_PRICE'].'<br/>';
 
-            $html_text_currency .= '- '.$available_part['S_ACCURENCY'].'<br/>';
-        }
+        $delivered += $link_stock_pp['LPS_QUANTITY_NUMBER'];
+
+        if(isset($link_stock_pp['LPS_QUANTITY_NUMBER']))
+            $html_text .= '<b>';
+
+        $html_text .= $link_stock_pp['LPS_QUANTITY_NUMBER'] . ' - ' . $available_part['S_PO_NAME'] . ' (' . $part_numbers[$index] . ')<br/>';
+
+        if(isset($link_stock_pp['LPS_QUANTITY_NUMBER']))
+            $html_text .= '</b>';
+
+        $html_text_price .= '- '.$available_part['S_PRICE'].'<br/>';
+
+        $html_text_currency .= '- '.$available_part['S_ACCURENCY'].'<br/>';
     }
 
     $objRichText = $html_helper->toRichTextObject($html_text);
