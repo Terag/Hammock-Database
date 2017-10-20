@@ -147,14 +147,14 @@ foreach ($data_project_parts as &$project_part) {
     $delivered = 0;
     $html_text_price = '';
     $html_text_currency = '';
+    $html_text_location = '';
     $part_numbers= explode(';;', $project_part['GP_NUMBER']);
+    $part_locations= explode(';;', $project_part['GP_LOCATION']);
     foreach ($data_stock_available as $available_part) {
         $index = ($available_part['S_INDEX_PN'] > 0 AND $available_part['S_INDEX_PN'] < count($part_numbers))? $available_part['S_INDEX_PN'] : 0;
 
         $link_stock_pp = [];
         $link_stock_pp = get_lps_for_pp_s_id($bdd, $project_part['PP_ID'], $available_part['S_ID']);
-
-
 
         $delivered += $link_stock_pp['LPS_QUANTITY_NUMBER'];
 
@@ -163,12 +163,19 @@ foreach ($data_project_parts as &$project_part) {
 
         $html_text .= $link_stock_pp['LPS_QUANTITY_NUMBER'] . ' - ' . $available_part['S_PO_NAME'] . ' (' . $part_numbers[$index] . ')<br/>';
 
+        if(isset($part_locations[$index])){
+            $html_text_location .= '- '.$part_locations[$index].'<br/>';
+        } else {
+            $html_text_location .= '- <br/>';
+        }
+
         if(isset($link_stock_pp['LPS_QUANTITY_NUMBER']))
             $html_text .= '</b>';
 
         $html_text_price .= '- '.$available_part['S_PRICE'].'<br/>';
 
         $html_text_currency .= '- '.$available_part['S_ACCURENCY'].'<br/>';
+
     }
 
     $objRichText = $html_helper->toRichTextObject($html_text);
@@ -181,6 +188,9 @@ foreach ($data_project_parts as &$project_part) {
     $sheet->setCellValue('J'.$L, $objRichText);
 
     $sheet->setCellValue('F'.$L, $delivered);
+
+    $objRichText = $html_helper->toRichTextObject($html_text_location);
+    $sheet->setCellValue('K'.$L, $objRichText);
 
     $req = $bdd->prepare('CALL number_available_for_gp_id(:id);');
     $req->execute(array('id' => $project_part['GP_ID']));
