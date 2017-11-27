@@ -30,7 +30,7 @@ $data_users_list = get_user_list($bdd);
         <img id="hammock" class="title_txt" src="/img/hammock.png" style="z-index: 1;"/>
         <img id="helicopter" class="title_txt" src="/img/helicopter.png" style="z-index: 1;"/>
         <!-- Logo -->
-        <img id="planet" class="title_img" src="/img/planet.png" style="z-index: 1;"/>
+        <img id="planet" class="title_img" src="/img/planet-christmas.png" style="z-index: 1;"/>
         <img id="helico" class="title_img" src="/img/helico.png" style="z-index: 3;"/>
 
         <style type="text/css">
