@@ -94,10 +94,12 @@ $fields = array(
     'fe_s_price' => array('type' => 'number-float', 'required' => FALSE),
     'fe_s_accurency' => array('type' => 'text', 'required' => FALSE),
     'fe_s_vendor' => array('type' => 'text', 'required' => FALSE),
+    'fe_gp_location' => array('type' => 'text', 'required' => FALSE)
 );
 $sql_request = 'CALL update_stock_part(:fe_s_id, :fe_s_serial, :fe_arc_name, :fe_f_arc, :fe_po_name, :fe_f_po, :fe_s_index_pn,
                                    :fe_s_qty, :fe_s_price, :fe_s_accurency, :fe_s_vendor,
-                                   :fe_s_rcvd, :fe_s_rcvd_date, NULL);';
+                                   :fe_s_rcvd, :fe_s_rcvd_date, NULL,
+                                   :fe_gp_location);';
 try {
     $receive_part = new Form($bdd, $fields, $sql_request);
 

@@ -36,7 +36,8 @@ $fields = array(
 );
 $sql_request = 'CALL update_stock_part(:fe_s_id, :fe_s_serial, :fe_arc_name, :fe_f_arc, :fe_po_name, :fe_f_po, :fe_s_index_pn,
                                    :fe_s_qty, :fe_s_price, :fe_s_accurency, :fe_s_vendor,
-                                   \'yes\', :fe_s_rcvd_date, :fe_s_expi_date);';
+                                   \'yes\', :fe_s_rcvd_date, :fe_s_expi_date,
+                                   NULL);';
 try {
     $receive_part = new Form($bdd, $fields, $sql_request);
 

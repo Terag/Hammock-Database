@@ -377,11 +377,22 @@ CREATE PROCEDURE update_link_pp_s(IN id_pp INT, IN id_s INT, IN fe_pp_qty_dlv IN
 
 CREATE PROCEDURE update_stock_part(IN id_s INT, IN new_serial VARCHAR(32), IN new_arc_name VARCHAR(512), IN new_arc INT, IN new_po_name VARCHAR(512), IN new_po INT, IN new_index INT,
                                    IN new_qty INT, IN new_u_price DECIMAL(10,2), IN new_currency VARCHAR(8), IN new_vendor VARCHAR(128),
-                                   IN new_received VARCHAR(3), IN new_received_date DATE, IN new_expiration_date DATE)
+                                   IN new_received VARCHAR(3), IN new_received_date DATE, IN new_expiration_date DATE,
+                                   IN new_gp_location MEDIUMTEXT)
   -- Parameters Def
   BEGIN
+
+    DECLARE id_gp INT DEFAULT 0;
+
     IF new_received IS NULL THEN
       SET new_received = 'no';
+    END IF;
+
+    IF new_gp_location IS NOT NULL THEN
+      SELECT S_ID_GP INTO id_gp FROM T_STOCK WHERE S_ID=id_s;
+      IF id_gp != 0 THEN
+        UPDATE T_GENERIC_PART SET GP_LOCATION=new_gp_location WHERE GP_ID=id_gp;
+      END IF;
     END IF;
 
     IF new_received = 'no' THEN
