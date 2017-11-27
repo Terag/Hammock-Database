@@ -44,7 +44,14 @@
     </div>
 </span>
 <span class="td"><?php echo $ordered_part['GP_NAME'];?></span>
-<span class="td"><?php echo str_replace(';;','<br/>',$ordered_part['GP_LOCATION']);?></span>
+<span class="td">
+    <div class="element">
+        <?php echo str_replace(';;','<br/>',$ordered_part['GP_LOCATION']);?>
+    </div>
+    <div class="element" style="display: none;">
+        <input class="form_input" type="text" value="<?php echo $ordered_part['GP_LOCATION'];?>" name="fe_gp_location"/>
+    </div>
+</span>
 <span class="td">
     <div class="element">
         <?php echo $ordered_part['S_QUANTITY_NUMBER'];?>
