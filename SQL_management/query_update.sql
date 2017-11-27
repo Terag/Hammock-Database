@@ -424,7 +424,11 @@ CREATE PROCEDURE update_vendor(IN id_vendor INT, IN new_name VARCHAR(128), IN ne
     -- Parameters Def
   BEGIN
     -- Content
-    UPDATE T_VENDOR SET V_NAME=new_name, V_ADDRESS=new_address, V_CITY=new_city, V_COUNTRY=new_country, V_PHONE=new_phone, V_MAIL=new_mail, V_CONTACT=new_contact WHERE V_ID=id_vendor;
+    IF id_vendor = -1 THEN
+      CALL new_vendor(new_name, new_address, new_city, new_country, new_phone, new_mail, new_contact);
+    ELSE
+      UPDATE T_VENDOR SET V_NAME=new_name, V_ADDRESS=new_address, V_CITY=new_city, V_COUNTRY=new_country, V_PHONE=new_phone, V_MAIL=new_mail, V_CONTACT=new_contact WHERE V_ID=id_vendor;
+    END IF;
     CALL new_log('Update', id_vendor,'update_vendor',NULL,'Update Vendor Information');
   END |
 
