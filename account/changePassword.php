@@ -20,8 +20,8 @@ include('checkConnection.php');
 if($UserConnected) {
     include("../SQL_management/connection.php");
 
-    $pass = htmlspecialchars($_POST['password']);
-    $pass2 = htmlspecialchars($_POST['password2']);
+    $pass = sanitize_string(htmlspecialchars($_POST['password']));
+    $pass2 = sanitize_string(htmlspecialchars($_POST['password2']));
 
     if ($pass == $pass2) {
         $pass_hash = sha1($pass);

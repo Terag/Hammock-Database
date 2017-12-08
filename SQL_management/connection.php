@@ -102,3 +102,19 @@ function get_ip() {
         return (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '');
     }
 }
+
+/**
+ * Sanitize a string before to use it in a SQL request
+ *
+ * @param $str
+ * @return string
+ *
+ * @tags Form
+ * @source SQL_management\connection.php
+ */
+function sanitize_string($str) {
+    $str = addslashes($str);
+    $str = "`".str_replace("`", "``", $str);
+    $str = rtrim($str, ",");
+    return ($str);
+}
