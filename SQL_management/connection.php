@@ -113,8 +113,6 @@ function get_ip() {
  * @source SQL_management\connection.php
  */
 function sanitize_string($str) {
-    $str = addslashes($str);
-    $str = "`".str_replace("`", "``", $str);
-    $str = rtrim($str, ",");
+    $str = '"'.addslashes($str).'"';
     return ($str);
 }
