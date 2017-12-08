@@ -17,17 +17,20 @@ ob_start();
 include("../SQL_management/connection.php");
 
 // Get posted information
-$pass = $_POST['password'];
-$pseudo = $_POST['pseudo'];
+$pass = sanitize_string($_POST['password']);
+$pseudo = sanitize_string($_POST['pseudo']);
 $pass_hash = sha1($pass);
+
+var_dump($_POST['pseudo'] . "   =>   " . $pseudo);
+var_dump($_POST['password'] . "   =>   " . $pass);
 
 //user identification
 $req = $bdd->prepare('SELECT * FROM T_USER WHERE U_NAME = :pseudo');
 $req->execute(array(
     'pseudo' => $pseudo));
-$datas = $req->fetch();
-
-if ($datas AND $datas['U_PASSWORD']==$pass_hash)
+$datas = $req->fetchAll();
+var_dump($datas);
+/*if ($datas AND $datas['U_PASSWORD']==$pass_hash)
 {
     session_start();
     $_SESSION['user_id'] = $datas['U_ID'];
@@ -37,12 +40,12 @@ if ($datas AND $datas['U_PASSWORD']==$pass_hash)
     $_SESSION['currentPage'] = 'defaultHome.php';
     $req->closeCursor();
 
-    header("Location: ../home.php");
-    exit;
+    //header("Location: ../home.php");
+    //exit;
 }
 else
 {
     $req->closeCursor();
-    header('Location: ../index.php');
-    exit;
-}
+    //header('Location: ../index.php');
+    //exit;
+}*/

@@ -164,7 +164,7 @@ class Form {
                                 break;
                             case 'hidden':
 
-                                $this->values[$key]=htmlspecialchars($_POST[$key]);
+                                $this->values[$key]=sanitize_string(htmlspecialchars($_POST[$key]));
                                 if($this->values[$key] != $field['value']) {
                                     throw new Exception('Error, on of form field value is incorrect');
                                 }
@@ -180,13 +180,13 @@ class Form {
                                 }
                                 break;
                             case 'var':
-                                $this->var_values[$key]=htmlspecialchars($_POST[$key]);
+                                $this->var_values[$key]=sanitize_string(htmlspecialchars($_POST[$key]));
                                 break;
                             case 'date':
                                 if (preg_match("/^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/",htmlspecialchars($_POST[$key])))
                                 {
                                     $this->values[$key]=$_POST[$key];
-                                } else if (htmlspecialchars($_POST[$key]) == '') {
+                                } else if (sanitize_string(htmlspecialchars($_POST[$key]) == '')) {
                                     $this->values[$key]=NULL;
                                 }
                                 else{
@@ -194,7 +194,7 @@ class Form {
                                 }
                                 break;
                             default :
-                                $this->values[$key]=htmlspecialchars($_POST[$key]);
+                                $this->values[$key]=sanitize_string(htmlspecialchars($_POST[$key]));
                                 break;
                         }
 
