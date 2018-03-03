@@ -12,6 +12,7 @@
  * @filesource
  */
 
+include('../config.php');
 session_start();
 //Create and set var '$UserConnected' to true or false
 include('../account/checkConnection.php');
