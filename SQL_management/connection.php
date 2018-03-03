@@ -16,10 +16,10 @@
 date_default_timezone_set('Asia/Kuala_Lumpur');
 */
 /* For Test on Local */
-$db_host_name  = "localhost";
-$db_database   = "test";
-$db_user_name  = 'root';
-$db_password   = "root";
+$db_host_name  = DTB_HOST;
+$db_database   = DTB_NAME;
+$db_user_name  = DTB_LOGIN;
+$db_password   = DTB_PASS;
 
 try {
     $bdd = new PDO('mysql:host='.$db_host_name.';dbname='.$db_database,$db_user_name,$db_password);
